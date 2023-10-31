@@ -1,5 +1,8 @@
+
+
 <script>
-	import TestChart from "../components/TestChart.svelte";
+
+import TestChart from "../components/TestChart.svelte";
 
 </script>
 <h1>Welcome to SvelteKit</h1>

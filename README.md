@@ -4,7 +4,7 @@ Clone project [`link`](https://gitlab.lrz.de/iv2324-projects/team-7).
 
 ## Dependecies
 
-Make sure you have Node installed
+Make sure you have [`Node`](https://nodejs.org/en) installed and run the latest version.
 
 ## Developing
 
