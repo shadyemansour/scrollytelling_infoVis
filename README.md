@@ -1,18 +1,10 @@
-# create-svelte
+# Installation
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Clone project [`link`](https://gitlab.lrz.de/iv2324-projects/team-7).
 
-## Creating a project
+## Dependecies
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Make sure you have Node installed
 
 ## Developing
 
