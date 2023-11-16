@@ -259,13 +259,13 @@
 	</div>
 </Header>
 
-<Filler theme="lightblue" short={true} wide={true} center={false}>
+<!-- <Filler theme="lightblue" short={true} wide={true} center={false}>
 	<p class="text-big">
 		This is a large, left-aligned text caption
 	</p>
-</Filler>
+</Filler> -->
 
-<Section>
+<!-- <Section>
 	<h2>This is a section title</h2>
 	<p>
 		This is a short paragraph of text to demonstrate the standard "medium" column width, font size and line spacing of the template.
@@ -276,11 +276,11 @@
 	<blockquote class="text-indent">
 		"This is an example of a large embedded quotation."&mdash;A. Person
 	</blockquote>
-</Section>
+</Section> -->
 
 <Divider/>
 
-<Section>
+<!-- <Section>
 	<h2>Embedded charts or media</h2>
 	<p>
 		Below is an embedded chart. It is set to the same width as the column, "medium" (680px), but could also be "narrow" (540px), "wide" (980px) or "full" width. All options are responsive to fit the width of narrow screens.
@@ -346,9 +346,9 @@
 	<p>
 		The interactions are via Javascript functions that are called when each caption scrolls into view.
 	</p>
-</Section>
+</Section> -->
 
-<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+<!-- <Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
 	<div slot="background">
 		<figure>
 			<div class="col-wide height-full">
@@ -411,7 +411,7 @@
 				<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
 				{#if geojson}
 					<p>
-						<!-- svelte-ignore a11y-no-onchange -->
+						<!- - svelte-ignore a11y-no-onchange - ->
 						<select bind:value={selected}>
 							<option value={null}>Select one</option>
 							{#each geojson.features as place}
@@ -463,7 +463,7 @@
 	</div>
 </Media>
 
-<Divider />
+<Divider /> -->
 
 <Section>
 	<h2>This is a dynamic map section</h2>
