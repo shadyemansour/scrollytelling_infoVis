@@ -3,8 +3,8 @@
 	import { setContext, onMount } from "svelte";
 	import { getMotion } from "./utils.js";
 	import { themes } from "./config.js";
-	import LogoHeader from "./layout/LogoHeader.svelte";
-	import Footer from "./layout/Footer.svelte";
+	import ONSHeader from "./layout/ONSHeader.svelte";
+	import ONSFooter from "./layout/ONSFooter.svelte";
 	import Header from "./layout/Header.svelte";
 	import Section from "./layout/Section.svelte";
 	import Media from "./layout/Media.svelte";
@@ -241,7 +241,7 @@
 	});
 </script>
 
-<LogoHeader filled={true} center={false} />
+<ONSHeader filled={true} center={false} />
 
 <Header bgcolor="#206095" bgfixed={true} theme="dark" center={false} short={true}>
 	<h1>This is the title of the article</h1>
@@ -580,7 +580,7 @@
 	</p>
 </Section>
 
-<Footer />
+<ONSFooter />
 
 <style>
 	/* Styles specific to elements within the demo */
