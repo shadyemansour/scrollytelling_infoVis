@@ -1,24 +1,27 @@
+
 <script>
 	// CORE IMPORTS
 	import { setContext, onMount } from "svelte";
-	import { getMotion } from "./utils.js";
-	import { themes } from "./config.js";
-	import LogoHeader from "./layout/LogoHeader.svelte";
-	import Footer from "./layout/Footer.svelte";
-	import Header from "./layout/Header.svelte";
-	import Section from "./layout/Section.svelte";
-	import Media from "./layout/Media.svelte";
-	import Scroller from "./layout/Scroller.svelte";
-	import Filler from "./layout/Filler.svelte";
-	import Divider from "./layout/Divider.svelte";
-	import Toggle from "./ui/Toggle.svelte";
-	import Arrow from "./ui/Arrow.svelte";
-	import Em from "./ui/Em.svelte";
+	import { getMotion } from "../utils.js";
+	import { themes } from "../config.js";
+	import LogoHeader from "../layout/LogoHeader.svelte";
+	import Footer from "../layout/Footer.svelte";
+	import Header from "../layout/Header.svelte";
+	import Section from "../layout/Section.svelte";
+	import Media from "../layout/Media.svelte";
+	import Scroller from "../layout/Scroller.svelte";
+	import Filler from "../layout/Filler.svelte";
+	import Divider from "../layout/Divider.svelte";
+	import Toggle from "../ui/Toggle.svelte";
+	import Arrow from "../ui/Arrow.svelte";
+	import Em from "../ui/Em.svelte";
+	import { Router, Link, Route } from "svelte-routing";
+
 
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from "@turf/bbox";
-	import { getData, setColors, getTopo, getBreaks, getColor } from "./utils.js";
-	import { colors, units } from "./config.js";
+	import { getData, setColors, getTopo, getBreaks, getColor } from "../utils.js";
+	import { colors, units } from "../config.js";
 	import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
 	import { Map, MapSource, MapLayer, MapTooltip } from "@onsvisual/svelte-maps";
 
@@ -240,230 +243,22 @@
 		geojson = geo;
 	});
 </script>
-
 <LogoHeader filled={true} center={false} />
 
 <Header bgcolor="#206095" bgfixed={true} theme="dark" center={false} short={true}>
-	<h1>This is the title of the article</h1>
+	<h1>TEST</h1>
 	<p class="text-big" style="margin-top: 5px">
 		This is a short text description of the article that might take up a couple of lines
-	</p>
-	<p style="margin-top: 20px">
-		DD MMM YYYY
-	</p>
-	<p>
-		<Toggle label="Animation {animation ? 'on' : 'off'}" mono={true} bind:checked={animation}/>
 	</p>
 	<div style="margin-top: 90px;">
 		<Arrow color="white" {animation}>Scroll to begin</Arrow>
 	</div>
 </Header>
 
-<Filler theme="lightblue" short={true} wide={true} center={false}>
-	<p class="text-big">
-		This is a large, left-aligned text caption
-	</p>
-</Filler>
-
-<Section>
-	<h2>This is a section title</h2>
-	<p>
-		This is a short paragraph of text to demonstrate the standard "medium" column width, font size and line spacing of the template.
-	</p>
-	<p>
-		This is a second short paragraph of text to demonstrate the size of the paragraph spacing in the template.
-	</p>
-	<blockquote class="text-indent">
-		"This is an example of a large embedded quotation."&mdash;A. Person
-	</blockquote>
-</Section>
 
 <Divider/>
 
-<Section>
-	<h2>Embedded charts or media</h2>
-	<p>
-		Below is an embedded chart. It is set to the same width as the column, "medium" (680px), but could also be "narrow" (540px), "wide" (980px) or "full" width. All options are responsive to fit the width of narrow screens.
-	</p>
-</Section>
 
-{#if data.region.indicators}
-<Media
-	col="medium"
-	caption="Source: ONS mid-year population estimates."
->
-	<div class="chart-sml">
-		<BarChart
-			data={[...data.region.indicators].sort((a, b) => a.pop - b.pop)}
-			xKey="pop" yKey="name"
-			snapTicks={false}
-			xFormatTick={d => (d / 1e6)} xSuffix="m"
-			height={350} padding={{top: 0, bottom: 15, left: 140, right: 0}}
-			area={false} title="Population by region/nation, 2020"/>
-	</div>
-</Media>
-{/if}
-
-<Divider/>
-
-<Section>
-	<h2>Gridded charts or media</h2>
-	<p>
-		Below is a grid that can contain charts or any other kind of visual media. The grid can fit in a medium, wide or full-width column, and the media width itself can be narrow (min 200px), medium (min 300px), wide (min 500px) or full-width. The grid is responsive, and will re-flow on smaller screens.
-	</p>
-</Section>
-
-{#if data.region.timeseries && data.region.indicators}
-<Media
-	col="wide"
-	grid="narrow" gap={20}
-	caption="Source: ONS mid-year population estimates."
->
-	{#each [...data.region.indicators].sort((a, b) => b.pop - a.pop) as region}
-	<div class="chart-sml">
-		<LineChart
-			data={data.region.timeseries}
-			xKey="year" yKey="value" zKey="code"
-			color="lightgrey"
-			lineWidth={1} xTicks={2} snapTicks={false}
-			yFormatTick={d => (d / 1e6)} ySuffix="m"
-			height={200} padding={{top: 0, bottom: 20, left: 30, right: 15}}
-			selected={region.code}
-			area={false} title={region.name}/>
-	</div>
-	{/each}
-</Media>
-{/if}
-
-<Divider />
-
-<Section>
-	<h2>This is a dynamic chart section</h2>
-	<p>
-		The chart below will respond to the captions as you scroll down. The "Scroller" component is
-		set to "splitscreen" mode, which means the captions will be on the left side on larger screens.
-	</p>
-	<p>
-		The interactions are via Javascript functions that are called when each caption scrolls into view.
-	</p>
-</Section>
-
-<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
-	<div slot="background">
-		<figure>
-			<div class="col-wide height-full">
-				{#if data.district.indicators && metadata.region.lookup}
-					<div class="chart">
-						<ScatterChart
-							height="calc(100vh - 150px)"
-							data={data.district.indicators.map(d => ({...d, parent_name: metadata.region.lookup[d.parent].name}))}
-							colors={explore ? ['lightgrey'] : colors.cat}
-							{xKey} {yKey} {zKey} {rKey} idKey="code" labelKey="name"
-							r={[3,10]}
-							xScale="log"
-							xTicks={[10, 100, 1000, 10000]} xFormatTick={d => d.toLocaleString()}
-							xSuffix=" sq.km"
-							yFormatTick={d => d.toLocaleString()}
-							legend={zKey != null} labels
-							select={explore} selected={explore ? selected : null} on:select={doSelect}
-							hover {hovered} on:hover={doHover}
-							highlighted={explore ? chartHighlighted : []}
-							colorSelect="#206095" colorHighlight="#999" overlayFill
-							{animation}/>
-					</div>
-				{/if}
-			</div>
-		</figure>
-	</div>
-
-	<div slot="foreground">
-		<section data-id="chart01">
-			<div class="col-medium">
-				<p>
-					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
-				</p>
-			</div>
-		</section>
-		<section data-id="chart02">
-			<div class="col-medium">
-				<p>
-					The radius of each circle shows the <strong>total population</strong> of the district.
-				</p>
-			</div>
-		</section>
-		<section data-id="chart03">
-			<div class="col-medium">
-				<p>
-					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
-				</p>
-			</div>
-		</section>
-		<section data-id="chart04">
-			<div class="col-medium">
-				<p>
-					The colour of each circle shows the <strong>part of the country</strong> that the district is within.
-				</p>
-			</div>
-		</section>
-		<section data-id="chart05">
-			<div class="col-medium">
-				<h3>Select a district</h3>
-				<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
-				{#if geojson}
-					<p>
-						<!-- svelte-ignore a11y-no-onchange -->
-						<select bind:value={selected}>
-							<option value={null}>Select one</option>
-							{#each geojson.features as place}
-								<option value={place.properties.AREACD}>
-									{place.properties.AREANM}
-								</option>
-							{/each}
-						</select>
-					</p>
-				{/if}
-			</div>
-		</section>
-	</div>
-</Scroller>
-
-<Divider />
-
-<Section>
-	<h2>This is a full-width chart demo</h2>
-	<p>
-		Below is an example of a media grid where the column with is set to "full". This allows for full width images and charts.
-	</p>
-	<p>
-
-	</p>
-</Section>
-
-<Media
-	col="full"
-	height={600}
-	caption='This is an optional caption for the above chart or media. It can contain HTML code and <a href="#">hyperlinks</a>, and wrap onto multiple lines.'
->
-	<div class="chart-full">
-		{#if data.district.timeseries}
-		<LineChart
-			data={data.district.timeseries}
-			padding={{left: 50, right: 150, top: 0, bottom: 0}}
-			height="500px"
-			xKey="year" yKey="value" zKey="code"
-			color="lightgrey" lineWidth={1}
-			yFormatTick={d => (d/1e6).toFixed(1)} ySuffix="m"
-			select {selected} on:select={doSelect}
-			hover {hovered} on:hover={doHover}
-			highlighted={chartHighlighted}
-			colorSelect="#206095" colorHighlight="#999"
-			area={false} title="Mid-year population by district, 2001 to 2020"
-			labels labelKey="name"/>
-		{/if}
-	</div>
-</Media>
-
-<Divider />
 
 <Section>
 	<h2>This is a dynamic map section</h2>
@@ -572,13 +367,6 @@
 {/if}
 
 <Divider />
-
-<Section>
-	<h2>How to use this template</h2>
-	<p>
-		You can find the source code and documentation on how to use this template in <a href="https://github.com/ONSvisual/svelte-scrolly/" target="_blank">this Github repo</a>.
-	</p>
-</Section>
 
 <Footer />
 

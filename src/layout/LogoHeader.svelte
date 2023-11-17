@@ -1,6 +1,8 @@
 <script>
   import { themes } from '../config.js';
 	import { getContext } from 'svelte';
+	import {link } from "svelte-routing";
+
 
 	export let theme = getContext('theme');
 	export let filled = false;
@@ -9,9 +11,9 @@
 
 <nav style="border-bottom-color: {themes[theme]['muted']}; {filled ? 'background-color: ' +  themes[theme]['background'] + ';' : ''}">
   <div class="col-wide middle" class:center>
-		<a href="">
+		<a href="/" use:link>
 			<picture>
-				<img src="./img/favicon.PNG" alt="Team 7">
+				<img src="./img/favicon.png" alt="Team 7">
 
 			</picture>
 		</a>

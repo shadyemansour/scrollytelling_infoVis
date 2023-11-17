@@ -1,23 +1,28 @@
-<script>
+	<script>
 	import { themes } from '../config.js';
 	import { getContext } from 'svelte';
+	import { link } from "svelte-routing";
+	import About from '../routes/About.svelte';
 
 	export let theme = getContext('theme');
 </script>
 
 <footer style="color: {themes[theme]['text']}; background-color: {themes[theme]['pale']};">
 	<div class="col-wide" data-analytics="footer">
-		<a href="">
+		<a href="/" use:link>
 			<img
 				class="logo-img"
 				src="./img/favicon.png"
 				alt="Team 7" />
 
 		</a>
+		<div>
 		<ul>
-			<li><a href="" class="link" style="color: {themes[theme]['text']}">About us</a></li>
-			<li><a href="" class="link" style="color: {themes[theme]['text']}">Something Else?</a></li>
+			<li><a href="/aboutus" use:link style="color: {themes[theme]['text']}">About us</a></li>
+			<li><a href="/"  use:link style="color: {themes[theme]['text']}">Something Else?</a></li>
+
 		</ul>
+	</div>
 		<hr style="border-top-color: {themes[theme]['muted']}" />
 		<!-- <div class="license">
 			<svg class="ogl-img" viewBox="0 0 59 24" xmlns="http://www.w3.org/2000/svg">
