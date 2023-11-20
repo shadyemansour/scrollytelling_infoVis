@@ -1,6 +1,6 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
-
+import { extent } from 'geojson-bounds';
 // CORE FUNCTIONS
 export function setColors(themes, theme) {
   for (let color in themes[theme]) {
@@ -27,6 +27,7 @@ export async function getTopo(url, layer) {
   let geojson = await feature(json, layer);
   return geojson;
 }
+
 
 export function getColor(value, breaks, colors) {
   let color;
