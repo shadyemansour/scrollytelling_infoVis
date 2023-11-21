@@ -234,12 +234,12 @@
 		geojson = geo;
 	});
 </script>
-<LogoHeader filled={true} center={false} />
+ <!-- <LogoHeader filled={true} center={false} /> -->
 
 <Header bgcolor="#206095" bgfixed={true} theme="dark" center={false} short={true}>
-	<h1>TEST</h1>
+	<h1>Was bewegt Deutschland?</h1>
 	<p class="text-big" style="margin-top: 5px">
-		This is a short text description of the article that might take up a couple of lines
+		Interaktive Datenvisualisierung zur Entwicklung der Infrastruktur in Deutschland.
 	</p>
 	<div style="margin-top: 90px;">
 		<Arrow color="white" {animation}>Scroll to begin</Arrow>

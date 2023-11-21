@@ -11,12 +11,12 @@
 
 <nav style="border-bottom-color: {themes[theme]['muted']}; {filled ? 'background-color: ' +  themes[theme]['background'] + ';' : ''}">
   <div class="col-wide middle" class:center>
-		<a href="/" use:link>
+		<!-- <a href="/" use:link>
 			<picture>
 				<img src="./img/favicon.png" alt="Team 7">
 
 			</picture>
-		</a>
+		</a> -->
   </div>
 </nav>
 
@@ -36,7 +36,7 @@
 		padding: 0 5px;
 	}
 	img {
-		width: 270px;
+		width: 150px;
 	}
 	a img:hover {
 		cursor: pointer;
