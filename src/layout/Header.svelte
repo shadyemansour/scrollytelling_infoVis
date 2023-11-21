@@ -24,7 +24,7 @@
 
 <style>
   .short {
-    min-height: 85vh;
+    min-height: 60vh;
   }
   .v-padded {
     box-sizing: border-box;
