@@ -1,9 +1,17 @@
+import { trspWhite, brand } from "./styles.js";
 // CORE CONFIG
+
 export const themes = {
   'light': {
     'text': '#222',
+    'text': { 
+      'primary': trspWhite[1000], 
+      'secondary': trspWhite[600], 
+      'teritary': trspWhite[400], 
+    },
     'muted': '#777',
     'pale': '#f0f0f0',
+    'brand': brand[500],
     'background': '#fff'
   },
   'dark': {
@@ -31,3 +39,4 @@ export const units = {
   'density': 'sq.km',
   'age_med': 'years'
 }
+

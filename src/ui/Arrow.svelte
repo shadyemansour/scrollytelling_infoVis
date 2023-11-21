@@ -4,8 +4,6 @@
 	export let center = true;
 
   const colors = ["black", "white"];
-
-  color = colors.includes(color) ? color : "black";
 </script>
 
 {#if center}
@@ -17,8 +15,8 @@
 
 <style>
 	.arrow {
-		width: 48px;
-		height: 48px;
+		width: 24px;
+		height: 24px;
 	}
 	.left {
 		margin-right: 10px;
@@ -34,15 +32,13 @@
 		        animation-timing-function: ease;
 	}
 	@-webkit-keyframes bounce {
-		0%   { -webkit-transform: translateY(10px); transform: translateY(10px); }
-		30%  { -webkit-transform: translateY(-10px); transform: translateY(-10px); }
-		50%  { -webkit-transform: translateY(10px); transform: translateY(10px); }
-		100% { -webkit-transform: translateY(10px); transform: translateY(10px); }
+		0%   { -webkit-transform: translateY(0px); transform: translateY(0px); }
+		66%  { -webkit-transform: translateY(20px); transform: translateY(20px); }
+		100% { -webkit-transform: translateY(0px); transform: translateY(0px); }
 	}
 	@keyframes bounce {
-		0%   { -webkit-transform: translateY(10px); transform: translateY(10px); }
-		30%  { -webkit-transform: translateY(-10px); transform: translateY(-10px); }
-		50%  { -webkit-transform: translateY(10px); transform: translateY(10px); }
-		100% { -webkit-transform: translateY(10px); transform: translateY(10px); }
+		0%   { -webkit-transform: translateY(0px); transform: translateY(0px); }
+		66%  { -webkit-transform: translateY(20px); transform: translateY(20px); }
+		100% { -webkit-transform: translateY(0px); transform: translateY(0px); }
 	}
 </style>

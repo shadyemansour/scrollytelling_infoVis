@@ -22,15 +22,6 @@
   }
 </script>
 
-<style>
-  .short {
-    min-height: 60vh;
-  }
-  .v-padded {
-    box-sizing: border-box;
-    padding: 40px 0;
-  }
-</style>
 
 <header style="color: {themes[theme]['text']}; background-color: {bgcolor ? bgcolor : themes[theme]['background']}; {style}" class:short>
 	<div class="v-padded col-wide middle" style="position: relative" class:short class:height-full={!short}>
@@ -39,3 +30,13 @@
     </div>
 	</div>
 </header>
+
+
+<style>
+  .short {
+    min-height: 85vh;
+  }
+  .v-padded {
+    box-sizing: border-box;
+  }
+</style>

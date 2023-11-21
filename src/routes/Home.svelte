@@ -48,8 +48,8 @@
 	let metadata = {region: {}};
 	let geojson;
 	const mapbounds =[
-			[-3, 47.26985931396479 ],
-			[ 15.03811264038086, 55.05652618408226 ]
+			[5, 47.3 ],
+			[ 15, 55.2 ]
 		] 
 
 	// Element bindings
@@ -234,15 +234,15 @@
 		geojson = geo;
 	});
 </script>
- <!-- <LogoHeader filled={true} center={false} /> -->
+<LogoHeader filled={true} center={true} />
 
-<Header bgcolor="#206095" bgfixed={true} theme="dark" center={false} short={true}>
-	<h1>Was bewegt Deutschland?</h1>
-	<p class="text-big" style="margin-top: 5px">
-		Interaktive Datenvisualisierung zur Entwicklung der Infrastruktur in Deutschland.
+<Header bgcolor={themes.light.brand} bgfixed={true} theme="dark" center={true} short={true}>
+	<h1>Was Deutschland bewegt</h1>
+	<p class="text-big" style="margin-top: 10px; color:{themes.light.text.secondary}">
+		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
 	</p>
 	<div style="margin-top: 90px;">
-		<Arrow color="white" {animation}>Scroll to begin</Arrow>
+		<Arrow color="white" {animation}></Arrow>
 	</div>
 </Header>
 
@@ -252,9 +252,9 @@
 
 
 <Section>
-	<h2>This is a dynamic map section</h2>
+	<h2>This is Deutschland</h2>
 	<p class="mb">
-		The map below will respond to the captions as you scroll down. The scroller is not set to splitscreen, so captions are placed over the map on any screen size.
+		The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee about this cool scrolly molly.
 	</p>
 </Section>
 
