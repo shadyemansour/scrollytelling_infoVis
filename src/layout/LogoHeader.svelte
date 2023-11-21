@@ -9,14 +9,14 @@
 	export let center = true;
 </script>
 
-<nav style="border-bottom-color: {themes[theme]['muted']}; {filled ? 'background-color: ' +  themes[theme]['background'] + ';' : ''}">
+<nav style="background-color: {themes.light.brand}">
   <div class="col-wide middle" class:center>
-		<!-- <a href="/" use:link>
+		<a href="/" use:link>
 			<picture>
-				<img src="./img/favicon.png" alt="Team 7">
+				<img src="/img/favicon.png" alt="Team 7">
 
 			</picture>
-		</a> -->
+		</a>
   </div>
 </nav>
 
@@ -24,19 +24,15 @@
 	nav {
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
-		position: relative;
-		height: 46px;
-		margin-bottom: -46px;
-		border-bottom: 1px solid #777;
+		height: 64px;
 		z-index: 1;
 	}
 	picture {
-		position: relative;
-		top: -3px;
 		padding: 0 5px;
 	}
 	img {
-		width: 150px;
+		width: auto;
+		height: 40px;
 	}
 	a img:hover {
 		cursor: pointer;
