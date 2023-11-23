@@ -220,7 +220,7 @@
 					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateInferno")(d[key]));
 					break;
 				case 'area':
-					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateBlue")(d[key]));
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateBlues")(d[key]));
 					break;
 			
 				default:
@@ -341,14 +341,14 @@
 		<section data-id="map01">
 			<div class="col-medium">
 				<p>
-					This map shows <strong>population density</strong> by region. Regions are coloured from <Em color={colors.seq[0]}>least dense</Em> to <Em color={colors.seq[4]}>most dense</Em>. You can hover to see the region name and density.
+					This map shows <strong>population density</strong> by region. Regions are coloured from <Em color={getColor(1,100, "interpolateViridis")(100)}>least dense</Em> to <Em color={getColor(1,100, "interpolateViridis")(1)}>most dense</Em>. You can hover to see the region name and density.
 				</p>
 			</div>
 		</section>
 		<section data-id="map02">
 			<div class="col-medium">
 				<p>
-					The map now shows <strong>median age</strong>, from <Em color={colors.seq[0]}>youngest</Em> to <Em color={colors.seq[4]}>oldest</Em>.
+					The map now shows <strong>median age</strong>, from <Em color={getColor(1,100, "interpolateInferno")(100)}>youngest</Em> to <Em color={getColor(1,100, "interpolateInferno")(1)}>oldest</Em>.
 				</p>
 			</div>
 		</section>
