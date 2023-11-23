@@ -14,6 +14,9 @@
 	import Divider from "../layout/Divider.svelte";
 	import Arrow from "../ui/Arrow.svelte";
 	import Em from "../ui/Em.svelte";
+	import * as d3 from 'd3';
+
+
 
 
 	// DEMO-SPECIFIC IMPORTS
@@ -61,6 +64,7 @@
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = "density"; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
+	let mapColor = "inferno"; // Changes the color of map
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -96,6 +100,7 @@
 				mapKey = "density";
 				mapHighlighted = [];
 				explore = false;
+				mapColor = "inferno";
 			},
 			map02: () => {
 				fitBounds(mapbounds);
@@ -115,8 +120,15 @@
 				mapKey = "age_med";
 				mapHighlighted = [];
 				explore = true;
+			},
+			map05: () => {
+				fitBounds(mapbounds);
+				mapKey = "area";
+				mapHighlighted = [];
+				explore = true;
 			}
-		}// ,
+		}
+		// ,
 		// chart: {
 		// 	chart01: () => {
 		// 		xKey = "area";
@@ -174,8 +186,8 @@
     .then(arr => {
         // Process metadata
         let meta = arr.map(d => ({
-            code: d.code,
-            name: d.name,
+            code: d.code, // Bundesland Code
+            name: d.name, // Bundesland Name
             parent: d.parent ? d.parent : null
         }));
         let lookup = {};
@@ -194,11 +206,27 @@
             age_med: d.age_med
         }));
 
+		
         // Additional processing for region
-        ['density', 'age_med'].forEach(key => {
-            let values = indicators.map(d => d[key]).sort((a, b) => a - b);
-            let breaks = getBreaks(values);
-            indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(d[key], breaks, colors.seq));
+		['density', 'age_med', 'area'].forEach(key => {
+        	let values = indicators.map(d => d[key]).sort((a, b) => a - b);
+            const min = Math.min(...values);
+            const max = Math.max(...values);
+			switch (key) {
+				case 'density':
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateViridis")(d[key]));
+					break;
+				case 'age_med':
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateInferno")(d[key]));
+					break;
+				case 'area':
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateBlue")(d[key]));
+					break;
+			
+				default:
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = colorScale(d[key]));
+					break;
+			}
         });
         data.region.indicators = indicators;
 
@@ -337,6 +365,25 @@
 		<section data-id="map04">
 			<div class="col-medium">
 				<h3>Select a region</h3>
+				<p>Use the selection box below or click on the map to select and zoom to a region.</p>
+				{#if geojson}
+					<p>
+						<!-- svelte-ignore a11y-no-onchange -->
+						<select bind:value={selected} on:change={() => fitById(selected)}>
+							<option value={null}>Select one</option>
+							{#each geojson.features as place}
+								<option value={place.properties.AREACD}>
+									{place.properties.AREANM}
+								</option>
+							{/each}
+						</select>
+					</p>
+				{/if}
+			</div>
+		</section>
+		<section data-id="map05">
+			<div class="col-medium">
+				<h3>Fläche des Bundeslandes</h3>
 				<p>Use the selection box below or click on the map to select and zoom to a region.</p>
 				{#if geojson}
 					<p>
