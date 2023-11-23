@@ -1,7 +1,7 @@
-	<script>
+<script>
 	import { themes } from '../config.js';
 	import { getContext } from 'svelte';
-	import { link } from "svelte-routing";
+	import { link } from 'svelte-routing';
 	import About from '../routes/About.svelte';
 
 	export let theme = getContext('theme');
@@ -10,19 +10,14 @@
 <footer style="color: {themes[theme]['text']}; background-color: {themes[theme]['pale']};">
 	<div class="col-wide" data-analytics="footer">
 		<a href="/" use:link>
-			<img
-				class="logo-img"
-				src="./img/favicon.png"
-				alt="Team 7" />
-
+			<img class="logo-img" src="./img/favicon.png" alt="Team 7" />
 		</a>
 		<div>
-		<ul>
-			<li><a href="/aboutus" use:link style="color: {themes[theme]['text']}">About us</a></li>
-			<li><a href="/"  use:link style="color: {themes[theme]['text']}">Something Else?</a></li>
-
-		</ul>
-	</div>
+			<ul>
+				<li><a href="/aboutus" use:link style="color: {themes[theme]['text']}">About us</a></li>
+				<li><a href="/" use:link style="color: {themes[theme]['text']}">Something Else?</a></li>
+			</ul>
+		</div>
 		<hr style="border-top-color: {themes[theme]['muted']}" />
 		<!-- <div class="license">
 			<svg class="ogl-img" viewBox="0 0 59 24" xmlns="http://www.w3.org/2000/svg">
@@ -59,8 +54,12 @@
 	footer a.link:active {
 		outline: 3px solid transparent;
 		background-color: #fd0;
-		-webkit-box-shadow: 0 -2px #fd0, 0 4px #222;
-		box-shadow: 0 -2px #fd0, 0 4px #222;
+		-webkit-box-shadow:
+			0 -2px #fd0,
+			0 4px #222;
+		box-shadow:
+			0 -2px #fd0,
+			0 4px #222;
 		color: #222;
 		text-decoration: none;
 	}
