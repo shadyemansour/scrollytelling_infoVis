@@ -220,7 +220,7 @@
 					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateInferno")(d[key]));
 					break;
 				case 'area':
-					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateBlue")(d[key]));
+					indicators.forEach((d, i) => indicators[i][key + '_color'] = getColor(min, max, "interpolateBlues")(d[key]));
 					break;
 			
 				default:
