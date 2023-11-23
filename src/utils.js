@@ -1,6 +1,7 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
 import { extent } from 'geojson-bounds';
+import * as d3 from 'd3';
 // CORE FUNCTIONS
 export function setColors(themes, theme) {
   for (let color in themes[theme]) {
@@ -29,8 +30,40 @@ export async function getTopo(url, layer) {
 }
 
 
-export function getColor(value, breaks, colors) {
-  let color;
+export function getColor(min, max, colors= "") {
+  var colorScale;
+  switch (colors) {
+    case "interpolateBlues":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateBlues);
+      break;
+    case "interpolateInferno":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateInferno);
+            break;
+    case "interpolateMagma":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateMagma);
+            break;
+    case "interpolateViridis":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateViridis);
+            break;
+            
+    default:
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateMagma);
+      break;
+  }
+  return colorScale;
+}
+
+export function getInfernoColor(value, breaks) {
   let found = false;
   let i = 1;
   while (found == false) {
