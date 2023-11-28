@@ -1,30 +1,21 @@
-# Installation
 
-Clone project [`link`](https://gitlab.lrz.de/iv2324-projects/team-7).
+# Scrollytelling Template
 
-## Dependecies
+## Getting started
 
-Make sure you have [`Node`](https://nodejs.org/en) installed and run the latest version.
+```bash
+cd team-7
+npm install
+```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+You can then start a local development server to see live changes as you edit the template. It will run on <http://localhost:5000/> and should update every time you save changes to a file.
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
+Finally. When you're done creating your project, you can compile it. (You'll find the compiled code in the `public` folder).
 
 ```bash
 npm run build
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
