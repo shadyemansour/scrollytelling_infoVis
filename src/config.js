@@ -1,30 +1,34 @@
-import { trspWhite, brand } from "./styles.js";
+import { trspWhite, trspBlack, brand } from "./styles.js";
 // CORE CONFIG
 
 export const themes = {
-  'light': {
-    'text': '#222',
+  'neutral': {
     'text': { 
       'primary': trspWhite[1000], 
       'secondary': trspWhite[600], 
       'teritary': trspWhite[400], 
     },
+    'text-dark': { 
+      'primary': trspBlack[1000], 
+      'secondary': trspBlack[600], 
+      'teritary': trspBlack[400], 
+    },
     'muted': '#777',
     'pale': '#f0f0f0',
-    'brand': brand[500],
     'background': '#fff'
   },
-  'dark': {
-    'text': '#fff',
-    'muted': '#bbb',
-    'pale': '#333',
-    'background': '#222'
+  'brand': {
+    'text': {
+      'primary': brand[600],
+      'secondary': brand[600],
+      'teritary': brand[600],
+    },
+    'background': brand[500],
   },
-  'lightblue': {
-    'text': '#206095',
-    'muted': '#707070',
-    'pale': '#f0f0f0',
-    'background': 'rgb(188, 207, 222)'
+  'transport': {
+    'car': 'placeholder',
+    'bike': 'placeholder',
+    'public': 'placeholder',
   }
 }
 
