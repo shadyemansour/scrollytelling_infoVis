@@ -236,9 +236,9 @@
 </script>
 <LogoHeader filled={true} center={true} />
 
-<Header bgcolor={themes.light.brand} bgfixed={true} theme="dark" center={true} short={true}>
+<Header bgcolor={themes.brand.background} bgfixed={true} center={true} short={true}>
 	<h1>Was Deutschland bewegt</h1>
-	<p class="text-big" style="margin-top: 10px; color:{themes.light.text.secondary}">
+	<p class="text-big" style="margin-top: 10px; color:{themes.neutral.text.secondary}">
 		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
 	</p>
 	<div style="margin-top: 90px;">

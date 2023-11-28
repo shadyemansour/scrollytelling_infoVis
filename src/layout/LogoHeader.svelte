@@ -4,12 +4,11 @@
 	import {link } from "svelte-routing";
 
 
-	export let theme = getContext('theme');
 	export let filled = false;
 	export let center = true;
 </script>
 
-<nav style="background-color: {themes.light.brand}">
+<nav style="background-color: {themes.brand.background}">
   <div class="col-wide middle" class:center>
 		<a href="/" use:link>
 			<picture>
