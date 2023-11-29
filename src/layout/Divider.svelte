@@ -16,11 +16,10 @@
 </section>
 
 <style>
-  hr {
-    width: 75px;
-    border: none;
-    border-top: 2px solid;
-    margin: 40px auto -10px auto;
-  }
+	hr {
+		width: 75px;
+		border: none;
+		border-top: 2px solid;
+		margin: 40px auto -10px auto;
+	}
 </style>
-

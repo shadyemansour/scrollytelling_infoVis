@@ -1,8 +1,7 @@
 <script>
-  import { themes } from '../config.js';
+	import { themes } from '../config.js';
 	import { getContext } from 'svelte';
-	import {link } from "svelte-routing";
-
+	import { link } from 'svelte-routing';
 
 	export let filled = false;
 	export let center = true;
@@ -12,11 +11,10 @@
   <div class="col-wide middle" class:center>
 		<a href="/" use:link>
 			<picture>
-				<img src="/img/favicon.png" alt="Team 7">
-
+				<img src="/img/favicon.png" alt="Team 7" />
 			</picture>
 		</a>
-  </div>
+	</div>
 </nav>
 
 <style>

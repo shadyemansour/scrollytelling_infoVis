@@ -1,16 +1,16 @@
 <script>
-	import { themes } from "../config.js";
-	import { onMount, getContext } from "svelte";
-	import { debounce } from "debounce";
+	import { themes } from '../config.js';
+	import { onMount, getContext } from 'svelte';
+	import { debounce } from 'debounce';
 
 	const colWidths = {
 		narrow: 200,
 		medium: 300,
-		wide: 500,
+		wide: 500
 	};
 
-	export let theme = getContext("theme");
-	export let col = "medium";
+	export let theme = getContext('theme');
+	export let col = 'medium';
 	export let grid = null;
 	export let caption = null;
 	export let height = 200;
@@ -18,11 +18,11 @@
 
 	let gridClass = grid ? ` grid-${grid}` : '';
 
-	let nogrid = !("grid-gap" in document.body.style);
-	
-	let rowHeight = !Number.isNaN(height) ? height + "px" : height;
+	let nogrid = !('grid-gap' in document.body.style);
 
-	let gridGap = !Number.isNaN(gap) ? gap + "px" : gap;
+	let rowHeight = !Number.isNaN(height) ? height + 'px' : height;
+
+	let gridGap = !Number.isNaN(gap) ? gap + 'px' : gap;
 
 	// The code below this point mimics CSS Grid functionality in IE 11
 	const minWidth = grid && colWidths[grid] ? colWidths[grid] : null;
@@ -47,7 +47,7 @@
 			let arr = [];
 			let children = el.childNodes;
 			children.forEach((child) => {
-				if (child.nodeName == "DIV") {
+				if (child.nodeName == 'DIV') {
 					arr.push(child);
 				}
 			});
@@ -63,16 +63,14 @@
 			Math.ceil(count / cols) > 1
 				? `-ms-grid-rows: 1fr (${gap}px 1fr)[${
 						Math.ceil(count / cols) - 1
-				  }]; grid-template-rows: 1fr repeat(${
-						Math.ceil(count / cols) - 1
-				  }, ${gap}px 1fr);`
+				  }]; grid-template-rows: 1fr repeat(${Math.ceil(count / cols) - 1}, ${gap}px 1fr);`
 				: `-ms-grid-rows: 1fr; grid-template-rows: 1fr;`;
 		let c =
 			cols > 1
-				? `-ms-grid-columns: 1fr (${gap}px 1fr)[${
+				? `-ms-grid-columns: 1fr (${gap}px 1fr)[${cols - 1}]; grid-template-columns: 1fr repeat(${
 						cols - 1
-				  }]; grid-template-columns: 1fr repeat(${cols - 1}, ${gap}px 1fr);`
-				: "";
+				  }, ${gap}px 1fr);`
+				: '';
 		el.style.cssText = r + c;
 		divs.forEach((div, i) => {
 			let col = (i % cols) * 2 + 1;
@@ -85,21 +83,21 @@
 </script>
 
 {#if nogrid}
-<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
-	<div class="col-{col}">
-		<div bind:this={el} bind:clientWidth={gridWidth} class="grid-ms">
-			<slot></slot>
+	<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+		<div class="col-{col}">
+			<div bind:this={el} bind:clientWidth={gridWidth} class="grid-ms">
+				<slot />
+			</div>
 		</div>
-	</div>
-</figure>
+	</figure>
 {:else}
-<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
-	<div class="col-{col}">
-		<div class="grid{gridClass}" style="grid-gap: {gridGap}; min-height: {rowHeight}">
-			<slot></slot>
+	<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+		<div class="col-{col}">
+			<div class="grid{gridClass}" style="grid-gap: {gridGap}; min-height: {rowHeight}">
+				<slot />
+			</div>
 		</div>
-  </div>
-</figure>
+	</figure>
 {/if}
 {#if caption}
 	<caption style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">

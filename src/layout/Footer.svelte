@@ -1,4 +1,4 @@
-	<script>
+<script>
 	import { themes } from '../config.js';
 	import { link } from "svelte-routing";
 	import About from '../routes/About.svelte';
@@ -8,11 +8,7 @@
 <footer style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral']['pale']};">
 	<div class="col-wide" data-analytics="footer">
 		<a href="/" use:link>
-			<img
-				class="logo-img"
-				src="./img/favicon.png"
-				alt="Team 7" />
-
+			<img class="logo-img" src="./img/favicon.png" alt="Team 7" />
 		</a>
 		<div>
 		<ul>
@@ -42,8 +38,12 @@
 	footer a.link:active {
 		outline: 3px solid transparent;
 		background-color: #fd0;
-		-webkit-box-shadow: 0 -2px #fd0, 0 4px #222;
-		box-shadow: 0 -2px #fd0, 0 4px #222;
+		-webkit-box-shadow:
+			0 -2px #fd0,
+			0 4px #222;
+		box-shadow:
+			0 -2px #fd0,
+			0 4px #222;
 		color: #222;
 	}
 	ul {
