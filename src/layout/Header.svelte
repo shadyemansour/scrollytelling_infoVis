@@ -2,11 +2,12 @@
 	import { themes } from '../config.js';
 	import { getContext } from 'svelte';
 
-  export let bgimage = null;
-  export let bgcolor = null;
-  export let bgfixed = false;
-  export let center = true;
-  export let short = false;
+	export let theme = getContext('theme');
+	export let bgimage = null;
+	export let bgcolor = null;
+	export let bgfixed = false;
+	export let center = true;
+	export let short = false;
 
 	let style = '';
 
@@ -21,9 +22,18 @@
 	}
 </script>
 
-
-<header style="color: {themes['neutral']['text']['primary']}; background-color: {bgcolor ? bgcolor : themes['neutral']['background']}; {style}" class:short>
-	<div class="v-padded col-wide middle" style="position: relative" class:short class:height-full={!short}>
+<header
+	style="color: {themes[theme]['text']}; background-color: {bgcolor
+		? bgcolor
+		: themes[theme]['background']}; {style}"
+	class:short
+>
+	<div
+		class="v-padded col-wide middle"
+		style="position: relative"
+		class:short
+		class:height-full={!short}
+	>
 		<div class:center>
 			<slot />
 		</div>
