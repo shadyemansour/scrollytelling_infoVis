@@ -19,8 +19,9 @@
 	import bbox from '@turf/bbox';
 	import { getData, setColors, getTopo, getBreaks, getColor } from '../utils.js';
 	import { colors, units } from '../config.js';
-	// import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
+	import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+	import ScrollingChart from '../layout/ScrollingChart.svelte';
 
 	// CORE CONFIG (COLOUR THEMES)
 	// Set theme globally (options are 'light', 'dark' or 'lightblue')
@@ -30,9 +31,9 @@
 
 	// CONFIG FOR SCROLLER COMPONENTS
 	// Config
-	const threshold = 0.65;
+	const threshold = .8;
 	// State
-	let animation = getMotion(); // Set animation preference depending on browser preference
+	let animation = getMotion(); // Set animation preference depending on browser preference true/false
 	let id = {}; // Object to hold visible section IDs of Scroller components
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
@@ -42,7 +43,7 @@
 	// Constants
 	const topojson = './data/1_sehr_hoch_topo.json';
 
-	// Data
+	// Data XXX
 	let data = { region: {} };
 	let metadata = { region: {} };
 	let geojson;
@@ -50,6 +51,9 @@
 		[5, 47.3],
 		[15, 55.2]
 	];
+
+	// Data Testdata
+	let dataTest;
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -126,44 +130,44 @@
 				explore = true;
 			}
 		}
-		// ,
-		// chart: {
-		// 	chart01: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = null;
-		// 		explore = false;
-		// 	},
-		// 	chart02: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart03: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart04: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = "parent_name";
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart05: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = true;
-		// 	}
-		// }
+		,
+		chart: {
+			chart01: () => {
+				xKey = "area";
+				yKey = null;
+				zKey = null;
+				rKey = null;
+				explore = false;
+			},
+			chart02: () => {
+				xKey = "area";
+				yKey = null;
+				zKey = null;
+				rKey = "pop";
+				explore = false;
+			},
+			chart03: () => {
+				xKey = "area";
+				yKey = "density";
+				zKey = null;
+				rKey = "pop";
+				explore = false;
+			},
+			chart04: () => {
+				xKey = "area";
+				yKey = "density";
+				zKey = "parent_name";
+				rKey = "pop";
+				explore = false;
+			},
+			chart05: () => {
+				xKey = "area";
+				yKey = "density";
+				zKey = null;
+				rKey = "pop";
+				explore = true;
+			}
+		}
 	};
 
 	// Code to run Scroller actions when new caption IDs come into view
@@ -234,7 +238,7 @@
 						break;
 				}
 			});
-			data.region.indicators = indicators;
+			data.region.indicators = indicators; // Save regions indictors to data
 
 			// Process timeseries
 			let years = [
@@ -253,10 +257,11 @@
 					});
 				});
 			});
-			data.region.timeseries = timeseries;
+			data.region.timeseries = timeseries; // Save timeseries indictors to data
+			console.log(data);
 		})
 		.catch((error) => {
-			console.error('Error loading or processing data:', error);
+			console.error('Error loading or processing data: ', error);
 		});
 
 	getTopo(topojson, 'states').then((geo) => {
@@ -289,6 +294,9 @@
 </Section>
 
 {#if geojson && data.region.indicators}
+
+
+
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<figure>
