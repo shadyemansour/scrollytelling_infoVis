@@ -8,17 +8,17 @@
   export let center = true;
   export let short = false;
 
-	let style = '';
+  let style = '';
 
-	if (bgimage) {
-		style += `background-image: url(${bgimage});`;
-	} else {
-		style += 'background-image: none;';
-	}
+  if (bgimage) {
+    style += `background-image: url(${bgimage});`;
+  } else {
+    style += 'background-image: none;';
+  }
 
-	if (bgfixed) {
-		style += ' background-attachment: fixed;';
-	}
+  if (bgfixed) {
+    style += ' background-attachment: fixed;';
+  }
 </script>
 
 
