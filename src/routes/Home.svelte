@@ -67,8 +67,15 @@
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
 		console.log(e);
-		selected = e.detail.id;
-		if (e.detail.feature) fitById(selected); // Fit map if select event comes from map
+		if (e.detail.id == selected){
+			selected = null; 
+			fitBounds(mapbounds);
+
+		}else{
+			selected = e.detail.id;
+			if (e.detail.feature) fitById(selected); // Fit map if select event comes from map
+		}
+		
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
