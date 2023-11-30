@@ -11,14 +11,15 @@
 	import Divider from '../layout/Divider.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
-	import { getRegionData, RegionData } from "../helpers/getRegionData.js";
+	import { getRegionData } from "../helpers/getRegionData.js";
 	import DataPaths from '../utils/constants.js';
 
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
-	import { getData, getTopo, getColor } from '../utils.js';
+	import { getTopo, getColor } from '../utils.js';
 	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+	import ScrollingChart from '../layout/ScrollingChart.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -325,6 +326,97 @@
 		</div>
 	</Scroller>
 {/if}
+
+{#if true}
+	<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+		<div slot="background">
+			<figure>
+				<div class="col-wide height-full">
+						<div class="chart">
+							<!-- <ScatterChart
+								height="calc(100vh - 150px)"
+								data={data.district.indicators.map(d => ({...d, parent_name: metadata.region.lookup[d.parent].name}))}
+								colors={explore ? ['lightgrey'] : colors.cat}
+								{xKey} {yKey} {zKey} {rKey} idKey="code" labelKey="name"
+								r={[3,10]}
+								xScale="log"
+								xTicks={[10, 100, 1000, 10000]} xFormatTick={d => d.toLocaleString()}
+								xSuffix=" sq.km"
+								yFormatTick={d => d.toLocaleString()}
+								legend={zKey != null} labels
+								select={explore} selected={explore ? selected : null} on:select={doSelect}
+								hover {hovered} on:hover={doHover}
+								highlighted={explore ? chartHighlighted : []}
+								colorSelect="#206095" colorHighlight="#999" overlayFill
+								{animation}/> -->
+								<ScrollingChart
+									data={regionData.data.region.timeseries}
+									xKey="year" yKey="value" zKey="code"
+									color="lightgrey"
+									lineWidth={1} xTicks={2} snapTicks={false}
+									yFormatTick={d => (d / 1e6)} ySuffix="m"
+									height={200} padding={{top: 0, bottom: 20, left: 30, right: 15}}
+									selected={region.code}
+									area={false} title={region.name}
+								/>
+						</div>
+				</div>
+			</figure>
+		</div>
+
+		<div slot="foreground">
+			<section data-id="chart01">
+				<div class="col-medium">
+					<p>
+						This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart02">
+				<div class="col-medium">
+					<p>
+						The radius of each circle shows the <strong>total population</strong> of the district.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart03">
+				<div class="col-medium">
+					<p>
+						The vertical axis shows the <strong>density</strong> of the district in people per hectare.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart04">
+				<div class="col-medium">
+					<p>
+						The colour of each circle shows the <strong>part of the country</strong> that the district is within.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart05">
+				<div class="col-medium">
+					<h3>Select a district</h3>
+					<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
+					{#if geojson}
+						<p>
+							<!-- svelte-ignore a11y-no-onchange -->
+							<select bind:value={selected}>
+								<option value={null}>Select one</option>
+								{#each geojson.features as place}
+									<option value={place.properties.AREACD}>
+										{place.properties.AREANM}
+									</option>
+								{/each}
+							</select>
+						</p>
+					{/if}
+				</div>
+			</section>
+		</div>
+	</Scroller>
+{/if}
+
+
 <Footer />
 
 <style>

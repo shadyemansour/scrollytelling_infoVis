@@ -79,7 +79,7 @@ export async function getRegionData() {
     });
     
     regionData.data.region.timeseries = timeseries; // Save timeseries indictors to data
-    // console.log(regionData);
+    console.log(regionData);
     return regionData;
 }
 
