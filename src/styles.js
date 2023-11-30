@@ -1,6 +1,3 @@
-//Do not use those directly.
-// Only use over config.js - themes (Semantic layer)
-
 export const brand = 
 {
   '100': '#e9f3ee',
@@ -27,18 +24,4 @@ export const trspWhite =
   '800': 'rgba(255, 255, 255, 0.80)',
   '900': 'rgba(255, 255, 255, 0.90)',
   '1000': 'rgba(255, 255, 255, 1)'
-}
-
-export const trspBlack = 
-{
-  '100': 'rgba(0, 0, 0, 0.10)',
-  '200': 'rgba(0, 0, 0, 0.20)',
-  '300': 'rgba(0, 0, 0, 0.30)',
-  '400': 'rgba(0, 0, 0, 0.40)',
-  '500': 'rgba(0, 0, 0, 0.50)',
-  '600': 'rgba(0, 0, 0, 0.60)',
-  '700': 'rgba(0, 0, 0, 0.70)',
-  '800': 'rgba(0, 0, 0, 0.80)',
-  '900': 'rgba(0, 0, 0, 0.90)',
-  '1000': 'rgba(0, 0, 0, 1)'
 }
