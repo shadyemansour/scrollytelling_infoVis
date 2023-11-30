@@ -11,6 +11,7 @@
 	import Divider from '../layout/Divider.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
+	import { getRegionData, RegionData } from "../helpers/getRegionData.js";
 	import DataPaths from '../utils/constants.js';
 
 	// DEMO-SPECIFIC IMPORTS
@@ -29,9 +30,8 @@
 		idPrev = { ...id };
 	});
 
-	// Data XXX
-	let data = { region: {} };
-	let metadata = { region: {} };
+	// Data
+	let regionData;
 	let geojson;
 	const mapbounds = [
 		[5, 47.3],
@@ -94,7 +94,7 @@
 				explore = false;
 			},
 			map03: () => {
-				let hl = [...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
 				fitById(hl.code);
 				mapKey = 'age_med';
 				mapHighlighted = [hl.code];
@@ -111,7 +111,13 @@
 				mapKey = 'area';
 				mapHighlighted = [];
 				explore = true;
-			}
+			},
+			// map06: () => {
+			// 	fitBounds(mapbounds);
+			// 	mapKey = 'area';
+			// 	mapHighlighted = [];
+			// 	explore = true;
+			// }
 		}
 	};
 
@@ -128,92 +134,19 @@
 	}
 	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
-	// INITIALISATION CODE
-	getData(DataPaths.REGION_DATA)
-		.then((arr) => {
-			// Process metadata
-			let meta = arr.map((d) => ({
-				code: d.code, // Bundesland Code
-				name: d.name, // Bundesland Name
-				parent: d.parent ? d.parent : null
-			}));
-			let lookup = {};
-			meta.forEach((d) => {
-				lookup[d.code] = d;
-			});
-			metadata.region.array = meta;
-			metadata.region.lookup = lookup;
-
-			// Process indicators
-			let indicators = arr.map((d, i) => ({
-				...meta[i],
-				area: d.area,
-				pop: d['2020'],
-				density: d.density,
-				age_med: d.age_med
-			}));
-
-			// Additional processing for region
-			['density', 'age_med', 'area'].forEach((key) => {
-				let values = indicators.map((d) => d[key]).sort((a, b) => a - b);
-				const min = Math.min(...values);
-				const max = Math.max(...values);
-				switch (key) {
-					case 'density':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateViridis')(d[key]))
-						);
-						break;
-					case 'age_med':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateInferno')(d[key]))
-						);
-						break;
-					case 'area':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateBlues')(d[key]))
-						);
-						break;
-
-					default:
-						indicators.forEach((d, i) => (indicators[i][key + '_color'] = colorScale(d[key])));
-						break;
-				}
-			});
-			data.region.indicators = indicators; // Save regions indictors to data
-
-			// Process timeseries
-			let years = [
-				2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-				2016, 2017, 2018, 2019, 2020
-			];
-
-			let timeseries = [];
-			arr.forEach((d) => {
-				years.forEach((year) => {
-					timeseries.push({
-						code: d.code,
-						name: d.name,
-						value: d[year],
-						year
-					});
-				});
-			});
-			data.region.timeseries = timeseries; // Save timeseries indictors to data
-			console.log(data);
-		})
-		.catch((error) => {
-			console.error('Error loading or processing data: ', error);
-		});
+	// INITIALISATION CODE - Load and Preprocess Data
+	getRegionData().then(loadedRegionData => {
+		regionData = loadedRegionData;
+	}).catch(error => {
+    	console.error("Error fetching region data:", error);
+	});
+	
 
 	getTopo(DataPaths.TOPO_DATA, 'states').then((geo) => {
 		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
-
 		geojson = geo;
 	});
+
 </script>
 
 <LogoHeader filled={true} center={true} />
@@ -238,7 +171,7 @@
 	</p>
 </Section>
 
-{#if geojson && data.region.indicators}
+{#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<figure>
@@ -249,7 +182,7 @@
 								id="lad-fill"
 								idKey="code"
 								colorKey={mapKey + '_color'}
-								data={data.region.indicators}
+								data={regionData.data.region.indicators}
 								type="fill"
 								select
 								{selected}
@@ -272,7 +205,7 @@
 							>
 								<MapTooltip
 									content={hovered
-										? `${metadata.region.lookup[hovered].name}<br/><strong>${data.region.indicators
+										? `${regionData.metadata.region.lookup[hovered].name}<br/><strong>${regionData.data.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} ${units[mapKey]}</strong>`
 										: ''}
@@ -324,7 +257,7 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<!-- This gets the data object for the region with the oldest median age -->
-					{#each [[...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region.age_med_color}>{region.name}</Em>, the
 							region with the oldest median age, {region.age_med} years.
@@ -352,6 +285,25 @@
 				</div>
 			</section>
 			<section data-id="map05">
+				<div class="col-medium">
+					<h3>Fläche des Bundeslandes</h3>
+					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
+					{#if geojson}
+						<p>
+							<!-- svelte-ignore a11y-no-onchange -->
+							<select bind:value={selected} on:change={() => fitById(selected)}>
+								<option value={null}>Select one</option>
+								{#each geojson.features as place}
+									<option value={place.properties.AREACD}>
+										{place.properties.AREANM}
+									</option>
+								{/each}
+							</select>
+						</p>
+					{/if}
+				</div>
+			</section>
+			<section data-id="test">
 				<div class="col-medium">
 					<h3>Fläche des Bundeslandes</h3>
 					<p>Use the selection box below or click on the map to select and zoom to a region.</p>

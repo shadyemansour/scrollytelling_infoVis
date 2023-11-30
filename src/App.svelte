@@ -4,7 +4,7 @@
 	import About from './routes/About.svelte';
 	import Test from './routes/Test.svelte';
 
-	var startingSite = Home;
+	var startingSite = Home; // Set starting Site
 </script>
 
 <Router>
