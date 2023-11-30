@@ -7,31 +7,20 @@
 	import Footer from '../layout/Footer.svelte';
 	import Header from '../layout/Header.svelte';
 	import Section from '../layout/Section.svelte';
-	import Media from '../layout/Media.svelte';
 	import Scroller from '../layout/Scroller.svelte';
-	import Filler from '../layout/Filler.svelte';
 	import Divider from '../layout/Divider.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
-	import * as d3 from 'd3';
+	import DataPaths from '../utils/constants.js';
 
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
-	import { getData, setColors, getTopo, getBreaks, getColor } from '../utils.js';
-	import { colors, units } from '../config.js';
-	import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
+	import { getData, getTopo, getColor } from '../utils.js';
+	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
-	import ScrollingChart from '../layout/ScrollingChart.svelte';
 
-	// CORE CONFIG (COLOUR THEMES)
-	// Set theme globally (options are 'light', 'dark' or 'lightblue')
-	let theme = 'light';
-	setContext('theme', theme);
-	setColors(themes, theme);
-
-	// CONFIG FOR SCROLLER COMPONENTS
 	// Config
-	const threshold = .8;
+	const threshold = 0.8;
 	// State
 	let animation = getMotion(); // Set animation preference depending on browser preference true/false
 	let id = {}; // Object to hold visible section IDs of Scroller components
@@ -39,9 +28,6 @@
 	onMount(() => {
 		idPrev = { ...id };
 	});
-
-	// Constants
-	const topojson = './data/1_sehr_hoch_topo.json';
 
 	// Data XXX
 	let data = { region: {} };
@@ -51,9 +37,6 @@
 		[5, 47.3],
 		[15, 55.2]
 	];
-
-	// Data Testdata
-	let dataTest;
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -130,44 +113,6 @@
 				explore = true;
 			}
 		}
-		,
-		chart: {
-			chart01: () => {
-				xKey = "area";
-				yKey = null;
-				zKey = null;
-				rKey = null;
-				explore = false;
-			},
-			chart02: () => {
-				xKey = "area";
-				yKey = null;
-				zKey = null;
-				rKey = "pop";
-				explore = false;
-			},
-			chart03: () => {
-				xKey = "area";
-				yKey = "density";
-				zKey = null;
-				rKey = "pop";
-				explore = false;
-			},
-			chart04: () => {
-				xKey = "area";
-				yKey = "density";
-				zKey = "parent_name";
-				rKey = "pop";
-				explore = false;
-			},
-			chart05: () => {
-				xKey = "area";
-				yKey = "density";
-				zKey = null;
-				rKey = "pop";
-				explore = true;
-			}
-		}
 	};
 
 	// Code to run Scroller actions when new caption IDs come into view
@@ -184,7 +129,7 @@
 	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
 	// INITIALISATION CODE
-	getData('./data/data_region.csv')
+	getData(DataPaths.REGION_DATA)
 		.then((arr) => {
 			// Process metadata
 			let meta = arr.map((d) => ({
@@ -264,7 +209,7 @@
 			console.error('Error loading or processing data: ', error);
 		});
 
-	getTopo(topojson, 'states').then((geo) => {
+	getTopo(DataPaths.TOPO_DATA, 'states').then((geo) => {
 		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
 
 		geojson = geo;
@@ -294,9 +239,6 @@
 </Section>
 
 {#if geojson && data.region.indicators}
-
-
-
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<figure>
@@ -443,31 +385,5 @@
 	}
 	select {
 		max-width: 350px;
-	}
-	.chart {
-		margin-top: 45px;
-		width: calc(100% - 5px);
-	}
-	.chart-full {
-		margin: 0 20px;
-	}
-	.chart-sml {
-		font-size: 0.85em;
-	}
-	/* The properties below make the media DIVs grey, for visual purposes in demo */
-	.media {
-		background-color: #f0f0f0;
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-ms-flex-flow: column;
-		flex-flow: column;
-		-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		justify-content: center;
-		text-align: center;
-		color: #aaa;
 	}
 </style>
