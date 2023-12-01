@@ -14,6 +14,7 @@
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
 	import * as d3 from 'd3';
+	import  LineChartRace  from '../layout/LineChartRace.svelte';
 
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
@@ -21,6 +22,8 @@
 	import { colors, units } from '../config.js';
 	// import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+	import {LineChart} from "@onsvisual/svelte-charts";
+
 
 	// CORE CONFIG (COLOUR THEMES)
 	// Set theme globally (options are 'light', 'dark' or 'lightblue')
@@ -35,7 +38,8 @@
 	let animation = getMotion(); // Set animation preference depending on browser preference
 	let id = {}; // Object to hold visible section IDs of Scroller components
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
-	onMount(() => {
+	onMount(async () => {
+		await loadData();
 		idPrev = { ...id };
 	});
 
@@ -43,8 +47,10 @@
 	const topojson = './data/1_sehr_hoch_topo.json';
 
 	// Data
-	let data = { region: {} };
-	let metadata = { region: {} };
+	var data_map = { region: {} };
+	let metadata_map = { region: {} };
+	var data_ver = {};
+	let metadata_ver = {};
 	let geojson;
 	const mapbounds = [
 		[5, 47.3],
@@ -58,39 +64,25 @@
 	let hovered; // Hovered district (chart or map)
 	let selected; // Selected district (chart or map)
 	let mapHighlighted = []; // Highlighted district (map only)
-	let mapKey = 'density'; // Key for data to be displayed on map
-	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'inferno'; // Changes the color of map
+	let xKey = null; // xKey for scatter chart
+	let yKey = null; // yKey for scatter chart
+	let zKey = null; // zKey (color) for scatter chart
+	let mapKey = "density"; // Key for data to be displayed on map
+	let explore = false; // Allows chart/map interactivity to be toggled on/off
+	let filteredData = [];
+	let trigger = -1;
 
-	// FUNCTIONS (INCL. SCROLLER ACTIONS)
+	// $: if (actions.chart && data_ver.timeseries && id['chart']) {
+	// 	updateChartData(data_ver.timeseries, id['chart']);
+	// }
 
-	// Functions for chart and map on:select and on:hover events
-	function doSelect(e) {
-		console.log(e);
-		selected = e.detail.id;
-		if (e.detail.feature) fitById(selected); // Fit map if select event comes from map
-	}
-	function doHover(e) {
-		hovered = e.detail.id;
-	}
-
-	// Functions for map component
-	function fitBounds(bounds) {
-		if (map) {
-			map.fitBounds(bounds, { animate: animation, padding: 30 });
-		}
-	}
-	function fitById(id) {
-		if (geojson && id) {
-			let feature = geojson.features.find((d) => d.properties.AREACD == id);
-			let bounds = bbox(feature.geometry);
-			fitBounds(bounds);
-		}
+	$: if (data_ver.timeseries) {
+    setActions(data_ver.timeseries);
 	}
 
-	// Actions for Scroller components
-	const actions = {
-		map: {
+	var actions ={
+			map: {
 			// Actions for <Scroller/> with id="map"
 			map01: () => {
 				// Action for <section/> with data-id="map01"
@@ -107,7 +99,7 @@
 				explore = false;
 			},
 			map03: () => {
-				let hl = [...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
+				let hl = [...data_map.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
 				fitById(hl.code);
 				mapKey = 'age_med';
 				mapHighlighted = [hl.code];
@@ -126,45 +118,46 @@
 				explore = true;
 			}
 		}
-		// ,
-		// chart: {
-		// 	chart01: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = null;
-		// 		explore = false;
-		// 	},
-		// 	chart02: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart03: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart04: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = "parent_name";
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart05: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = true;
-		// 	}
-		// }
-	};
+	}
+	const yearRanges = {
+    chart01: { start: 2001, end: 2004 },
+    chart02: { start: 2005, end: 2008 },
+    chart03: { start: 2009, end: 2012 },
+    chart04: { start: 2013, end: 2016 },
+    chart05: { start: 2017, end: 2020 }
+};
+
+
+
+	// FUNCTIONS (INCL. SCROLLER ACTIONS)
+
+	// Functions for chart and map on:select and on:hover events
+	function doSelect(e) {
+		console.log(e);
+		selected = e.detail.id;
+		if (e.detail.feature) fitById(selected); // Fit map if select event comes from map
+	}
+	function doHover(e) {
+		console.log(e.detail.id)
+		hovered = e.detail.id;
+	}
+
+	// Functions for map component
+	function fitBounds(bounds) {
+		if (map) {
+			map.fitBounds(bounds, { animate: animation, padding: 30 });
+		}
+	}
+	function fitById(id) {
+		if (geojson && id) {
+			let feature = geojson.features.find((d) => d.properties.AREACD == id);
+			let bounds = bbox(feature.geometry);
+			fitBounds(bounds);
+		}
+	}
+
+
+
 
 	// Code to run Scroller actions when new caption IDs come into view
 	function runActions(codes = []) {
@@ -179,6 +172,7 @@
 	}
 	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
+	function loadData() {
 	// INITIALISATION CODE
 	getData('./data/data_region.csv')
 		.then((arr) => {
@@ -186,17 +180,16 @@
 			let meta = arr.map((d) => ({
 				code: d.code, // Bundesland Code
 				name: d.name, // Bundesland Name
-				parent: d.parent ? d.parent : null
 			}));
 			let lookup = {};
 			meta.forEach((d) => {
 				lookup[d.code] = d;
 			});
-			metadata.region.array = meta;
-			metadata.region.lookup = lookup;
+			metadata_map.region.array = meta;
+			metadata_map.region.lookup = lookup;
 
 			// Process indicators
-			let indicators = arr.map((d, i) => ({
+			var indicators = arr.map((d, i) => ({
 				...meta[i],
 				area: d.area,
 				pop: d['2020'],
@@ -234,7 +227,32 @@
 						break;
 				}
 			});
-			data.region.indicators = indicators;
+			data_map.region.indicators = indicators;
+	
+		})
+		.catch((error) => {
+			console.error('Error loading or processing data:', error);
+		});
+
+	getTopo(topojson, 'states').then((geo) => {
+		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
+
+		geojson = geo;
+	});
+
+	getData('./data/data_verkehr.csv')
+		.then((arr) => {
+			// Process metadata
+			let meta = arr.map((d) => ({
+				code: d.code, // Bundesland Code
+				name: d.name, // Bundesland Name
+			}));
+			let lookup = {};
+			meta.forEach((d) => {
+				lookup[d.code] = d;
+			});
+			metadata_ver.array = meta;
+			metadata_ver.lookup = lookup;
 
 			// Process timeseries
 			let years = [
@@ -251,19 +269,71 @@
 						value: d[year],
 						year
 					});
+
 				});
 			});
-			data.region.timeseries = timeseries;
+			data_ver.timeseries = timeseries;
+			updateChartData(timeseries, 'chart01');		
 		})
 		.catch((error) => {
 			console.error('Error loading or processing data:', error);
 		});
+}
 
-	getTopo(topojson, 'states').then((geo) => {
-		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
 
-		geojson = geo;
-	});
+
+		// Actions for Scroller components
+	function setActions(timeseries)  {
+		actions.chart = {
+			chart01: () => {
+				updateChartData(timeseries, 'chart01');
+				xKey = "year";
+				yKey = "value";
+				zKey = "code";
+				explore = false;
+			},
+			chart02: () => {
+				updateChartData(timeseries, 'chart02');
+				xKey = "year";
+				yKey = "value";
+				zKey = "code";
+				explore = false;
+			},
+			chart03: () => {
+				updateChartData(timeseries, 'chart03');
+				xKey = "year";
+				yKey = "value";
+				zKey = "code";
+				explore = false;
+			},
+			chart04: () => {
+				updateChartData(timeseries, 'chart04');
+				xKey = "year";
+				yKey = "value";
+				zKey = "code";
+				explore = false;
+			},
+			chart05: () => {
+				updateChartData(timeseries, 'chart05');
+				xKey = "year";
+				yKey = "value";
+				zKey = "code";
+				explore = true;
+			}
+		}
+	}
+	
+	function updateChartData(timeseries, chartId) {
+    const range = yearRanges[chartId];
+    filteredData = timeseries.filter(d => d.year <= range.end);
+	trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
+    // Trigger reactivity in Svelte
+    filteredData = [...filteredData];
+	console.log(filteredData);
+}                                                                                                                                                                                                                                
+	
+
+    
 </script>
 
 <LogoHeader filled={true} center={true} />
@@ -281,6 +351,93 @@
 <Divider />
 
 <Section>
+	<h2>This is a fery fancy line chart that's still not working</h2>
+	<p class="mb">
+		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works). 
+	</p>
+</Section>
+
+<Divider />
+
+<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+	<div slot="background">
+		<figure>
+			<div class="col-wide height-full">
+					{#if data_ver.timeseries}
+					<div class="chart">
+					<!-- <LineChart
+						data={filteredData}
+						padding={{left: 50, right: 150, top: 0, bottom: 0}}
+						height="500px"
+						xKey = "year"  yKey = "value" zKey = "code"
+						colors={['black','red','blue']} lineWidth={3}
+						yFormatTick={d => (d/1e6).toFixed(1)} ySuffix="m"
+						select={explore} selected={explore ? selected : null} on:select={doSelect}
+						colorSelect="#206095" colorHighlight="#999"
+						area={false} title="Fancy Bancy Line Chart"
+						{animation}/> -->
+						<LineChartRace rawData={data_ver.timeseries} animationStep={trigger}/>
+					</div>
+					{/if}
+			</div>
+		</figure>
+	</div>
+
+	<div slot="foreground">
+		<section data-id="chart01">
+			<div class="col-medium">
+				<p>
+					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+				</p>
+			</div>
+		</section>
+		<section data-id="chart02">
+			<div class="col-medium">
+				<p>
+					The radius of each circle shows the <strong>total population</strong> of the district.
+				</p>
+			</div>
+		</section>
+		<section data-id="chart03">
+			<div class="col-medium">
+				<p>
+					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
+				</p>
+			</div>
+		</section>
+		<section data-id="chart04">
+			<div class="col-medium">
+				<p>
+					The colour of each circle shows the <strong>part of the country</strong> that the district is within.
+				</p>
+			</div>
+		</section>
+		<section data-id="chart05">
+			<div class="col-medium">
+				<h3>Select a district</h3>
+				<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
+				{#if geojson}
+					<p>
+						<!-- svelte-ignore a11y-no-onchange -->
+						<select bind:value={selected}>
+							<option value={null}>Select one</option>
+							{#each geojson.features as place}
+								<option value={place.properties.AREACD}>
+									{place.properties.AREANM}
+								</option>
+							{/each}
+						</select>
+					</p>
+				{/if}
+			</div>
+		</section>
+	</div>
+</Scroller>
+
+<Divider />
+
+
+<Section>
 	<h2>This is Deutschland</h2>
 	<p class="mb">
 		The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
@@ -288,7 +445,7 @@
 	</p>
 </Section>
 
-{#if geojson && data.region.indicators}
+{#if geojson && data_map.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<figure>
@@ -299,7 +456,7 @@
 								id="lad-fill"
 								idKey="code"
 								colorKey={mapKey + '_color'}
-								data={data.region.indicators}
+								data={data_map.region.indicators}
 								type="fill"
 								select
 								{selected}
@@ -322,7 +479,7 @@
 							>
 								<MapTooltip
 									content={hovered
-										? `${metadata.region.lookup[hovered].name}<br/><strong>${data.region.indicators
+										? `${metadata_map.region.lookup[hovered].name}<br/><strong>${data_map.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} ${units[mapKey]}</strong>`
 										: ''}
@@ -374,7 +531,7 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<!-- This gets the data object for the region with the oldest median age -->
-					{#each [[...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
+					{#each [[...data_map.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region.age_med_color}>{region.name}</Em>, the
 							region with the oldest median age, {region.age_med} years.
