@@ -14,7 +14,9 @@
   let mount = false;
   let line;
   let svgContainer;
-
+  let previousLengths = {};
+  let lastLengths = {}; // Store the last length of each line
+  let circles = {}; // Store references to circle elements
   onMount(() => {
     console.log(rawData);
 
@@ -74,7 +76,7 @@
     }));
 
     // Remove the existing paths and redraw them
-    d3.select(svg).selectAll("path").remove();
+    d3.select(svg).selectAll("circle").remove();
     filteredData.forEach(series => {
       const path = d3.select(svg).append("path")
       .datum(series.ys)
@@ -82,6 +84,38 @@
       .attr("stroke", series.color)
       .attr("stroke-width", 1.5)
       .attr("d", line);
+      
+      const totalLength = path.node().getTotalLength();
+      const previousLength = lastLengths[series.name] || 0;
+      lastLengths[series.name] = totalLength;
+
+        circles[series.name] = d3.select(svg).append("circle")
+          .attr("r", 5)
+          .attr("fill", series.color);
+
+    // Position the circle at the end of the previous segment
+    const previousPoint = path.node().getPointAtLength(previousLength);
+      circles[series.name]
+        .attr("cx", previousPoint.x)
+        .attr("cy", previousPoint.y);
+
+
+
+      path.attr("stroke-dasharray", totalLength + " " + totalLength)
+          .attr("stroke-dashoffset", totalLength - previousLength)
+          .transition()
+          .ease(d3.easeLinear)
+          .attr("stroke-dashoffset", 0)
+          .duration(500)
+          .attr("stroke-dashoffset", 0)
+          .tween("pathTween", () => {
+            return t => {
+              const point = path.node().getPointAtLength(previousLength + (totalLength - previousLength) * t);
+              circles[series.name].attr("cx", point.x).attr("cy", point.y);
+            };
+          });
+
+          previousLengths[series.name] = totalLength;
 
     });
   }
