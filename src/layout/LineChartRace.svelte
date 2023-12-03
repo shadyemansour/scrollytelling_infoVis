@@ -170,7 +170,7 @@
     if (isForward) {
             console.log(step, ' forward', previousLength, totalLength)
 
-      path.attr("stroke-dasharray", totalLength + " " + totalLength)
+      path.attr("stroke-dasharray", totalLength)
           .attr("stroke-dashoffset", totalLength - previousLength)
           .transition()
       .ease(d3.easeLinear)
@@ -186,7 +186,7 @@
     } else {
             console.log(step, ' backwards', previousLength, totalLength)
 
-            path.attr("stroke-dasharray", totalLength + " " + totalLength)
+            path.attr("stroke-dasharray", totalLength)
     .attr("stroke-dashoffset", 0)
     .transition()
     .ease(d3.easeLinear)
