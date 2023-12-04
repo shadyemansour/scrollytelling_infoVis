@@ -90,7 +90,7 @@
                 .attr("class", series.name+"1")
                 .attr("fill", "none")
                 .attr("stroke", "black")
-                .attr("stroke-width", .5)
+                .attr("stroke-width", 0)
                 .attr("transform", `translate(${margin.left},${margin.top})`)
               }
               path.datum(series.ys).attr("d", line);
