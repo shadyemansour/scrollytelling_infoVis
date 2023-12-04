@@ -149,7 +149,7 @@
       
       // Determine the direction of animation
       let previousLength = lastLengths[series.name] || 0;
-      console.log(series.name, lastLengths, totalLength)
+      // console.log(series.name, lastLengths, totalLength)
       const isForward = totalLength > previousLength;
       
 
@@ -169,7 +169,7 @@
 
       // Set up the initial conditions for the animation
       if (isForward) {
-        console.log(step +' forward, prev. length:'+ previousLength+'  totalLength: '+ totalLength)
+        // console.log(step +' forward, prev. length:'+ previousLength + '  totalLength: '+ totalLength)
         
         path
           .attr("stroke-dasharray", maxLength)
@@ -187,7 +187,7 @@
         // console.log(step +' backwards, prev. length:'+ previousLength+'  totalLength: '+ totalLength)
         // console.log((previousLength - totalLength));
         // console.log(totalLength - (previousLength - totalLength));
-        console.log(series);
+        // console.log(series);
         path
           .attr("stroke-dasharray", maxLength)
           .attr("stroke-dashoffset", maxLength - previousLength)
@@ -195,7 +195,10 @@
           .attr("stroke-dashoffset", maxLength - totalLength)
           .tween("pathTween", () => {
           return t => {
-            const point = path.node().getPointAtLength(totalLength - (previousLength - totalLength) * t);
+
+            const currentLength =  previousLength  - (previousLength - totalLength) * t;
+            console.log(currentLength)
+            const point = path.node().getPointAtLength(currentLength);
             circles[series.name].attr("cx", point.x).attr("cy", point.y);
           };
           });
