@@ -5,14 +5,16 @@
   export let rawData = []; // Pass the raw data as a prop
   export let animationStep;
   let svg; // Reference to the SVG element
-  const margin = { top: 20, right: 20, bottom: 30, left: 50 };
-  const width = 500 - margin.left - margin.right;
-  const height = 300 - margin.top - margin.bottom;
+  const margin = { top: 20, right: 26, bottom: 30, left: 100 };
+  export let width = 500 - margin.left - margin.right;
+  export let height = 300 - margin.top - margin.bottom;
 
   let data; // This will hold the transformed data
   let xScale, yScale, xAxis, yAxis;
   let mount = false;
   let line;
+  let inVisLine;
+  let yearLimit;
   let svgContainer;
   let previousLengths = {};
   let lastLengths = {}; // Store the last length of each line
@@ -20,8 +22,6 @@
 
 
   onMount(() => {
-    console.log(rawData);
-
     data = updateDataStructure(rawData); 
 
     // Aggregate all points to compute the domains
@@ -31,8 +31,8 @@
     mount = true;
   });
 
+  // update chart when animationStep changes
   $: if (mount && rawData.length>0 && animationStep) {
-    console.log(rawData)
     updateChart(animationStep);
   }
 
@@ -54,216 +54,158 @@
       yAxis = d3.axisLeft(yScale).ticks(5);
   }
 
+
   function drawLines() {
     line = d3.line()
       .x(d => xScale(d.x))
-      .y(d => yScale(d.y));
+      .y(d => yScale(d.y))
+      
+    inVisLine = d3.line()
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y))
 
-    svgContainer = d3.select(svg)
+    svgContainer = d3.select("#linechartrace")
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
-
+    
+    // Add xAxis
     svgContainer.append("g")
       .attr("transform", `translate(0,${height})`)
       .call(xAxis);
+    // Add yAxis
     svgContainer.append("g")
       .call(yAxis);
+      
+          const inVisibleData = data.map(series => ({
+            ...series,
+            ys: series.ys
+          }));
+      
+          inVisibleData.forEach(series => {
+            let path = d3.select(svg).select(`path.${series.name+1}`);
+            const isNewPath = path.empty();
+      
+            if (isNewPath) {
+              path = d3.select("#linechartrace").append("path")
+                .attr("class", series.name+"1")
+                .attr("fill", "none")
+                .attr("stroke", "black")
+                .attr("stroke-width", .5)
+                .attr("transform", `translate(${margin.left},${margin.top})`)
+              }
+              path.datum(series.ys).attr("d", line);
+          });
+
+
+    const visibleData = data.map(series => ({
+      ...series,
+      ys: series.ys
+    }));
+
+    visibleData.forEach(series => {
+      let path = d3.select(svg).select(`path.${series.name}`);
+      
+        path = d3.select("#linechartrace").append("path")
+          .attr("class", series.name)
+          .attr("fill", "none")
+          .attr("stroke", series.color)
+          .attr("stroke-linecap", "round")
+          .attr("stroke-width", 1.5)
+          .attr("transform", `translate(${margin.left},${margin.top})`)
+      
+        path.datum(series.ys).attr("d", line);
+    });
   }
 
-  // function updateChart(step) {
-  //   const yearLimit = getYearLimit(step);
-  //   const filteredData = data.map(series => ({
-  //     ...series,
-  //     ys: series.ys.filter(d => d.x <= yearLimit)
-  //   }));
-
-  //   // Remove the existing paths and redraw them
-  //   d3.select(svg).selectAll("circle").remove();
-  //   filteredData.forEach(series => {
-  //     const path = d3.select(svg).append("path")
-  //     .datum(series.ys)
-  //     .attr("fill", "none")
-  //     .attr("stroke", series.color)
-  //     .attr("stroke-width", 1.5)
-  //     .attr("d", line);
-      
-  //     const totalLength = path.node().getTotalLength();
-  //     const previousLength = lastLengths[series.name] || 0;
-  //     lastLengths[series.name] = totalLength;
-
-  //       circles[series.name] = d3.select(svg).append("circle")
-  //         .attr("r", 5)
-  //         .attr("fill", series.color);
-
-  //   // Position the circle at the end of the previous segment
-  //   const previousPoint = path.node().getPointAtLength(previousLength);
-  //     circles[series.name]
-  //       .attr("cx", previousPoint.x)
-  //       .attr("cy", previousPoint.y);
-
-
-
-  //     path.attr("stroke-dasharray", totalLength + " " + totalLength)
-  //         .attr("stroke-dashoffset", totalLength - previousLength)
-  //         .transition()
-  //         .ease(d3.easeLinear)
-  //         .attr("stroke-dashoffset", 0)
-  //         .duration(500)
-  //         .attr("stroke-dashoffset", 0)
-  //         .tween("pathTween", () => {
-  //           return t => {
-  //             const point = path.node().getPointAtLength(previousLength + (totalLength - previousLength) * t);
-  //             circles[series.name].attr("cx", point.x).attr("cy", point.y);
-  //           };
-  //         });
-
-  //         previousLengths[series.name] = totalLength;
-
-  //   });
-  // }
 
   function updateChart(step) {
-
-  const yearLimit = getYearLimit(step);
-  const visibleData = data.map(series => ({
-    ...series,
-    ys: series.ys.filter(d => d.x <= yearLimit)
-  }));
-  console.log(yearLimit);
+    // const newYearLimit = getYearLimit(step);
+    // let isForward = true;
+    // if (yearLimit && newYearLimit < yearLimit){
+    //   isForward = false;
+    //   yearLimit = getYearLimit(step+1)
+    // } else {
+      //   yearLimit = getYearLimit(step);
+      //   isForward = true;
+      // }
+    yearLimit = getYearLimit(step);
+      
+    
+    const inVisibleData = data.map(series => ({
+      ...series,
+      ys: series.ys.filter(d => d.x <= yearLimit)
+    }));
     d3.select(svg).selectAll("circle").remove();
 
-  visibleData.forEach(series => {
-    let path = d3.select(svg).select(`path.${series.name}`);
-    const isNewPath = path.empty();
+    inVisibleData.forEach(series => {
+      let inVisPath = d3.select(svg).select(`path.${series.name+1}`);
+      let path = d3.select(svg).select(`path.${series.name}`);
 
-    if (isNewPath) {
-      path = d3.select(svg).append("path")
-        .attr("class", series.name)
-        .attr("fill", "none")
-        .attr("stroke", series.color)
-        .attr("stroke-width", 1.5);
-    }
+        
+      // Set the data for the path and calculate its length
+      inVisPath.datum(series.ys).attr("d", line);
+      let totalLength = inVisPath.node().getTotalLength();
+      let maxLength = path.node().getTotalLength();
+      
+      // Determine the direction of animation
+      let previousLength = lastLengths[series.name] || 0;
+      console.log(series.name, lastLengths, totalLength)
+      const isForward = totalLength > previousLength;
+      
 
-    // Set the data for the path and calculate its length
-    path.datum(series.ys).attr("d", line);
-    const totalLength = path.node().getTotalLength();
-
-    // Determine the direction of animation
-    const previousLength = lastLengths[series.name] || 0;
-    console.log(lastLengths, totalLength)
-    const isForward = totalLength > previousLength;
-
-    circles[series.name] = d3.select(svg).append("circle")
-          .attr("r", 5)
-          .attr("fill", series.color);
-
-    // Position the circle at the end of the previous segment
-    const previousPoint = path.node().getPointAtLength(previousLength);
+      circles[series.name] = d3.select(svg).append("circle")
+      .attr("r", 5)
+      .attr("fill", series.color);
+      
+      // Position the circle at the end of the previous segment
+      const previousPoint = path.node().getPointAtLength(previousLength);
       circles[series.name]
-        .attr("cx", previousPoint.x)
-        .attr("cy", previousPoint.y);
+      .attr("cx", previousPoint.x)
+      .attr("cy", previousPoint.y)
+      .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
-    // console.log(`Step: ${step}, Year Limit: ${yearLimit}, Previous Length: ${previousLength}, Total Length: ${totalLength}`);
+      //console.log(`Step: ${step}, Previous Length: ${previousLength}, Total Length: ${totalLength}`);
 
-    // Set up the initial conditions for the animation
-    if (isForward) {
-            console.log(step, ' forward', previousLength, totalLength)
-
-      path.attr("stroke-dasharray", totalLength)
-          .attr("stroke-dashoffset", totalLength - previousLength)
-          .transition()
-      .ease(d3.easeLinear)
-      .duration(500)
-      .attr("stroke-dashoffset", 0)
-      .tween("pathTween", () => {
+      // Set up the initial conditions for the animation
+      if (isForward) {
+        console.log(step +' forward, prev. length:'+ previousLength+'  totalLength: '+ totalLength)
+        
+        path
+          .attr("stroke-dasharray", maxLength)
+          .attr("stroke-dashoffset", maxLength - previousLength)
+          .transition().ease(d3.easeQuadOut).duration(500)
+          .attr("stroke-dashoffset", maxLength - totalLength)
+          .tween("pathTween", () => {
             return t => {
               const point = path.node().getPointAtLength(previousLength + (totalLength - previousLength) * t);
               circles[series.name].attr("cx", point.x).attr("cy", point.y);
             };
           });
-
-    } else {
-            console.log(step, ' backwards', previousLength, totalLength)
-
-            path.attr("stroke-dasharray", totalLength)
-    .attr("stroke-dashoffset", 0)
-    .transition()
-    .ease(d3.easeLinear)
-    .duration(500)
-    .attr("stroke-dashoffset",  previousLength-totalLength)
+        
+      } else {
+        // console.log(step +' backwards, prev. length:'+ previousLength+'  totalLength: '+ totalLength)
+        // console.log((previousLength - totalLength));
+        // console.log(totalLength - (previousLength - totalLength));
+        console.log(series);
+        path
+          .attr("stroke-dasharray", maxLength)
+          .attr("stroke-dashoffset", maxLength - previousLength)
+          .transition().ease(d3.easeLinear).duration(500)
+          .attr("stroke-dashoffset", maxLength - totalLength)
           .tween("pathTween", () => {
-            return t => {
-              const point = path.node().getPointAtLength(totalLength - (previousLength - totalLength) * t);
-              circles[series.name].attr("cx", point.x).attr("cy", point.y);
-            };
+          return t => {
+            const point = path.node().getPointAtLength(totalLength - (previousLength - totalLength) * t);
+            circles[series.name].attr("cx", point.x).attr("cy", point.y);
+          };
           });
-    }
+      }
 
-    
+      // Perform the transition
+      lastLengths[series.name] = totalLength;
+    });
+  }
 
-    // Perform the transition
-    lastLengths[series.name] = totalLength;
-
-    // TODO: Manage the circle's position
-  });
-}
-
-
-  // function updateChart(step) {
-  //   console.log(step);
-  // const yearLimit = getYearLimit(step);
-  // const visibleData = data.map(series => ({
-  //   ...series,
-  //   ys: series.ys.filter(d => d.x <= yearLimit)
-  // }));
-
-  // visibleData.forEach(series => {
-  //   let path = d3.select(svg).select(`path.${series.name}`);
-  //   const isNewPath = path.empty();
-
-  //   if (isNewPath) {
-  //     path = d3.select(svg).append("path")
-  //       .attr("class", series.name)
-  //       .attr("fill", "none")
-  //       .attr("stroke", series.color)
-  //       .attr("stroke-width", 1.5);
-  //   }
-
-  //   // Set the data for the path and calculate its length
-  //   path.datum(series.ys).attr("d", line);
-  //   const totalLength = path.node().getTotalLength();
-
-  //   // Determine the direction of animation
-  //   const previousLength = lastLengths[series.name] || 0;
-  //   const isForward = totalLength > previousLength;
-
-  //   // Prepare the path for animation
-  //   if (isForward) {
-  //     // Forward or new path: reveal the line
-  //     console.log('forward', previousLength, totalLength)
-  //     path.attr("stroke-dasharray", totalLength + " " + totalLength)
-  //         .attr("stroke-dashoffset", totalLength - previousLength)
-  //         .transition()
-  //         .ease(d3.easeLinear)
-  //         .duration(500)
-  //         .attr("stroke-dashoffset", 0)
-  //   } else {
-  //     // Backward: hide part of the line
-  //     console.log('backwards', previousLength, totalLength)
-  //     path.attr("stroke-dasharray", previousLength + " " + totalLength)
-  //         .attr("stroke-dashoffset", previousLength - totalLength)
-  //         .transition()
-  //         .ease(d3.easeLinear)
-  //         .duration(500)
-  //         .attr("stroke-dasharray", totalLength);   
-  //     }
-
-  //   lastLengths[series.name] = totalLength;
-
-  //   // TODO: Manage the circle's position
-  // });
-// }
   function getYearLimit(step) {
     // Define how the step translates to a year
     const yearRanges = {
@@ -287,8 +229,6 @@
   }
 
   function updateDataStructure(rawData) {
-    console.log(rawData);
-
     return [
       {
         name: 'Fahrrad',
@@ -315,4 +255,4 @@
   }
 </script>
 
-<svg bind:this={svg} width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}></svg>
+<svg id="linechartrace" bind:this={svg} width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}></svg>
