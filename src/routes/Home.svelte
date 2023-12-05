@@ -327,7 +327,7 @@
 	</Scroller>
 {/if}
 
-{#if true}
+{#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
 		<div slot="background">
 			<figure>
@@ -356,8 +356,8 @@
 									lineWidth={1} xTicks={2} snapTicks={false}
 									yFormatTick={d => (d / 1e6)} ySuffix="m"
 									height={200} padding={{top: 0, bottom: 20, left: 30, right: 15}}
-									selected={region.code}
-									area={false} title={region.name}
+									selected={regionData.data.region.code}
+									area={false} title={regionData.data.region.name}
 								/>
 						</div>
 				</div>
