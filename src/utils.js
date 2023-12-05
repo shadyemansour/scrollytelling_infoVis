@@ -76,16 +76,3 @@ export function getInfernoColor(value, breaks) {
   }
   return color ? color : 'lightgrey';
 }
-
-export function getBreaks(vals) {
-	let len = vals.length;
-	let breaks = [
-		vals[0],
-		vals[Math.floor(len * 0.2)],
-		vals[Math.floor(len * 0.4)],
-		vals[Math.floor(len * 0.6)],
-		vals[Math.floor(len * 0.8)],
-		vals[len - 1]
-	];
-	return breaks;
-}

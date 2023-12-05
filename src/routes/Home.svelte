@@ -7,44 +7,32 @@
 	import Footer from '../layout/Footer.svelte';
 	import Header from '../layout/Header.svelte';
 	import Section from '../layout/Section.svelte';
-	import Media from '../layout/Media.svelte';
 	import Scroller from '../layout/Scroller.svelte';
-	import Filler from '../layout/Filler.svelte';
 	import Divider from '../layout/Divider.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
-	import * as d3 from 'd3';
+	import { getRegionData } from "../helpers/getRegionData.js";
+	import DataPaths from '../utils/constants.js';
 
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
-	import { getData, setColors, getTopo, getBreaks, getColor } from '../utils.js';
-	import { colors, units } from '../config.js';
-	// import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
+	import { getTopo, getColor } from '../utils.js';
+	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+	import ScrollingChart from '../layout/ScrollingChart.svelte';
 
-	// CORE CONFIG (COLOUR THEMES)
-	// Set theme globally (options are 'light', 'dark' or 'lightblue')
-	let theme = 'light';
-	setContext('theme', theme);
-	setColors(themes, theme);
-
-	// CONFIG FOR SCROLLER COMPONENTS
 	// Config
-	const threshold = 0.65;
+	const threshold = 0.8;
 	// State
-	let animation = getMotion(); // Set animation preference depending on browser preference
+	let animation = getMotion(); // Set animation preference depending on browser preference true/false
 	let id = {}; // Object to hold visible section IDs of Scroller components
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
 		idPrev = { ...id };
 	});
 
-	// Constants
-	const topojson = './data/1_sehr_hoch_topo.json';
-
 	// Data
-	let data = { region: {} };
-	let metadata = { region: {} };
+	let regionData;
 	let geojson;
 	const mapbounds = [
 		[5, 47.3],
@@ -114,7 +102,7 @@
 				explore = false;
 			},
 			map03: () => {
-				let hl = [...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
 				fitById(hl.code);
 				mapKey = 'age_med';
 				mapHighlighted = [hl.code];
@@ -131,46 +119,14 @@
 				mapKey = 'area';
 				mapHighlighted = [];
 				explore = true;
-			}
+			},
+			// map06: () => {
+			// 	fitBounds(mapbounds);
+			// 	mapKey = 'area';
+			// 	mapHighlighted = [];
+			// 	explore = true;
+			// }
 		}
-		// ,
-		// chart: {
-		// 	chart01: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = null;
-		// 		explore = false;
-		// 	},
-		// 	chart02: () => {
-		// 		xKey = "area";
-		// 		yKey = null;
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart03: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart04: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = "parent_name";
-		// 		rKey = "pop";
-		// 		explore = false;
-		// 	},
-		// 	chart05: () => {
-		// 		xKey = "area";
-		// 		yKey = "density";
-		// 		zKey = null;
-		// 		rKey = "pop";
-		// 		explore = true;
-		// 	}
-		// }
 	};
 
 	// Code to run Scroller actions when new caption IDs come into view
@@ -186,91 +142,19 @@
 	}
 	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
-	// INITIALISATION CODE
-	getData('./data/data_region.csv')
-		.then((arr) => {
-			// Process metadata
-			let meta = arr.map((d) => ({
-				code: d.code, // Bundesland Code
-				name: d.name, // Bundesland Name
-				parent: d.parent ? d.parent : null
-			}));
-			let lookup = {};
-			meta.forEach((d) => {
-				lookup[d.code] = d;
-			});
-			metadata.region.array = meta;
-			metadata.region.lookup = lookup;
+	// INITIALISATION CODE - Load and Preprocess Data
+	getRegionData().then(loadedRegionData => {
+		regionData = loadedRegionData;
+	}).catch(error => {
+    	console.error("Error fetching region data:", error);
+	});
+	
 
-			// Process indicators
-			let indicators = arr.map((d, i) => ({
-				...meta[i],
-				area: d.area,
-				pop: d['2020'],
-				density: d.density,
-				age_med: d.age_med
-			}));
-
-			// Additional processing for region
-			['density', 'age_med', 'area'].forEach((key) => {
-				let values = indicators.map((d) => d[key]).sort((a, b) => a - b);
-				const min = Math.min(...values);
-				const max = Math.max(...values);
-				switch (key) {
-					case 'density':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateViridis')(d[key]))
-						);
-						break;
-					case 'age_med':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateInferno')(d[key]))
-						);
-						break;
-					case 'area':
-						indicators.forEach(
-							(d, i) =>
-								(indicators[i][key + '_color'] = getColor(min, max, 'interpolateBlues')(d[key]))
-						);
-						break;
-
-					default:
-						indicators.forEach((d, i) => (indicators[i][key + '_color'] = colorScale(d[key])));
-						break;
-				}
-			});
-			data.region.indicators = indicators;
-
-			// Process timeseries
-			let years = [
-				2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-				2016, 2017, 2018, 2019, 2020
-			];
-
-			let timeseries = [];
-			arr.forEach((d) => {
-				years.forEach((year) => {
-					timeseries.push({
-						code: d.code,
-						name: d.name,
-						value: d[year],
-						year
-					});
-				});
-			});
-			data.region.timeseries = timeseries;
-		})
-		.catch((error) => {
-			console.error('Error loading or processing data:', error);
-		});
-
-	getTopo(topojson, 'states').then((geo) => {
+	getTopo(DataPaths.TOPO_DATA, 'states').then((geo) => {
 		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
-
 		geojson = geo;
 	});
+
 </script>
 
 <LogoHeader filled={true} center={true} />
@@ -295,7 +179,7 @@
 	</p>
 </Section>
 
-{#if geojson && data.region.indicators}
+{#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<figure>
@@ -306,7 +190,7 @@
 								id="lad-fill"
 								idKey="code"
 								colorKey={mapKey + '_color'}
-								data={data.region.indicators}
+								data={regionData.data.region.indicators}
 								type="fill"
 								select
 								{selected}
@@ -329,7 +213,7 @@
 							>
 								<MapTooltip
 									content={hovered
-										? `${metadata.region.lookup[hovered].name}<br/><strong>${data.region.indicators
+										? `${regionData.metadata.region.lookup[hovered].name}<br/><strong>${regionData.data.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} ${units[mapKey]}</strong>`
 										: ''}
@@ -381,7 +265,7 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<!-- This gets the data object for the region with the oldest median age -->
-					{#each [[...data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region.age_med_color}>{region.name}</Em>, the
 							region with the oldest median age, {region.age_med} years.
@@ -427,9 +311,119 @@
 					{/if}
 				</div>
 			</section>
+			<section data-id="test">
+				<div class="col-medium">
+					<h3>Fläche des Bundeslandes</h3>
+					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
+					{#if geojson}
+						<p>
+							<!-- svelte-ignore a11y-no-onchange -->
+							<select bind:value={selected} on:change={() => fitById(selected)}>
+								<option value={null}>Select one</option>
+								{#each geojson.features as place}
+									<option value={place.properties.AREACD}>
+										{place.properties.AREANM}
+									</option>
+								{/each}
+							</select>
+						</p>
+					{/if}
+				</div>
+			</section>
 		</div>
 	</Scroller>
 {/if}
+
+{#if geojson && regionData.data.region.indicators}
+	<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+		<div slot="background">
+			<figure>
+				<div class="col-wide height-full">
+						<div class="chart">
+							<!-- <ScatterChart
+								height="calc(100vh - 150px)"
+								data={data.district.indicators.map(d => ({...d, parent_name: metadata.region.lookup[d.parent].name}))}
+								colors={explore ? ['lightgrey'] : colors.cat}
+								{xKey} {yKey} {zKey} {rKey} idKey="code" labelKey="name"
+								r={[3,10]}
+								xScale="log"
+								xTicks={[10, 100, 1000, 10000]} xFormatTick={d => d.toLocaleString()}
+								xSuffix=" sq.km"
+								yFormatTick={d => d.toLocaleString()}
+								legend={zKey != null} labels
+								select={explore} selected={explore ? selected : null} on:select={doSelect}
+								hover {hovered} on:hover={doHover}
+								highlighted={explore ? chartHighlighted : []}
+								colorSelect="#206095" colorHighlight="#999" overlayFill
+								{animation}/> -->
+								<ScrollingChart
+									data={regionData.data.region.timeseries}
+									xKey="year" yKey="value" zKey="code"
+									color="lightgrey"
+									lineWidth={1} xTicks={2} snapTicks={false}
+									yFormatTick={d => (d / 1e6)} ySuffix="m"
+									height={200} padding={{top: 0, bottom: 20, left: 30, right: 15}}
+									selected={regionData.data.region.code}
+									area={false} title={regionData.data.region.name}
+								/>
+						</div>
+				</div>
+			</figure>
+		</div>
+
+		<div slot="foreground">
+			<section data-id="chart01">
+				<div class="col-medium">
+					<p>
+						This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart02">
+				<div class="col-medium">
+					<p>
+						The radius of each circle shows the <strong>total population</strong> of the district.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart03">
+				<div class="col-medium">
+					<p>
+						The vertical axis shows the <strong>density</strong> of the district in people per hectare.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart04">
+				<div class="col-medium">
+					<p>
+						The colour of each circle shows the <strong>part of the country</strong> that the district is within.
+					</p>
+				</div>
+			</section>
+			<section data-id="chart05">
+				<div class="col-medium">
+					<h3>Select a district</h3>
+					<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
+					{#if geojson}
+						<p>
+							<!-- svelte-ignore a11y-no-onchange -->
+							<select bind:value={selected}>
+								<option value={null}>Select one</option>
+								{#each geojson.features as place}
+									<option value={place.properties.AREACD}>
+										{place.properties.AREANM}
+									</option>
+								{/each}
+							</select>
+						</p>
+					{/if}
+				</div>
+			</section>
+		</div>
+	</Scroller>
+{/if}
+
+
 <Footer />
 
 <style>
@@ -442,31 +436,5 @@
 	}
 	select {
 		max-width: 350px;
-	}
-	.chart {
-		margin-top: 45px;
-		width: calc(100% - 5px);
-	}
-	.chart-full {
-		margin: 0 20px;
-	}
-	.chart-sml {
-		font-size: 0.85em;
-	}
-	/* The properties below make the media DIVs grey, for visual purposes in demo */
-	.media {
-		background-color: #f0f0f0;
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-orient: vertical;
-		-webkit-box-direction: normal;
-		-ms-flex-flow: column;
-		flex-flow: column;
-		-webkit-box-pack: center;
-		-ms-flex-pack: center;
-		justify-content: center;
-		text-align: center;
-		color: #aaa;
 	}
 </style>

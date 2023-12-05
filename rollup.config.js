@@ -34,7 +34,7 @@ export default {
             open: true,
             contentBase: 'public',
             historyApiFallback: true,
-            port: 3282
+            port: 3429
         }),
 
         !production && livereload('public'),
