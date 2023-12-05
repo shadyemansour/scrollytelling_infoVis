@@ -27,23 +27,23 @@ export const themes = {
   },
   'car': {
 
-    'primary': car[100],
-    'secondary': 'placeholder',
-    'teritary': 'placeholder',
+    'primary': car[1000],
+    'secondary': car[600],
+    'teritary': car[400],
   },
 
   'bike': {
 
     'primary': bike[1000],
-    'secondary': 'placeholder',
-    'teritary': 'placeholder',
+    'secondary': bike[600],
+    'teritary': bike[400],
   },
 
   'oepnv': {
   
     'primary': oepnv[1000],
-    'secondary': 'placeholder',
-    'teritary': 'placeholder',
+    'secondary': oepnv[600],
+    'teritary': oepnv[400],
   }
 }
 
