@@ -1,4 +1,4 @@
-import { trspWhite, trspBlack, brand } from "./styles.js";
+import { trspWhite, trspBlack, brand, iconColors} from "./styles.js";
 // CORE CONFIG
 
 export const themes = {
@@ -25,10 +25,25 @@ export const themes = {
     },
     'background': brand[500],
   },
-  'transport': {
-    'car': 'placeholder',
-    'bike': 'placeholder',
-    'public': 'placeholder',
+  'car': {
+
+    'primary': car[100],
+    'secondary': 'placeholder',
+    'teritary': 'placeholder',
+  },
+
+  'bike': {
+
+    'primary': bike[1000],
+    'secondary': 'placeholder',
+    'teritary': 'placeholder',
+  },
+
+  'oepnv': {
+  
+    'primary': oepnv[1000],
+    'secondary': 'placeholder',
+    'teritary': 'placeholder',
   }
 }
 
