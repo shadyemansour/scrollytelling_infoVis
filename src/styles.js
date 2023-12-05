@@ -42,3 +42,11 @@ export const trspBlack =
   '900': 'rgba(0, 0, 0, 0.90)',
   '1000': 'rgba(0, 0, 0, 1)'
 }
+
+export const iconColor = 
+{
+  'Auto': 'rgba(141, 27, 130, 1)', //lila 
+  'Oepnv': 'rgba(67, 132, 201, 1)', //blau
+  'Fahrrad': 'rgba(53, 165, 130, 1)', //gün
+
+}
