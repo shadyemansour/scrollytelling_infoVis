@@ -11,7 +11,7 @@
 	import Divider from '../layout/Divider.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
-	import { getRegionData } from "../helpers/getRegionData.js";
+	import { getRegionData } from '../helpers/getRegionData.js';
 	import DataPaths from '../utils/constants.js';
 
 	// DEMO-SPECIFIC IMPORTS
@@ -20,6 +20,10 @@
 	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import ScrollingChart from '../layout/ScrollingChart.svelte';
+	import HorizontalBarChart from '../layout/HorizontalBarChart.svelte';
+	import Media from '../layout/Media.svelte';
+
+	import { ScatterChart, LineChart, BarChart } from '@onsvisual/svelte-charts';
 
 	// Config
 	const threshold = 0.8;
@@ -55,15 +59,13 @@
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
 		console.log(e);
-		if (e.detail.id == selected){
-			selected = null; 
+		if (e.detail.id == selected) {
+			selected = null;
 			fitBounds(mapbounds);
-
-		}else{
+		} else {
 			selected = e.detail.id;
 			if (e.detail.feature) fitById(selected); // Fit map if select event comes from map
 		}
-		
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
@@ -119,7 +121,7 @@
 				mapKey = 'area';
 				mapHighlighted = [];
 				explore = true;
-			},
+			}
 			// map06: () => {
 			// 	fitBounds(mapbounds);
 			// 	mapKey = 'area';
@@ -143,18 +145,32 @@
 	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
 	// INITIALISATION CODE - Load and Preprocess Data
-	getRegionData().then(loadedRegionData => {
-		regionData = loadedRegionData;
-	}).catch(error => {
-    	console.error("Error fetching region data:", error);
-	});
-	
+	getRegionData()
+		.then((loadedRegionData) => {
+			regionData = loadedRegionData;
+		})
+		.catch((error) => {
+			console.error('Error fetching region data:', error);
+		});
 
 	getTopo(DataPaths.TOPO_DATA, 'states').then((geo) => {
 		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
 		geojson = geo;
 	});
 
+	// Assume you have loaded your CSV data here
+	let busgeldData = [
+		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55, color: 'blue' },
+		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60, color: 'blue' },
+		{ type: 'öpnv', category: 'Schwarzfahren', amount: 60, color: 'green' },
+		{
+			type: 'auto',
+			category: 'Einbahn­straße in falscher Rich­tung befahren',
+			amount: 20,
+			color: 'red'
+		},
+		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: 'red' }
+	];
 </script>
 
 <LogoHeader filled={true} center={true} />
@@ -178,6 +194,24 @@
 		about this cool scrolly molly.
 	</p>
 </Section>
+<Divider />
+
+<Media col="medium" caption="Source: ONS mid-year population estimates.">
+	<div class="chart-sml">
+		<BarChart
+			data={[...busgeldData].sort((a, b) => a.amount - b.amount)}
+			xKey="amount"
+			yKey="category"
+			snapTicks={false}
+			xSuffix="€"
+			height={350}
+			padding={{ top: 0, bottom: 15, left: 140, right: 0 }}
+			area={false}
+			title="Bußgeldkatalog"
+		/>
+	</div>
+</Media>
+<Divider />
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
@@ -213,7 +247,9 @@
 							>
 								<MapTooltip
 									content={hovered
-										? `${regionData.metadata.region.lookup[hovered].name}<br/><strong>${regionData.data.region.indicators
+										? `${
+												regionData.metadata.region.lookup[hovered].name
+										  }<br/><strong>${regionData.data.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} ${units[mapKey]}</strong>`
 										: ''}
@@ -339,8 +375,8 @@
 		<div slot="background">
 			<figure>
 				<div class="col-wide height-full">
-						<div class="chart">
-							<!-- <ScatterChart
+					<div class="chart">
+						<!-- <ScatterChart
 								height="calc(100vh - 150px)"
 								data={data.district.indicators.map(d => ({...d, parent_name: metadata.region.lookup[d.parent].name}))}
 								colors={explore ? ['lightgrey'] : colors.cat}
@@ -356,17 +392,24 @@
 								highlighted={explore ? chartHighlighted : []}
 								colorSelect="#206095" colorHighlight="#999" overlayFill
 								{animation}/> -->
-								<ScrollingChart
-									data={regionData.data.region.timeseries}
-									xKey="year" yKey="value" zKey="code"
-									color="lightgrey"
-									lineWidth={1} xTicks={2} snapTicks={false}
-									yFormatTick={d => (d / 1e6)} ySuffix="m"
-									height={200} padding={{top: 0, bottom: 20, left: 30, right: 15}}
-									selected={regionData.data.region.code}
-									area={false} title={regionData.data.region.name}
-								/>
-						</div>
+						<ScrollingChart
+							data={regionData.data.region.timeseries}
+							xKey="year"
+							yKey="value"
+							zKey="code"
+							color="lightgrey"
+							lineWidth={1}
+							xTicks={2}
+							snapTicks={false}
+							yFormatTick={(d) => d / 1e6}
+							ySuffix="m"
+							height={200}
+							padding={{ top: 0, bottom: 20, left: 30, right: 15 }}
+							selected={regionData.data.region.code}
+							area={false}
+							title={regionData.data.region.name}
+						/>
+					</div>
 				</div>
 			</figure>
 		</div>
@@ -375,7 +418,8 @@
 			<section data-id="chart01">
 				<div class="col-medium">
 					<p>
-						This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+						This chart shows the <strong>area in square kilometres</strong> of each local authority district
+						in the UK. Each circle represents one district. The scale is logarithmic.
 					</p>
 				</div>
 			</section>
@@ -396,14 +440,18 @@
 			<section data-id="chart04">
 				<div class="col-medium">
 					<p>
-						The colour of each circle shows the <strong>part of the country</strong> that the district is within.
+						The colour of each circle shows the <strong>part of the country</strong> that the district
+						is within.
 					</p>
 				</div>
 			</section>
 			<section data-id="chart05">
 				<div class="col-medium">
 					<h3>Select a district</h3>
-					<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
+					<p>
+						Use the selection box below or click on the chart to select a district. The chart will
+						also highlight the other districts in the same part of the country.
+					</p>
 					{#if geojson}
 						<p>
 							<!-- svelte-ignore a11y-no-onchange -->
@@ -422,7 +470,6 @@
 		</div>
 	</Scroller>
 {/if}
-
 
 <Footer />
 
