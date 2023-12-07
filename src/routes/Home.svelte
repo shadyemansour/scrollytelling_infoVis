@@ -13,17 +13,14 @@
 	import Em from '../ui/Em.svelte';
 	import { getRegionData } from '../helpers/getRegionData.js';
 	import DataPaths from '../utils/constants.js';
-
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
 	import { getTopo, getColor } from '../utils.js';
 	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
-	import ScrollingChart from '../layout/ScrollingChart.svelte';
-	import HorizontalBarChart from '../layout/HorizontalBarChart.svelte';
-	import Media from '../layout/Media.svelte';
+	import Barcharts from '../layout/AnimatedBarChart.svelte';
 
-	import { ScatterChart, LineChart, BarChart } from '@onsvisual/svelte-charts';
+	// import { ScatterChart, LineChart, BarChart } from '@onsvisual/svelte-charts';
 
 	// Config
 	const threshold = 0.8;
@@ -53,6 +50,7 @@
 	let mapKey = 'density'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'inferno'; // Changes the color of map
+	let currentBarChart =  '';
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -160,17 +158,29 @@
 
 	// Assume you have loaded your CSV data here
 	let busgeldData = [
-		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55, color: 'blue' },
-		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60, color: 'blue' },
-		{ type: 'öpnv', category: 'Schwarzfahren', amount: 60, color: 'green' },
-		{
-			type: 'auto',
-			category: 'Einbahn­straße in falscher Rich­tung befahren',
-			amount: 20,
-			color: 'red'
-		},
+		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: 'blue' },
+		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60.0, color: 'blue' },
+		{ type: 'öpnv', category: 'Schwarzfahren', amount: 60.0, color: 'green' },
+		{type: 'auto', category: 'Einbahn­straße in falscher Rich­tung befahren', amount: 20.0, color: 'red'},
 		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: 'red' }
 	];
+	busgeldData = busgeldData.sort((a, b) => a.amount - b.amount)
+	busgeldData = busgeldData.map(d => ({ ...d, amount: Number(d.amount) }));
+
+	let bussDatafiltered = [];
+
+	$: if (id['barChart'] && currentBarChart !== id['barChart']) {
+		currentBarChart = id['barChart'];
+		updateBarChartData(busgeldData, id['barChart']);
+	}
+	function updateBarChartData(busgeldData, chartId) {
+		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
+		bussDatafiltered = busgeldData.slice(0, trigger);
+
+		 console.log('Updated Bar Chart Data:', bussDatafiltered);
+	}  
+	
+
 </script>
 
 <LogoHeader filled={true} center={true} />
@@ -186,7 +196,6 @@
 </Header>
 
 <Divider />
-
 <Section>
 	<h2>This is Deutschland</h2>
 	<p class="mb">
@@ -196,22 +205,7 @@
 </Section>
 <Divider />
 
-<Media col="medium" caption="Source: ONS mid-year population estimates.">
-	<div class="chart-sml">
-		<BarChart
-			data={[...busgeldData].sort((a, b) => a.amount - b.amount)}
-			xKey="amount"
-			yKey="category"
-			snapTicks={false}
-			xSuffix="€"
-			height={350}
-			padding={{ top: 0, bottom: 15, left: 140, right: 0 }}
-			area={false}
-			title="Bußgeldkatalog"
-		/>
-	</div>
-</Media>
-<Divider />
+
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
@@ -347,75 +341,42 @@
 					{/if}
 				</div>
 			</section>
-			<section data-id="test">
-				<div class="col-medium">
-					<h3>Fläche des Bundeslandes</h3>
-					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
-				</div>
-			</section>
 		</div>
 	</Scroller>
-{/if}
+{/if} 
+
+<Divider />
+
+<Section>
+	<h2>This is a fancy barchart</h2>
+	<p>
+		This is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
+	</p>
+</Section>
 
 {#if geojson && regionData.data.region.indicators}
-	<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+	<Scroller {threshold} bind:id={id['barChart']} splitscreen={true}>
 		<div slot="background">
 			<figure>
 				<div class="col-wide height-full">
-					<div class="chart">
-						<!-- <ScatterChart
-								height="calc(100vh - 150px)"
-								data={data.district.indicators.map(d => ({...d, parent_name: metadata.region.lookup[d.parent].name}))}
-								colors={explore ? ['lightgrey'] : colors.cat}
-								{xKey} {yKey} {zKey} {rKey} idKey="code" labelKey="name"
-								r={[3,10]}
-								xScale="log"
-								xTicks={[10, 100, 1000, 10000]} xFormatTick={d => d.toLocaleString()}
-								xSuffix=" sq.km"
-								yFormatTick={d => d.toLocaleString()}
-								legend={zKey != null} labels
-								select={explore} selected={explore ? selected : null} on:select={doSelect}
-								hover {hovered} on:hover={doHover}
-								highlighted={explore ? chartHighlighted : []}
-								colorSelect="#206095" colorHighlight="#999" overlayFill
-								{animation}/> -->
-						<ScrollingChart
-							data={regionData.data.region.timeseries}
-							xKey="year"
-							yKey="value"
-							zKey="code"
-							color="lightgrey"
-							lineWidth={1}
-							xTicks={2}
-							snapTicks={false}
-							yFormatTick={(d) => d / 1e6}
-							ySuffix="m"
-							height={200}
-							padding={{ top: 0, bottom: 20, left: 30, right: 15 }}
-							selected={regionData.data.region.code}
-							area={false}
-							title={regionData.data.region.name}
-						/>
+					<div class="chart" style="width: 100%; height: 100%;">
+
+								<Barcharts
+								data={bussDatafiltered}
+								xKey="amount"
+								yKey="category"
+								xSuffix="€"
+								title="Bußgeldkatalog"
+								source="a nice source"
+							/>
+
 					</div>
 				</div>
 			</figure>
 		</div>
 
 		<div slot="foreground">
-			<section data-id="chart01">
+			<section data-id="barChart01">
 				<div class="col-medium">
 					<p>
 						This chart shows the <strong>area in square kilometres</strong> of each local authority district
@@ -423,21 +384,21 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="chart02">
+			<section data-id="barChart02">
 				<div class="col-medium">
 					<p>
 						The radius of each circle shows the <strong>total population</strong> of the district.
 					</p>
 				</div>
 			</section>
-			<section data-id="chart03">
+			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
 						The vertical axis shows the <strong>density</strong> of the district in people per hectare.
 					</p>
 				</div>
 			</section>
-			<section data-id="chart04">
+			<section data-id="barChart04">
 				<div class="col-medium">
 					<p>
 						The colour of each circle shows the <strong>part of the country</strong> that the district
@@ -445,26 +406,11 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="chart05">
+			<section data-id="barChart05">
 				<div class="col-medium">
-					<h3>Select a district</h3>
 					<p>
-						Use the selection box below or click on the chart to select a district. The chart will
-						also highlight the other districts in the same part of the country.
+						We're done
 					</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
 				</div>
 			</section>
 		</div>

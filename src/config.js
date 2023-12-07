@@ -1,4 +1,4 @@
-import { trspWhite, trspBlack, brand, iconColors} from "./styles.js";
+import { trspWhite, trspBlack, brand, car, bike, oepnv , iconColors} from "./styles.js";
 // CORE CONFIG
 
 export const themes = {

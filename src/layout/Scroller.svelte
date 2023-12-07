@@ -149,7 +149,6 @@
 		
 
 		const available_space = bottom_px - top_px;
-		console.log(available_space); // ca 674 px 
 		progress = (top_px - fg.top) / (foreground_height - available_space);
 
 		if (progress <= 0) {
