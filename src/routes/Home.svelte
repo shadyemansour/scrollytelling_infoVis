@@ -160,12 +160,10 @@
 	let busgeldData = [
 		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: 'blue' },
 		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60.0, color: 'blue' },
-		{ type: 'öpnv', category: 'Schwarzfahren', amount: 60.0, color: 'green' },
+		{ type: 'oepnv', category: 'Schwarzfahren', amount: 60.0, color: 'green' },
 		{type: 'auto', category: 'Einbahn­straße in falscher Rich­tung befahren', amount: 20.0, color: 'red'},
 		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: 'red' }
 	];
-	busgeldData = busgeldData.sort((a, b) => a.amount - b.amount)
-	busgeldData = busgeldData.map(d => ({ ...d, amount: Number(d.amount) }));
 
 	let bussDatafiltered = [];
 
@@ -175,7 +173,15 @@
 	}
 	function updateBarChartData(busgeldData, chartId) {
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
-		bussDatafiltered = busgeldData.slice(0, trigger);
+		console.log(trigger)
+		switch (trigger){
+			case 1 : bussDatafiltered = busgeldData.filter(d => d.type === 'fahrrad'); break;
+			case 2 : bussDatafiltered = busgeldData.filter(d => ['fahrrad', 'auto'].includes(d.type)); break;
+			case 3 : bussDatafiltered = busgeldData.filter(d =>['fahrrad', 'auto', 'oepnv'].includes(d.type)); break;
+			default : bussDatafiltered = []; break;
+
+		}
+		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
 
 		 console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}  
@@ -379,37 +385,21 @@
 			<section data-id="barChart01">
 				<div class="col-medium">
 					<p>
-						This chart shows the <strong>area in square kilometres</strong> of each local authority district
-						in the UK. Each circle represents one district. The scale is logarithmic.
+						This chart shows the fines for <strong>Bikes</strong>!
 					</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
 					<p>
-						The radius of each circle shows the <strong>total population</strong> of the district.
+						This chart shows the fines for <strong>Cars</strong>!
 					</p>
 				</div>
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						The vertical axis shows the <strong>density</strong> of the district in people per hectare.
-					</p>
-				</div>
-			</section>
-			<section data-id="barChart04">
-				<div class="col-medium">
-					<p>
-						The colour of each circle shows the <strong>part of the country</strong> that the district
-						is within.
-					</p>
-				</div>
-			</section>
-			<section data-id="barChart05">
-				<div class="col-medium">
-					<p>
-						We're done
+						This chart shows the fines for <strong>Oepnv</strong>!
 					</p>
 				</div>
 			</section>
