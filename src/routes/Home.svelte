@@ -22,8 +22,6 @@
 	import { colors, units } from '../config.js';
 	// import { ScatterChart, LineChart, BarChart } from "@onsvisual/svelte-charts";
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
-	import {LineChart} from "@onsvisual/svelte-charts";
-
 
 	// CORE CONFIG (COLOUR THEMES)
 	// Set theme globally (options are 'light', 'dark' or 'lightblue')
@@ -65,21 +63,10 @@
 	let selected; // Selected district (chart or map)
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapColor = 'inferno'; // Changes the color of map
-	let xKey = null; // xKey for scatter chart
-	let yKey = null; // yKey for scatter chart
-	let zKey = null; // zKey (color) for scatter chart
 	let mapKey = "density"; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
-	let filteredData = [];
 	let trigger = -1;
-
-	// $: if (actions.chart && data_ver.timeseries && id['chart']) {
-	// 	updateChartData(data_ver.timeseries, id['chart']);
-	// }
-
-	$: if (data_ver.timeseries) {
-    setActions(data_ver.timeseries);
-	}
+	let currentLineChart='';
 
 	var actions ={
 			map: {
@@ -119,13 +106,6 @@
 			}
 		}
 	}
-	const yearRanges = {
-    chart01: { start: 2001, end: 2004 },
-    chart02: { start: 2005, end: 2008 },
-    chart03: { start: 2009, end: 2012 },
-    chart04: { start: 2013, end: 2016 },
-    chart05: { start: 2017, end: 2020 }
-};
 
 
 
@@ -273,7 +253,6 @@
 				});
 			});
 			data_ver.timeseries = timeseries;
-			updateChartData(timeseries, 'chart01');		
 		})
 		.catch((error) => {
 			console.error('Error loading or processing data:', error);
@@ -282,56 +261,11 @@
 
 
 
-		// Actions for Scroller components
-	function setActions(timeseries)  {
-		actions.chart = {
-			chart01: () => {
-				updateChartData(timeseries, 'chart01');
-				xKey = "year";
-				yKey = "value";
-				zKey = "code";
-				explore = false;
-			},
-			chart02: () => {
-				updateChartData(timeseries, 'chart02');
-				xKey = "year";
-				yKey = "value";
-				zKey = "code";
-				explore = false;
-			},
-			chart03: () => {
-				updateChartData(timeseries, 'chart03');
-				xKey = "year";
-				yKey = "value";
-				zKey = "code";
-				explore = false;
-			},
-			chart04: () => {
-				updateChartData(timeseries, 'chart04');
-				xKey = "year";
-				yKey = "value";
-				zKey = "code";
-				explore = false;
-			},
-			chart05: () => {
-				updateChartData(timeseries, 'chart05');
-				xKey = "year";
-				yKey = "value";
-				zKey = "code";
-				explore = true;
-			}
-		}
+	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
+		currentLineChart = id['lineChart'];
+		console.log(trigger)
+		trigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10)
 	}
-	
-	function updateChartData(timeseries, chartId) {
-    const range = yearRanges[chartId];
-    filteredData = timeseries.filter(d => d.year <= range.end);
-	trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
-    // Trigger reactivity in Svelte
-    filteredData = [...filteredData];
-	console.log(filteredData);
-}                                                                                                                                                                                                                                
-	
 
     
 </script>
@@ -359,23 +293,12 @@
 
 <Divider />
 
-<Scroller {threshold} bind:id={id['chart']} splitscreen={true}>
+<Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
 	<div slot="background">
 		<figure>
 			<div class="col-wide height-full">
 					{#if data_ver.timeseries}
 					<div class="chart">
-					<!-- <LineChart
-						data={filteredData}
-						padding={{left: 50, right: 150, top: 0, bottom: 0}}
-						height="500px"
-						xKey = "year"  yKey = "value" zKey = "code"
-						colors={['black','red','blue']} lineWidth={3}
-						yFormatTick={d => (d/1e6).toFixed(1)} ySuffix="m"
-						select={explore} selected={explore ? selected : null} on:select={doSelect}
-						colorSelect="#206095" colorHighlight="#999"
-						area={false} title="Fancy Bancy Line Chart"
-						{animation}/> -->
 						<LineChartRace rawData={data_ver.timeseries} animationStep={trigger}/>
 					</div>
 					{/if}
@@ -384,51 +307,37 @@
 	</div>
 
 	<div slot="foreground">
-		<section data-id="chart01">
+		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
 					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
 				</p>
 			</div>
 		</section>
-		<section data-id="chart02">
+		<section data-id="lineChart02">
 			<div class="col-medium">
 				<p>
 					The radius of each circle shows the <strong>total population</strong> of the district.
 				</p>
 			</div>
 		</section>
-		<section data-id="chart03">
+		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
 					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
 				</p>
 			</div>
 		</section>
-		<section data-id="chart04">
+		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
 					The colour of each circle shows the <strong>part of the country</strong> that the district is within.
 				</p>
 			</div>
 		</section>
-		<section data-id="chart05">
+		<section data-id="lineChart05">
 			<div class="col-medium">
-				<h3>Select a district</h3>
-				<p>Use the selection box below or click on the chart to select a district. The chart will also highlight the other districts in the same part of the country.</p>
-				{#if geojson}
-					<p>
-						<!-- svelte-ignore a11y-no-onchange -->
-						<select bind:value={selected}>
-							<option value={null}>Select one</option>
-							{#each geojson.features as place}
-								<option value={place.properties.AREACD}>
-									{place.properties.AREANM}
-								</option>
-							{/each}
-						</select>
-					</p>
-				{/if}
+				<h3>The End</h3>
 			</div>
 		</section>
 	</div>
