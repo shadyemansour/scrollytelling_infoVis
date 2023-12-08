@@ -2,6 +2,9 @@ class DataPaths {
     static get REGION_DATA() {
       return './data/data_region.csv';
     }
+    static get VERKEHR_DATA() {
+      return './data/data_verkehr.csv';
+    }
   
     static get TOPO_DATA() {
       return './data/1_sehr_hoch_topo.json';
