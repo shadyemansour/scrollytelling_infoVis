@@ -149,7 +149,6 @@
       
       // Determine the direction of animation
       let previousLength = lastLengths[series.name] || 0;
-      // console.log(series.name, lastLengths, totalLength)
       const isForward = totalLength > previousLength;
       
 
@@ -165,11 +164,9 @@
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
-      //console.log(`Step: ${step}, Previous Length: ${previousLength}, Total Length: ${totalLength}`);
 
       // Set up the initial conditions for the animation
       if (isForward) {
-        // console.log(step +' forward, prev. length:'+ previousLength + '  totalLength: '+ totalLength)
         
         path
           .attr("stroke-dasharray", maxLength)
@@ -184,10 +181,6 @@
           });
         
       } else {
-        // console.log(step +' backwards, prev. length:'+ previousLength+'  totalLength: '+ totalLength)
-        // console.log((previousLength - totalLength));
-        // console.log(totalLength - (previousLength - totalLength));
-        // console.log(series);
         path
           .attr("stroke-dasharray", maxLength)
           .attr("stroke-dashoffset", maxLength - previousLength)
@@ -197,7 +190,6 @@
           return t => {
 
             const currentLength =  previousLength  - (previousLength - totalLength) * t;
-            console.log(currentLength)
             const point = path.node().getPointAtLength(currentLength);
             circles[series.name].attr("cx", point.x).attr("cy", point.y);
           };
@@ -210,15 +202,6 @@
   }
 
   function getYearLimit(step) {
-    // Define how the step translates to a year
-    const yearRanges = {
-    chart01: { start: 2001, end: 2004 },
-    chart02: { start: 2005, end: 2008 },
-    chart03: { start: 2009, end: 2012 },
-    chart04: { start: 2013, end: 2016 },
-    chart05: { start: 2017, end: 2020 }
-};
-
     switch (step) {
       case 1: return new Date(2004, 0, 1);
       case 2: return new Date(2008, 0, 1);
