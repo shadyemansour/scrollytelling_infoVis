@@ -12,6 +12,7 @@
 	import Arrow from '../ui/Arrow.svelte';
 	import Em from '../ui/Em.svelte';
 	import { getRegionData } from '../helpers/getRegionData.js';
+	import { getVerkehrData } from '../helpers/getVerkehrData.js';
 	import DataPaths from '../utils/constants.js';
 	// DEMO-SPECIFIC IMPORTS
 	import bbox from '@turf/bbox';
@@ -19,8 +20,8 @@
 	import { units } from '../config.js';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import Barcharts from '../layout/AnimatedBarChart.svelte';
+	import  LineChartRace  from '../layout/LineChartRace.svelte';
 
-	// import { ScatterChart, LineChart, BarChart } from '@onsvisual/svelte-charts';
 
 	// Config
 	const threshold = 0.8;
@@ -39,6 +40,7 @@
 		[5, 47.3],
 		[15, 55.2]
 	];
+	let verkehrData;
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -51,6 +53,8 @@
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'inferno'; // Changes the color of map
 	let currentBarChart =  '';
+	let lineChartTrigger = -1;
+	let currentLineChart='';
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -156,6 +160,13 @@
 		geojson = geo;
 	});
 
+	getVerkehrData().then((loadedVerkehrData) => {
+		verkehrData = loadedVerkehrData;
+		})
+		.catch((error) => {
+			console.error('Error fetching region data:', error);
+		});
+
 	// Assume you have loaded your CSV data here
 	let busgeldData = [
 		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: 'blue' },
@@ -171,9 +182,9 @@
 		currentBarChart = id['barChart'];
 		updateBarChartData(busgeldData, id['barChart']);
 	}
+
 	function updateBarChartData(busgeldData, chartId) {
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
-		console.log(trigger)
 		switch (trigger){
 			case 1 : bussDatafiltered = busgeldData.filter(d => d.type === 'fahrrad'); break;
 			case 2 : bussDatafiltered = busgeldData.filter(d => ['fahrrad', 'auto'].includes(d.type)); break;
@@ -185,7 +196,16 @@
 
 		 console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}  
-	
+
+
+
+
+	//linechart
+	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
+		currentLineChart = id['lineChart'];
+		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10)
+	}
+		
 
 </script>
 
@@ -202,6 +222,7 @@
 </Header>
 
 <Divider />
+
 <Section>
 	<h2>This is Deutschland</h2>
 	<p class="mb">
@@ -354,11 +375,75 @@
 <Divider />
 
 <Section>
+	<h2>This is a fery fancy line chart that's still not working</h2>
+	<p class="mb">
+		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works). 
+	</p>
+</Section>
+
+<Divider />
+
+<Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
+	<div slot="background">
+		<figure>
+			<div class="col-wide height-full">
+					{#if verkehrData}
+					<div class="chart">
+						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger}/>
+					</div>
+					{/if}
+			</div>
+		</figure>
+	</div>
+
+	<div slot="foreground">
+		<section data-id="lineChart01">
+			<div class="col-medium">
+				<p>
+					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart02">
+			<div class="col-medium">
+				<p>
+					The radius of each circle shows the <strong>total population</strong> of the district.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart03">
+			<div class="col-medium">
+				<p>
+					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart04">
+			<div class="col-medium">
+				<p>
+					The colour of each circle shows the <strong>part of the country</strong> that the district is within.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart05">
+			<div class="col-medium">
+				<h3>The End</h3>
+			</div>
+		</section>
+	</div>
+</Scroller>
+
+
+<Divider />
+
+<Section>
 	<h2>This is a fancy barchart</h2>
 	<p>
 		This is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
 	</p>
 </Section>
+
+<Divider />
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['barChart']} splitscreen={true}>
