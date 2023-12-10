@@ -4,6 +4,8 @@
 	import AboutCard from '../layout/AboutCard.svelte';
 	import Arrow from '../ui/Arrow.svelte';
 
+	let animation = false;
+
 	const cards = [
 		{
 			imageUrl: './img/avatar/1.png',
@@ -37,27 +39,38 @@
 		}
 	];
 </script>
-
+<div>
+<div style= "margin-left: 50px;">
 <h1>About Us</h1>
-<div class= "arrow-style">
-	<Arrow color="black" ></Arrow>
 </div>
+<p><i class="arrow left"></i></p>
 <div class="card-container">
 	{#each cards as { imageUrl, name, description, index }}
 		<AboutCard {imageUrl} {name} {description} key={index} />
 	{/each}
 </div>
+</div>
 
 <style>
+	
 	.card-container {
-		display: flex;
-		justify-content: space-between;
-	}
-	.arrow-style{
+	display: flex;
+	justify-content: space-between;
+}
+	.arrow {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  height: 15px;
+  width: 15px;
+  display: inline-block;
+  margin-left: 55px;
+}
 
-		margin-left: 50px ;
-		margin-bottom: 10px;
-	}
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
 
 </style>
 

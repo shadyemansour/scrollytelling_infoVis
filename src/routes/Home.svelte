@@ -217,7 +217,7 @@
 		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
 	</p>
 	<div style="margin-top: 90px;">
-		<Arrow color="white" {animation}></Arrow>
+		<Arrow color = "white" {animation}></Arrow>
 	</div>
 </Header>
 
