@@ -2,6 +2,7 @@
 
 <script>
 	import AboutCard from '../layout/AboutCard.svelte';
+	import Arrow from '../ui/Arrow.svelte';
 
 	const cards = [
 		{
@@ -38,7 +39,9 @@
 </script>
 
 <h1>About Us</h1>
-
+<div class= "arrow-style">
+	<Arrow color="black" ></Arrow>
+</div>
 <div class="card-container">
 	{#each cards as { imageUrl, name, description, index }}
 		<AboutCard {imageUrl} {name} {description} key={index} />
@@ -50,4 +53,11 @@
 		display: flex;
 		justify-content: space-between;
 	}
+	.arrow-style{
+
+		margin-left: 50px ;
+		margin-bottom: 10px;
+	}
+
 </style>
+
