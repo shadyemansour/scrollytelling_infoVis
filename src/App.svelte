@@ -10,4 +10,5 @@
 <Router>
 	<Route path="/" component={startingSite} />
 	<Route path="/aboutus" component={About} />
+	<Route path="/home" component={Home} />
 </Router>
