@@ -59,7 +59,7 @@
 }
 	.arrow {
   border: solid black;
-  border-width: 0 3px 3px 0;
+  border-width: 0 6px 6px 0;
   height: 15px;
   width: 15px;
   display: inline-block;

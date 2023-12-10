@@ -43,9 +43,7 @@
 		-webkit-animation-timing-function: ease;
 		animation-timing-function: ease;
 	}
-	.rotate{
-		rotate: 45deg;
-	}
+	
 	@-webkit-keyframes bounce {
 		0% {
 			-webkit-transform: translateY(0px);
