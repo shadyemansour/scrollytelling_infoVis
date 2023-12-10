@@ -2,7 +2,9 @@
 <script>
     import AboutCard from '../layout/AboutCard.svelte';
 	import { link } from "svelte-routing";
-	import About from '../routes/About.svelte';
+	import { themes } from '../config.js';
+
+	
 	
 	const cards = [
         {
@@ -43,8 +45,13 @@
 
   </script>
   <div>
+
+	<div class="header">
+		<h1>Meet the team</h1>
+		<p>We are a group of students from LMU Munich</p>
+	  </div> 
+
     <div style="margin-left: 50px;">
-      <h1>About Us</h1>
     </div>
     <div use:link>
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -55,6 +62,12 @@
         <AboutCard {imageUrl} {name} {description} key={index} />
       {/each}
     </div>
+	<footer style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral']['pale']}; height: 150px">
+		<div class="col-wide" data-analytics="footer">
+			
+			<p style="color: {themes['neutral']['text-dark']['teritary']};"></p>
+	</footer>
+	
   </div>
   
   <style>
@@ -71,8 +84,18 @@
       display: inline-block;
       margin-left: 55px;
       cursor: pointer;
+	  margin-top: 80px;
+	  margin-bottom: 50px;
     }
-  
+	.header {
+
+	padding: 60px;
+	text-align: center;
+	background: #1abc9c;
+	color: white;
+	font-size: 30px;
+	}
+
     .left {
       transform: rotate(135deg);
       -webkit-transform: rotate(135deg);
