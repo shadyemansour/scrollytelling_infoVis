@@ -1,6 +1,8 @@
 <script>
 	// CORE IMPORTS
 	import { setContext, onMount } from 'svelte';
+	import bbox from '@turf/bbox';
+	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
 	import { themes } from '../config.js';
 	import LogoHeader from '../layout/LogoHeader.svelte';
@@ -15,12 +17,14 @@
 	import { getVerkehrData } from '../helpers/getVerkehrData.js';
 	import DataPaths from '../utils/constants.js';
 	// DEMO-SPECIFIC IMPORTS
-	import bbox from '@turf/bbox';
 	import { getTopo, getColor } from '../utils.js';
 	import { units } from '../config.js';
-	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import Barcharts from '../layout/AnimatedBarChart.svelte';
 	import  LineChartRace  from '../layout/LineChartRace.svelte';
+	import Bike from '../ui/Bike.svelte';
+	import Car from '../ui/Car.svelte';
+	import Oepnv from '../ui/Oepnv.svelte';
+
 
 
 	// Config
@@ -51,7 +55,7 @@
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = 'density'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
-	let mapColor = 'inferno'; // Changes the color of map
+	let mapColor = 'inferno'; // Changes the default color of map
 	let currentBarChart =  '';
 	let lineChartTrigger = -1;
 	let currentLineChart='';
@@ -169,11 +173,11 @@
 
 	// Assume you have loaded your CSV data here
 	let busgeldData = [
-		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: 'blue' },
-		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60.0, color: 'blue' },
-		{ type: 'oepnv', category: 'Schwarzfahren', amount: 60.0, color: 'green' },
-		{type: 'auto', category: 'Einbahn­straße in falscher Rich­tung befahren', amount: 20.0, color: 'red'},
-		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: 'red' }
+		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: themes.bike.primary },
+		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60.0, color: themes.bike.primary },
+		{ type: 'oepnv', category: 'Schwarzfahren', amount: 60.0, color: themes.oepnv.primary },
+		{ type: 'auto', category: 'Einbahn­straße in falscher Rich­tung befahren', amount: 20.0, color: themes.car.primary},
+		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: themes.car.primary }
 	];
 
 	let bussDatafiltered = [];
@@ -381,7 +385,6 @@
 	</p>
 </Section>
 
-<Divider />
 
 <Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
 	<div slot="background">
@@ -399,6 +402,18 @@
 	<div slot="foreground">
 		<section data-id="lineChart01">
 			<div class="col-medium">
+				<div class="icon-heading">
+					<div class="icon-background" style="background-color: {themes.bike.teritary};">
+						<Bike size="40" color={themes.bike.primary}/>
+					</div>
+					<div class="icon-background" style="background-color: {themes.car.teritary};">
+						<Car size="40" color={themes.car.primary}/>
+					</div>
+					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
+						<Oepnv size="40" color={themes.oepnv.primary}/>
+					</div>
+					<h2>Fahrräder</h2>
+				</div>
 				<p>
 					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
 				</p>
@@ -437,13 +452,12 @@
 <Divider />
 
 <Section>
-	<h2>This is a fancy barchart</h2>
+	<h2>Bußgeldkatalog</h2>
 	<p>
+		Die Busgelder für die einzelnen Vergehen der Verkehrmittel zeigen deutliche unterschiede.
 		This is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
 	</p>
 </Section>
-
-<Divider />
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['barChart']} splitscreen={true}>
@@ -456,9 +470,10 @@
 								data={bussDatafiltered}
 								xKey="amount"
 								yKey="category"
-								xSuffix="€"
+								xSuffix=" €"
 								title="Bußgeldkatalog"
 								source="a nice source"
+								xTicks=0
 							/>
 
 					</div>
@@ -469,22 +484,40 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
+					<div style="color: {themes.bike.primary};" class="icon-heading">
+						<div class="icon-background" style="background-color: {themes.bike.teritary};">
+							<Bike size="40"/>
+						</div>
+						<h2>Fahrräder</h2>
+					</div>
 					<p>
-						This chart shows the fines for <strong>Bikes</strong>!
+						Die Busßgelder für <strong style="color: {themes.bike.primary};">Bikes</strong> sind ziemlich hoch!
 					</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
+					<div style="color: {themes.car.primary};" class="icon-heading">
+						<div class="icon-background" style="background-color: {themes.car.teritary};">
+							<Car size="40"/>
+						</div>
+						<h2 style="color: {themes.car.primary};">Autos</h2>
+					</div>
 					<p>
-						This chart shows the fines for <strong>Cars</strong>!
+						This chart shows the fines for <strong style="color: {themes.car.primary};">Cars</strong>!
 					</p>
 				</div>
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
+					<div style="color: {themes.oepnv.primary};" class="icon-heading">
+					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
+						<Oepnv size="40"/>
+					</div>
+					<h2 style="color: {themes.oepnv.primary};">Öffentliche Verkehrmittel</h2>
+				</div>
 					<p>
-						This chart shows the fines for <strong>Oepnv</strong>!
+						This chart shows the fines for <strong style="color: {themes.oepnv.primary};">Oepnv</strong>!
 					</p>
 				</div>
 			</section>
@@ -504,5 +537,25 @@
 	}
 	select {
 		max-width: 350px;
+	}
+
+	.chart{
+		height: 100%;
+	}
+
+	.icon-heading {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+    	flex-shrink: 0;
+		padding: 0px;
+		gap: 16px;
+	}
+
+	.icon-background {
+		border-radius: 8px;
+		padding: 6px;
+		width: 40px;
+		height: 40px;
 	}
 </style>

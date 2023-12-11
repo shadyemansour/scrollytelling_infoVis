@@ -1,4 +1,4 @@
-import {getData, getTopo, getColor } from '../utils.js';
+import {getData} from '../utils.js';
 import DataPaths from '../utils/constants.js';
 
 

@@ -1,13 +1,17 @@
 <script>
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
+	import { themes } from '../config';
 
   export let rawData = []; // Pass the raw data as a prop
   export let animationStep;
   let svg; // Reference to the SVG element
-  const margin = { top: 20, right: 26, bottom: 30, left: 100 };
+  const margin = { top: 20, right: 26, bottom: 30, left: 80 };
   export let width = 500 - margin.left - margin.right;
   export let height = 300 - margin.top - margin.bottom;
+  export let xTicks = 7;
+  export let yTicks = 6;
+
 
   let data; // This will hold the transformed data
   let xScale, yScale, xAxis, yAxis;
@@ -15,8 +19,7 @@
   let line;
   let inVisLine;
   let yearLimit;
-  let svgContainer;
-  let previousLengths = {};
+  let svgAxis;
   let lastLengths = {}; // Store the last length of each line
   let circles = {}; // Store references to circle elements
 
@@ -50,8 +53,8 @@
 
   
     function setupAxes() {
-      xAxis = d3.axisBottom(xScale).ticks(5);
-      yAxis = d3.axisLeft(yScale).ticks(5);
+      xAxis = d3.axisBottom(xScale).ticks(xTicks).tickSize(-height);
+      yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d3.format(".2s")).tickSize(-width);
   }
 
 
@@ -64,37 +67,59 @@
       .x(d => xScale(d.x))
       .y(d => yScale(d.y))
 
-    svgContainer = d3.select("#linechartrace")
+    d3.select("#linechartrace").attr("viewBox", `0 0 500 300`);
+
+    svgAxis
+     = d3.select("#linechartrace")
       .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+      .attr("transform", `translate(${margin.left},${margin.top})`)
+      
     
     // Add xAxis
-    svgContainer.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(xAxis);
+    svgAxis.append("g")
+      .attr("transform", `translate(0,${height})`) // Puts down x axis
+      .call(xAxis)
+      .selectAll("g text")
+      .style("fill", themes.neutral['text-dark'].primary)
+
+    svgAxis
+      .selectAll("g line")
+      .style("stroke", themes.neutral.chartLines);
+
+    svgAxis.select(".domain").remove();
+    
     // Add yAxis
-    svgContainer.append("g")
-      .call(yAxis);
+    svgAxis.append("g")
+    .call(yAxis)
+    .selectAll("g line")
+    .style("stroke", themes.neutral.chartLines);
+    
+    svgAxis.select(".domain").attr("d", "M394,250H0V0H"); // Vanishes top line on chart
+    svgAxis
+      .selectAll("g text")
+      .style("fill", themes.neutral['text-dark'].primary)
       
-          const inVisibleData = data.map(series => ({
-            ...series,
-            ys: series.ys
-          }));
-      
-          inVisibleData.forEach(series => {
-            let path = d3.select(svg).select(`path.${series.name+1}`);
-            const isNewPath = path.empty();
-      
-            if (isNewPath) {
-              path = d3.select("#linechartrace").append("path")
-                .attr("class", series.name+"1")
-                .attr("fill", "none")
-                .attr("stroke", "black")
-                .attr("stroke-width", 0)
-                .attr("transform", `translate(${margin.left},${margin.top})`)
-              }
-              path.datum(series.ys).attr("d", line);
-          });
+
+
+    const inVisibleData = data.map(series => ({
+      ...series,
+      ys: series.ys
+    }));
+
+    inVisibleData.forEach(series => {
+      let path = d3.select(svg).select(`path.${series.name+1}`);
+      const isNewPath = path.empty();
+
+      if (isNewPath) {
+        path = d3.select("#linechartrace").append("path")
+          .attr("class", series.name+"1")
+          .attr("fill", "none")
+          .attr("stroke", "black")
+          .attr("stroke-width", 0)
+          .attr("transform", `translate(${margin.left},${margin.top})`)
+        }
+        path.datum(series.ys).attr("d", line);
+    });
 
 
     const visibleData = data.map(series => ({
@@ -109,8 +134,7 @@
           .attr("class", series.name)
           .attr("fill", "none")
           .attr("stroke", series.color)
-          .attr("stroke-linecap", "round")
-          .attr("stroke-width", 1.5)
+          .attr("stroke-width", 2)
           .attr("transform", `translate(${margin.left},${margin.top})`)
       
         path.datum(series.ys).attr("d", line);
@@ -119,15 +143,7 @@
 
 
   function updateChart(step) {
-    // const newYearLimit = getYearLimit(step);
-    // let isForward = true;
-    // if (yearLimit && newYearLimit < yearLimit){
-    //   isForward = false;
-    //   yearLimit = getYearLimit(step+1)
-    // } else {
-      //   yearLimit = getYearLimit(step);
-      //   isForward = true;
-      // }
+
     yearLimit = getYearLimit(step);
       
     
@@ -219,17 +235,17 @@
       {
         name: 'Fahrrad',
         ys: transformData(rawData, 'FA'),
-        color: 'blue'
+        color: themes.bike.primary
       },
       {
         name: 'Auto',
         ys: transformData(rawData, 'AUT'),
-        color: 'red'
+        color: themes.car.primary
       },
       {
         name: 'Oeffis',
         ys: transformData(rawData, 'OEF'),
-        color: 'green'
+        color: themes.oepnv.primary
       }
     ];
   }
@@ -241,4 +257,22 @@
   }
 </script>
 
-<svg id="linechartrace" bind:this={svg} width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}></svg>
+<div>
+  <svg 
+  id="linechartrace" 
+  bind:this={svg} 
+  >
+  </svg>
+</div>
+
+<style>
+  div {
+    display: flex;        /* Enables Flexbox */
+    flex-direction: column; /* Stacks children vertically */
+    justify-content: center; /* Centers children along the main axis (vertically in this case) */
+    align-items: center;    /* Centers children along the cross axis (horizontally) */
+    width: 100%;
+    height: 100%;
+}
+
+</style>

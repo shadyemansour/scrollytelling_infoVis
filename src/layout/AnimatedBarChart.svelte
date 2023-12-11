@@ -2,14 +2,15 @@
 
 <script>
   import { onMount, onDestroy } from 'svelte';
+  import { themes } from "../config.js";
   import * as d3 from 'd3';
   
   export let data;
   export let height = 300;
-  export let width = 800;
+  export let width = 500;
   export let xKey = 'x';
   export let yKey = 'y';
-  export let xTicks = 4;
+  export let xTicks = 5;
   export let animationDuration = 500; // Duration of the animation in milliseconds
 
   export let padding = { top: 30, right: 30, bottom: 60, left: 160 };
@@ -24,8 +25,9 @@
 
   function handleResize(entries) {
     const entry = entries[0];
-    width = entry.contentRect.width;
-    height = entry.contentRect.height;
+    // width = entry.contentRect.width;
+    // height = entry.contentRect.height;
+    console.log(width, height);
     updateChart();
   }
 
@@ -49,10 +51,12 @@
   }
 
   function initializeChart() {
+
+    d3.select(svg).attr("viewBox", `0 0 500 300`);
     // Create SVG container
     chart = d3.select(svg)
-      .attr('width', width)
-      .attr('height', height)
+      // .attr('width', width)
+      // .attr('height', height)
       .append('g')
       .attr('transform', `translate(${padding.left},${padding.top})`);
 
@@ -77,12 +81,13 @@
     const xMaxValue = d3.max(data, d => d[xKey]) + 20;
     const xScale = d3.scaleLinear()
       .domain([0, xMaxValue])
-      .range([0, innerWidth]);
-
-    const yScale = d3.scaleBand()
+      .range([0, innerWidth])
+      
+      const yScale = d3.scaleBand()
       .domain(data.map(d => d[yKey]))
       .range([0, innerHeight])
-      .padding(0.1);
+      .padding(0.1)
+      //.attr('class', 'testi')
 
     // Bind data to groups (bars and labels)
     const barGroups = chart.selectAll('.bar-group')
@@ -102,14 +107,18 @@
       .attr('width', d => xScale(d[xKey]))
       .attr('height', yScale.bandwidth())
       .attr('fill', d => d.color); 
+      
     // Update labels
     barGroups.selectAll('.label')
       .data(d => [d]) // Pass parent data to children
       .join('text')
+      .style("font-size", "13px")
+      .style("fill", themes.neutral.text.primary)
+      .style("text-anchor", "end")
       .attr('class', 'label')
       .transition()
       .duration(animationDuration)
-      .attr('x', d => xScale(d[xKey]) + 5)
+      .attr('x', d => xScale(d[xKey]) - 10)
       .attr('y', yScale.bandwidth() / 2)
       .attr('dy', '.35em')
       .text(d => d[xKey]+ xSuffix);
@@ -141,11 +150,12 @@ let titleText = chart.selectAll('.chart-title').data([title]);
       .append("text")
       .attr('class', 'chart-title')
       .merge(titleText)
-      .attr("x", width / 2)
-      .attr("y", padding.top / 2)
-      .attr("text-anchor", "middle")
-      .style("font-size", "20px")
+      .attr("x", 0)
+      .attr("y", - padding.top/2)
+      .attr("text-anchor", "start")
+      .style("font-size", "14px")
       .style("font-weight", "bold")
+      .style("fill", themes.neutral['text-dark'].secondary)
       .text(title);
 
     titleText.exit().remove();
@@ -160,7 +170,7 @@ let titleText = chart.selectAll('.chart-title').data([title]);
       .attr("y", innerHeight + padding.bottom - 20) // Adjust this for positioning
       .attr("text-anchor", "left")
       .style("font-size", "12px")
-      .style("fill", "lightgrey")
+      .style("fill", themes.neutral['text-dark'].teritary)
       .text(source);
 
     sourceText.exit().remove();
@@ -201,5 +211,19 @@ let titleText = chart.selectAll('.chart-title').data([title]);
 
 </script>
 
-<svg bind:this={svg} style="width: 100%; height: 100%;"></svg>
+<div>
+  <svg bind:this={svg} ></svg>
+</div>
 
+
+<style>
+  div {
+    display: flex;        /* Enables Flexbox */
+    flex-direction: column; /* Stacks children vertically */
+    justify-content: center; /* Centers children along the main axis (vertically in this case) */
+    align-items: center;    /* Centers children along the cross axis (horizontally) */
+    width: 100%;
+    height: 100%;
+}
+
+</style>
