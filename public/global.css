@@ -274,7 +274,7 @@ svelte-scroller-background-container {
 
 [slot="foreground"] section div h2,
 [slot="foreground"] section div h3 {
-	margin: 10px 0 20px 0;
+	margin: 10px 0 10px 0;
 }
 
 @media (min-width: 992px) {

@@ -15,7 +15,8 @@ export const themes = {
     },
     'muted': '#777',
     'pale': '#f0f0f0',
-    'background': '#fff'
+    'background': '#fff',
+    'chartLines': trspBlack[50],
   },
   'brand': {
     'text': {
@@ -29,21 +30,21 @@ export const themes = {
 
     'primary': car[1000],
     'secondary': car[600],
-    'teritary': car[400],
+    'teritary': car[200],
   },
 
   'bike': {
 
     'primary': bike[1000],
     'secondary': bike[600],
-    'teritary': bike[400],
+    'teritary': bike[200],
   },
 
   'oepnv': {
   
     'primary': oepnv[1000],
     'secondary': oepnv[600],
-    'teritary': oepnv[400],
+    'teritary': oepnv[200],
   }
 }
 

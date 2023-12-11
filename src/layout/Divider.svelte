@@ -5,12 +5,12 @@
   export let hr = true;
 </script>
 
-<section style="color: {themes['neutral']['text']['secondary']}; background-color: {themes['neutral']['background']};">
+<section style="color: {themes['neutral']['text-dark']['teritary']}; background-color: {themes['neutral']['background']};">
 	<div class="col-medium">
     {#if hr}
-    <hr style="color: {themes['neutral']['muted']}"/>
+    <hr style="color: {themes['neutral']['text-dark']['teritary']}"/>
     {:else}
-    <hr style="color: {themes['neutral']['muted']}; border: none;"/>
+    <hr style="color: {themes['neutral']['text-dark']['teritary']}; border: none;"/>
     {/if}
 	</div>
 </section>
