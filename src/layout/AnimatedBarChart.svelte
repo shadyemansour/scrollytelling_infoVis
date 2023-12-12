@@ -27,7 +27,6 @@
     const entry = entries[0];
     // width = entry.contentRect.width;
     // height = entry.contentRect.height;
-    console.log(width, height);
     updateChart();
   }
 

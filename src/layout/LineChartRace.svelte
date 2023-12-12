@@ -40,14 +40,20 @@
   }
 
   function setupScales() {
+    let minDate = d3.min(data.flatMap(series => series.ys), d => d.x);
+    let maxDate = d3.max(data.flatMap(series => series.ys), d => d.x);
+
     xScale = d3.scaleTime()
-      .domain(d3.extent(data.flatMap(series => series.ys), d => d.x))
+      .domain([minDate, maxDate])
       .range([0, width]);
 
-      const allPoints = data.flatMap(series => series.ys);
+
+    const allPoints = data.flatMap(series => series.ys);
+    const minY = d3.min(allPoints, d => d.y)
+    const maxY = d3.max(allPoints, d => d.y)
 
     yScale = d3.scaleLinear()
-      .domain([0, d3.max(allPoints, d => d.y)])
+      .domain([minY-10, maxY+20])
       .range([height, 0]);
   }
 
@@ -145,11 +151,11 @@
   function updateChart(step) {
 
     yearLimit = getYearLimit(step);
-    console.log(data)
       
+
     const inVisibleData = data.map(series => ({
       ...series,
-      ys: series.ys.filter(d => {console.log(d) ;d.x <= yearLimit})
+      ys: series.ys.filter(d => d.x <= yearLimit)
     }));
     d3.select(svg).selectAll("circle").remove();
 
@@ -219,11 +225,12 @@
 
   function getYearLimit(step) {
     switch (step) {
-      case 1: return new Date(2016, 0, 1);
-      case 2: return new Date(2018, 0, 1);
-      case 3: return new Date(2020, 0, 1);
-      case 4: return new Date(2022, 0, 1);
-      case 5: return new Date(2023, 0, 1);
+      case -1: return new Date(2014, 0, 1);
+      case 1: return new Date(2016, 11, 1);
+      case 2: return new Date(2018, 11, 1);
+      case 3: return new Date(2020, 11, 1);
+      case 4: return new Date(2021, 11, 1);
+      case 5: return new Date(2023, 9, 1);
 
       // Add more cases as needed
       default: return new Date(); // Latest date if step is not recognized
@@ -253,7 +260,7 @@
   function transformData(data, category) {
     return data
       .filter(d => d.code === category)
-      .map(d => ({ x: new Date(d.year, 0, 1), y: d.value })); // Ensure x is a number
+      .map(d => ({ x: new Date(d.year, d.month-1, 1), y: d.value }));
   }
 </script>
 

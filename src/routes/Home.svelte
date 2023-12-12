@@ -197,7 +197,6 @@
 
 		}
 		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-
 		 console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}  
 

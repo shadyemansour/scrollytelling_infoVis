@@ -22,8 +22,10 @@ export async function getVerkehrData() {
 
     // Process timeseries
     let yearMonths = [];
-    for (let year = 2015; year <= 2020; year++) {
+    for (let year = 2015; year <= 2023; year++) {
         for (let month = 1; month <= 12; month++) {
+            if (year === 2023 && month > 10) continue;
+
             let yearMonth = `${year}-${month.toString().padStart(2, '0')}`;
             yearMonths.push(yearMonth);
         }
@@ -45,7 +47,7 @@ export async function getVerkehrData() {
     });
     
     verkehrData.data.timeseries = timeseries; // Save timeseries indictors to data
-    console.log(verkehrData);
+    console.log(verkehrData)
     return verkehrData;
 }
 
