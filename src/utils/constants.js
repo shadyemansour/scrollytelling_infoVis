@@ -5,6 +5,9 @@ class DataPaths {
     static get VERKEHR_DATA() {
       return './data/data_verkehr_kosten.csv';
     }
+    static get BUSSGELD_DATA() {
+      return './data/data_bussgeld.csv';
+    }
   
     static get TOPO_DATA() {
       return './data/1_sehr_hoch_topo.json';
