@@ -1,6 +1,6 @@
 <script>
 	// CORE IMPORTS
-	import { setContext, onMount } from 'svelte';
+	import { setContext, onMount, onDestroy } from 'svelte';
 	import bbox from '@turf/bbox';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
@@ -34,6 +34,15 @@
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
 		idPrev = { ...id };
+
+		function onResize() {
+			maxScrollY = getMaxScrollY();
+		}
+		window.addEventListener('resize', onResize);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('resize', onResize);
 	});
 
 	// Data
@@ -58,6 +67,7 @@
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
+	let maxScrollY;
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -233,9 +243,28 @@
 		currentLineChart = id['lineChart'];
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
+
+	$: if (id['map'] && !maxScrollY) {
+		maxScrollY = getMaxScrollY();
+	}
+
+	function getMaxScrollY() {
+		const height = Math.max(
+			document.body.scrollHeight,
+			document.body.offsetHeight,
+			document.documentElement.clientHeight,
+			document.documentElement.scrollHeight,
+			document.documentElement.offsetHeight
+		);
+		const viewportHeight = window.innerHeight;
+		console.log(height - viewportHeight);
+		return height - viewportHeight;
+	}
 </script>
 
-<NavIndicator />
+{#if id['map']}
+	<NavIndicator {maxScrollY} />
+{/if}
 
 <LogoHeader filled={true} center={true} />
 

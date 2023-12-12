@@ -3,9 +3,13 @@
 	import { subscribe as subscribeSize } from '../helpers/resizeService';
 	import { subscribe as subscribeScroll } from '../helpers/scrollService.js';
 
+	export let maxScrollY = 0;
+
 	let dimensions = { width: 0, height: 0 };
 	let scrollY = 0;
-	let maxScrollY = 0;
+
+	let unsubscribeSize;
+	let unsubscribeScroll;
 
 	function updateDimensions() {
 		dimensions.width = window.innerWidth;
@@ -16,37 +20,34 @@
 		scrollY = position;
 	}
 
-	function getMaxScrollY() {
-        const height = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
-		const documentHeight = document.documentElement.scrollHeight;
-		const viewportHeight = window.innerHeight;
-		return height -viewportHeight;
+	$: if (maxScrollY) {
+		updateDimensions(); // Initial update
+		updateScrollY(window.scrollY); // Initial update
 	}
 
 	onMount(() => {
-		const unsubscribeSize = subscribeSize(updateDimensions);
-		const unsubscribeScroll = subscribeScroll(updateScrollY);
+		unsubscribeSize = subscribeSize(updateDimensions);
+		unsubscribeScroll = subscribeScroll(updateScrollY);
 		updateDimensions(); // Initial update
 		updateScrollY(window.scrollY); // Initial update
-        
-        setTimeout(()=>{
-            maxScrollY = getMaxScrollY();
-        }, 500)
+	});
 
-        
-		onDestroy(() => {
-            unsubscribeSize();
-			unsubscribeScroll();
-		});
+	onDestroy(() => {
+		unsubscribeSize();
+		unsubscribeScroll();
 	});
 </script>
 
 <div class="nav-container">
 	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: red; min-width: 4px">
-
-    </div>The current scroll position is {scrollY}px.
-    max scrill {maxScrollY}
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: red; min-width: 4px"
+	></div>
+	<div
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: green; min-width: 4px"
+	></div>
+	<div
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: blue; min-width: 4px"
+	></div>
 </div>
 
 <style>
@@ -59,7 +60,7 @@
 		top: 0;
 		right: auto;
 		bottom: 0;
-		background-color: blue;
+		background-color: rgb(165, 165, 190);
 		z-index: 10;
 	}
 </style>
