@@ -3,7 +3,7 @@ class DataPaths {
       return './data/data_region.csv';
     }
     static get VERKEHR_DATA() {
-      return './data/data_verkehr.csv';
+      return './data/data_verkehr_kosten.csv';
     }
   
     static get TOPO_DATA() {

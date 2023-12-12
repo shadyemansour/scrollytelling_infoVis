@@ -8,8 +8,8 @@ export async function getVerkehrData() {
     let verkehrData = new VerkehrData();
     // Process metadata
     let meta = loadedData.map((d) => ({
-        code: d.code, // Bundesland Code
-        name: d.name, // Bundesland Name
+        code: d.code,
+        name: d.name, // Name
         parent: d.parent ? d.parent : null
     }));
     let lookup = {};
@@ -21,19 +21,25 @@ export async function getVerkehrData() {
 
 
     // Process timeseries
-    let years = [
-        2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-        2016, 2017, 2018, 2019, 2020
-    ];
+    let yearMonths = [];
+    for (let year = 2015; year <= 2020; year++) {
+        for (let month = 1; month <= 12; month++) {
+            let yearMonth = `${year}-${month.toString().padStart(2, '0')}`;
+            yearMonths.push(yearMonth);
+        }
+    }
 
     let timeseries = [];
     loadedData.forEach((d) => {
-        years.forEach((year) => {
+        yearMonths.forEach((yearMonth) => {
+            let [year, month] = yearMonth.split('-');
+            let value = d[yearMonth] || null; // Assuming the data structure uses year-month as keys
             timeseries.push({
                 code: d.code,
                 name: d.name,
-                value: d[year],
-                year
+                value: value,
+                year: parseInt(year),
+                month: parseInt(month)
             });
         });
     });

@@ -145,11 +145,11 @@
   function updateChart(step) {
 
     yearLimit = getYearLimit(step);
+    console.log(data)
       
-    
     const inVisibleData = data.map(series => ({
       ...series,
-      ys: series.ys.filter(d => d.x <= yearLimit)
+      ys: series.ys.filter(d => {console.log(d) ;d.x <= yearLimit})
     }));
     d3.select(svg).selectAll("circle").remove();
 
@@ -219,11 +219,11 @@
 
   function getYearLimit(step) {
     switch (step) {
-      case 1: return new Date(2004, 0, 1);
-      case 2: return new Date(2008, 0, 1);
-      case 3: return new Date(2012, 0, 1);
-      case 4: return new Date(2016, 0, 1);
-      case 5: return new Date(2020, 0, 1);
+      case 1: return new Date(2016, 0, 1);
+      case 2: return new Date(2018, 0, 1);
+      case 3: return new Date(2020, 0, 1);
+      case 4: return new Date(2022, 0, 1);
+      case 5: return new Date(2023, 0, 1);
 
       // Add more cases as needed
       default: return new Date(); // Latest date if step is not recognized
