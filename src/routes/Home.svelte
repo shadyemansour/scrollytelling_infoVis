@@ -15,6 +15,8 @@
 	import Em from '../ui/Em.svelte';
 	import { getRegionData } from '../helpers/getRegionData.js';
 	import { getVerkehrData } from '../helpers/getVerkehrData.js';
+	import { getBussGeldData } from '../helpers/getBussGeldData.js';
+
 	import DataPaths from '../utils/constants.js';
 	// DEMO-SPECIFIC IMPORTS
 	import { getTopo, getColor } from '../utils.js';
@@ -45,6 +47,8 @@
 		[15, 55.2]
 	];
 	let verkehrData;
+	let bussGeldData;
+
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -168,36 +172,35 @@
 		verkehrData = loadedVerkehrData;
 		})
 		.catch((error) => {
-			console.error('Error fetching region data:', error);
+			console.error('Error fetching verkehr data:', error);
 		});
 
-	// Assume you have loaded your CSV data here
-	let busgeldData = [
-		{ type: 'fahrrad', category: 'verbotswidrig Gehweg befahren', amount: 55.0, color: themes.bike.primary },
-		{ type: 'fahrrad', category: 'Fahren über eine rote Ampel', amount: 60.0, color: themes.bike.primary },
-		{ type: 'oepnv', category: 'Schwarzfahren', amount: 60.0, color: themes.oepnv.primary },
-		{ type: 'auto', category: 'Einbahn­straße in falscher Rich­tung befahren', amount: 20.0, color: themes.car.primary},
-		{ type: 'auto', category: 'Ampel bei "Rot" überfahren', amount: 118.5, color: themes.car.primary }
-	];
+	getBussGeldData().then((loadedBussGeldData) => {
+			bussGeldData = loadedBussGeldData.data;
+
+		})
+		.catch((error) => {
+			console.error('Error fetching BussGeld data:', error);
+		});
+
 
 	let bussDatafiltered = [];
 
-	$: if (id['barChart'] && currentBarChart !== id['barChart']) {
+	$: if (bussGeldData && id['barChart'] && currentBarChart !== id['barChart']) {
 		currentBarChart = id['barChart'];
-		updateBarChartData(busgeldData, id['barChart']);
+		updateBarChartData(id['barChart']);
 	}
 
-	function updateBarChartData(busgeldData, chartId) {
+	function updateBarChartData(chartId) {
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
+		console.log(trigger)
 		switch (trigger){
-			case 1 : bussDatafiltered = busgeldData.filter(d => d.type === 'fahrrad'); break;
-			case 2 : bussDatafiltered = busgeldData.filter(d => ['fahrrad', 'auto'].includes(d.type)); break;
-			case 3 : bussDatafiltered = busgeldData.filter(d =>['fahrrad', 'auto', 'oepnv'].includes(d.type)); break;
+			case 1 : bussDatafiltered = bussGeldData.filter(d => d.type === 'fahrrad'); break;
+			case 2 : bussDatafiltered = bussGeldData.filter(d => ['fahrrad', 'auto'].includes(d.type)); break;
+			case 3 : bussDatafiltered = bussGeldData.filter(d =>['fahrrad', 'auto', 'oepnv'].includes(d.type)); break;
 			default : bussDatafiltered = []; break;
-
 		}
 		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-
 		 console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}  
 
@@ -466,6 +469,7 @@
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
 
+						{#if bussGeldData}
 								<Barcharts
 								data={bussDatafiltered}
 								xKey="amount"
@@ -475,6 +479,7 @@
 								source="a nice source"
 								xTicks=0
 							/>
+							{/if}
 
 					</div>
 				</div>
