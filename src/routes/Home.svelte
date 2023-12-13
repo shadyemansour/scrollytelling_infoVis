@@ -79,6 +79,7 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
+		console.log(e.detail)
 	}
 
 	// Functions for map component
@@ -102,33 +103,33 @@
 			map01: () => {
 				// Action for <section/> with data-id="map01"
 				fitBounds(mapbounds);
-				mapKey = 'density';
+				mapKey = 2020;
 				mapHighlighted = [];
 				explore = false;
 				mapColor = 'inferno';
 			},
 			map02: () => {
 				fitBounds(mapbounds);
-				mapKey = 'age_med';
+				mapKey = 2021;
 				mapHighlighted = [];
 				explore = false;
 			},
 			map03: () => {
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
 				fitById(hl.code);
-				mapKey = 'age_med';
+				mapKey = 2023;
 				mapHighlighted = [hl.code];
 				explore = false;
 			},
 			map04: () => {
 				fitBounds(mapbounds);
-				mapKey = 'age_med';
+				mapKey = 2022;
 				mapHighlighted = [];
 				explore = true;
 			},
 			map05: () => {
 				fitBounds(mapbounds);
-				mapKey = 'area';
+				mapKey = 2023;
 				mapHighlighted = [];
 				explore = true;
 			}
@@ -310,9 +311,9 @@
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						This map shows <strong>population density</strong> by region. Regions are coloured from <Em
-							color={getColor(1, 100, 'interpolateViridis')(1)}>least dense</Em
-						> to <Em color={getColor(1, 100, 'interpolateViridis')(100)}>most dense</Em>. You can
+						This map shows the average <strong>passenger-kilometres</strong> in <strong>2020</strong> by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>. You can
 						hover to see the region name and density.
 					</p>
 				</div>
@@ -320,45 +321,36 @@
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						The map now shows <strong>median age</strong>, from <Em
-							color={getColor(1, 100, 'interpolateInferno')(1)}>youngest</Em
-						> to <Em color={getColor(1, 100, 'interpolateInferno')(100)}>oldest</Em>.
+						This map shows the average <strong>passenger-kilometres</strong> in <strong>2021</strong> by region. Regions are coloured from <Em
+						color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+					> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>
 					</p>
+				</div>
+			</section>
+			<section data-id="map04">
+				<div class="col-medium">
+					<p>
+						This map shows the average <strong>passenger-kilometres</strong> in <strong>2022</strong> by region. Regions are coloured from <Em
+						color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+					> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>
+					</p>
+				
 				</div>
 			</section>
 			<section data-id="map03">
 				<div class="col-medium">
 					<!-- This gets the data object for the region with the oldest median age -->
-					{#each [[...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
-							The map is now zoomed on <Em color={region.age_med_color}>{region.name}</Em>, the
-							region with the oldest median age, {region.age_med} years.
+							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
+							region with the highest passenger-kilometer in 2023, {region['2023']} kilometers.
 						</p>
 					{/each}
 				</div>
 			</section>
-			<section data-id="map04">
-				<div class="col-medium">
-					<h3>Select a region</h3>
-					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
-				</div>
-			</section>
 			<section data-id="map05">
 				<div class="col-medium">
-					<h3>Fläche des Bundeslandes</h3>
+					<h3>Passenger Kilometer 2023</h3>
 					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
 					{#if geojson}
 						<p>
