@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { subscribe as subscribeSize } from '../helpers/resizeService';
 	import { subscribe as subscribeScroll } from '../helpers/scrollService.js';
+	import { themes } from '../config';
 
 	export let maxScrollY = 0;
 
@@ -39,14 +40,14 @@
 </script>
 
 <div class="nav-container">
+    <div
+        style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.oepnv.primary}; min-width: 4px"
+    ></div>
 	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: red; min-width: 4px"
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.bike.primary}; min-width: 4px"
 	></div>
 	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: green; min-width: 4px"
-	></div>
-	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: blue; min-width: 4px"
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.car.primary}; min-width: 4px"
 	></div>
 </div>
 
@@ -60,7 +61,7 @@
 		top: 0;
 		right: auto;
 		bottom: 0;
-		background-color: rgb(165, 165, 190);
+		background-color: rgba(54, 28, 28, 0.2);
 		z-index: 10;
 	}
 </style>
