@@ -15,6 +15,8 @@
 	import Em from '../ui/Em.svelte';
 	import { getRegionData } from '../helpers/getRegionData.js';
 	import { getVerkehrData } from '../helpers/getVerkehrData.js';
+	import { getBussGeldData } from '../helpers/getBussGeldData.js';
+
 	import DataPaths from '../utils/constants.js';
 	// DEMO-SPECIFIC IMPORTS
 	import { getTopo, getColor } from '../utils.js';
@@ -53,6 +55,7 @@
 		[15, 55.2]
 	];
 	let verkehrData;
+	let bussGeldData;
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -84,6 +87,7 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
+		console.log(e.detail);
 	}
 
 	// Functions for map component
@@ -107,33 +111,33 @@
 			map01: () => {
 				// Action for <section/> with data-id="map01"
 				fitBounds(mapbounds);
-				mapKey = 'density';
+				mapKey = 2020;
 				mapHighlighted = [];
 				explore = false;
 				mapColor = 'inferno';
 			},
 			map02: () => {
 				fitBounds(mapbounds);
-				mapKey = 'age_med';
+				mapKey = 2021;
 				mapHighlighted = [];
 				explore = false;
 			},
 			map03: () => {
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0];
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
 				fitById(hl.code);
-				mapKey = 'age_med';
+				mapKey = 2023;
 				mapHighlighted = [hl.code];
 				explore = false;
 			},
 			map04: () => {
 				fitBounds(mapbounds);
-				mapKey = 'age_med';
+				mapKey = 2022;
 				mapHighlighted = [];
 				explore = true;
 			},
 			map05: () => {
 				fitBounds(mapbounds);
-				mapKey = 'area';
+				mapKey = 2023;
 				mapHighlighted = [];
 				explore = true;
 			}
@@ -178,63 +182,43 @@
 			verkehrData = loadedVerkehrData;
 		})
 		.catch((error) => {
-			console.error('Error fetching region data:', error);
+			console.error('Error fetching verkehr data:', error);
 		});
 
-	// Assume you have loaded your CSV data here
-	let busgeldData = [
-		{
-			type: 'fahrrad',
-			category: 'verbotswidrig Gehweg befahren',
-			amount: 55.0,
-			color: themes.bike.primary
-		},
-		{
-			type: 'fahrrad',
-			category: 'Fahren über eine rote Ampel',
-			amount: 60.0,
-			color: themes.bike.primary
-		},
-		{ type: 'oepnv', category: 'Schwarzfahren', amount: 60.0, color: themes.oepnv.primary },
-		{
-			type: 'auto',
-			category: 'Einbahn­straße in falscher Rich­tung befahren',
-			amount: 20.0,
-			color: themes.car.primary
-		},
-		{
-			type: 'auto',
-			category: 'Ampel bei "Rot" überfahren',
-			amount: 118.5,
-			color: themes.car.primary
-		}
-	];
+	getBussGeldData()
+		.then((loadedBussGeldData) => {
+			bussGeldData = loadedBussGeldData.data;
+		})
+		.catch((error) => {
+			console.error('Error fetching BussGeld data:', error);
+		});
 
 	let bussDatafiltered = [];
 
-	$: if (id['barChart'] && currentBarChart !== id['barChart']) {
+	$: if (bussGeldData && id['barChart'] && currentBarChart !== id['barChart']) {
 		currentBarChart = id['barChart'];
-		updateBarChartData(busgeldData, id['barChart']);
+		updateBarChartData(id['barChart']);
 	}
 
-	function updateBarChartData(busgeldData, chartId) {
+	function updateBarChartData(chartId) {
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
 		switch (trigger) {
 			case 1:
-				bussDatafiltered = busgeldData.filter((d) => d.type === 'fahrrad');
+				bussDatafiltered = bussGeldData.filter((d) => d.type === 'fahrrad');
 				break;
 			case 2:
-				bussDatafiltered = busgeldData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
+				bussDatafiltered = bussGeldData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
 				break;
 			case 3:
-				bussDatafiltered = busgeldData.filter((d) => ['fahrrad', 'auto', 'oepnv'].includes(d.type));
+				bussDatafiltered = bussGeldData.filter((d) =>
+					['fahrrad', 'auto', 'oepnv'].includes(d.type)
+				);
 				break;
 			default:
 				bussDatafiltered = [];
 				break;
 		}
 		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-
 		console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}
 
@@ -358,55 +342,56 @@
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						This map shows <strong>population density</strong> by region. Regions are coloured from <Em
-							color={getColor(1, 100, 'interpolateViridis')(1)}>least dense</Em
-						> to <Em color={getColor(1, 100, 'interpolateViridis')(100)}>most dense</Em>. You can
-						hover to see the region name and density.
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2020</strong>
+						by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>. You can hover to see the region name and density.
 					</p>
 				</div>
 			</section>
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						The map now shows <strong>median age</strong>, from <Em
-							color={getColor(1, 100, 'interpolateInferno')(1)}>youngest</Em
-						> to <Em color={getColor(1, 100, 'interpolateInferno')(100)}>oldest</Em>.
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2021</strong>
+						by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>
+					</p>
+				</div>
+			</section>
+			<section data-id="map04">
+				<div class="col-medium">
+					<p>
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2022</strong>
+						by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>
 					</p>
 				</div>
 			</section>
 			<section data-id="map03">
 				<div class="col-medium">
 					<!-- This gets the data object for the region with the oldest median age -->
-					{#each [[...regionData.data.region.indicators].sort((a, b) => b.age_med - a.age_med)[0]] as region}
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
-							The map is now zoomed on <Em color={region.age_med_color}>{region.name}</Em>, the
-							region with the oldest median age, {region.age_med} years.
+							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
+							region with the highest passenger-kilometer in 2023, {region['2023']} kilometers.
 						</p>
 					{/each}
 				</div>
 			</section>
-			<section data-id="map04">
-				<div class="col-medium">
-					<h3>Select a region</h3>
-					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
-				</div>
-			</section>
 			<section data-id="map05">
 				<div class="col-medium">
-					<h3>Fläche des Bundeslandes</h3>
+					<h3>Passenger Kilometer 2023</h3>
 					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
 					{#if geojson}
 						<p>
@@ -465,36 +450,29 @@
 					<h2>Fahrräder</h2>
 				</div>
 				<p>
-					This chart shows the <strong>area in square kilometres</strong> of each local authority district
-					in the UK. Each circle represents one district. The scale is logarithmic.
+					This chart shows the <strong>prices </strong> of the usage of the three different means of
+					transportation. Each circle represents one mean of transportation.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
-				<p>
-					The radius of each circle shows the <strong>total population</strong> of the district.
-				</p>
+				<p>Flying through the years</p>
 			</div>
 		</section>
 		<section data-id="lineChart03">
 			<div class="col-medium">
-				<p>
-					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
-				</p>
+				<p>some more years</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
-				<p>
-					The colour of each circle shows the <strong>part of the country</strong> that the district
-					is within.
-				</p>
+				<h3>Watch what's going to happen</h3>
 			</div>
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<h3>The End</h3>
+				<h3>Whopala! That's interesting, but let's move on</h3>
 			</div>
 		</section>
 	</div>
@@ -516,15 +494,17 @@
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
-						<Barcharts
-							data={bussDatafiltered}
-							xKey="amount"
-							yKey="category"
-							xSuffix=" €"
-							title="Bußgeldkatalog"
-							source="a nice source"
-							xTicks="0"
-						/>
+						{#if bussGeldData}
+							<Barcharts
+								data={bussDatafiltered}
+								xKey="amount"
+								yKey="category"
+								xSuffix=" €"
+								title="Bußgeldkatalog"
+								source="a nice source"
+								xTicks="0"
+							/>
+						{/if}
 					</div>
 				</div>
 			</figure>

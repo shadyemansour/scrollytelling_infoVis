@@ -53,6 +53,11 @@ export function getColor(min, max, colors= "") {
             .domain([min, max])
             .interpolator(d3.interpolateViridis);
             break;
+      case "interpolateGreens":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateGreens);
+            break;
             
     default:
       colorScale = d3.scaleSequential()
