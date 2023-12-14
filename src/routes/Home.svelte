@@ -1,6 +1,6 @@
 <script>
 	// CORE IMPORTS
-	import { setContext, onMount } from 'svelte';
+	import { setContext, onMount, onDestroy } from 'svelte';
 	import bbox from '@turf/bbox';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
@@ -22,12 +22,11 @@
 	import { getTopo, getColor } from '../utils.js';
 	import { units } from '../config.js';
 	import Barcharts from '../layout/AnimatedBarChart.svelte';
-	import  LineChartRace  from '../layout/LineChartRace.svelte';
+	import LineChartRace from '../layout/LineChartRace.svelte';
 	import Bike from '../ui/Bike.svelte';
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
-
-
+	import NavIndicator from '../layout/NavIndicator.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -37,6 +36,15 @@
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
 		idPrev = { ...id };
+
+		function onResize() {
+			maxScrollY = getMaxScrollY();
+		}
+		window.addEventListener('resize', onResize);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('resize', onResize);
 	});
 
 	// Data
@@ -49,7 +57,6 @@
 	let verkehrData;
 	let bussGeldData;
 
-
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
 
@@ -60,9 +67,10 @@
 	let mapKey = 'density'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'inferno'; // Changes the default color of map
-	let currentBarChart =  '';
+	let currentBarChart = '';
 	let lineChartTrigger = -1;
-	let currentLineChart='';
+	let currentLineChart = '';
+	let maxScrollY;
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -79,7 +87,7 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
-		console.log(e.detail)
+		console.log(e.detail);
 	}
 
 	// Functions for map component
@@ -169,21 +177,21 @@
 		geojson = geo;
 	});
 
-	getVerkehrData().then((loadedVerkehrData) => {
-		verkehrData = loadedVerkehrData;
+	getVerkehrData()
+		.then((loadedVerkehrData) => {
+			verkehrData = loadedVerkehrData;
 		})
 		.catch((error) => {
 			console.error('Error fetching verkehr data:', error);
 		});
 
-	getBussGeldData().then((loadedBussGeldData) => {
+	getBussGeldData()
+		.then((loadedBussGeldData) => {
 			bussGeldData = loadedBussGeldData.data;
-
 		})
 		.catch((error) => {
 			console.error('Error fetching BussGeld data:', error);
 		});
-
 
 	let bussDatafiltered = [];
 
@@ -193,29 +201,54 @@
 	}
 
 	function updateBarChartData(chartId) {
-		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10)
-		console.log(trigger)
-		switch (trigger){
-			case 1 : bussDatafiltered = bussGeldData.filter(d => d.type === 'fahrrad'); break;
-			case 2 : bussDatafiltered = bussGeldData.filter(d => ['fahrrad', 'auto'].includes(d.type)); break;
-			case 3 : bussDatafiltered = bussGeldData.filter(d =>['fahrrad', 'auto', 'oepnv'].includes(d.type)); break;
-			default : bussDatafiltered = []; break;
+		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
+		switch (trigger) {
+			case 1:
+				bussDatafiltered = bussGeldData.filter((d) => d.type === 'fahrrad');
+				break;
+			case 2:
+				bussDatafiltered = bussGeldData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
+				break;
+			case 3:
+				bussDatafiltered = bussGeldData.filter((d) =>
+					['fahrrad', 'auto', 'oepnv'].includes(d.type)
+				);
+				break;
+			default:
+				bussDatafiltered = [];
+				break;
 		}
 		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-		 console.log('Updated Bar Chart Data:', bussDatafiltered);
-	}  
-
-
-
+		console.log('Updated Bar Chart Data:', bussDatafiltered);
+	}
 
 	//linechart
 	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
 		currentLineChart = id['lineChart'];
-		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10)
+		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
-		
 
+	$: if (id['map'] && !maxScrollY) {
+		maxScrollY = getMaxScrollY();
+	}
+
+	function getMaxScrollY() {
+		const height = Math.max(
+			document.body.scrollHeight,
+			document.body.offsetHeight,
+			document.documentElement.clientHeight,
+			document.documentElement.scrollHeight,
+			document.documentElement.offsetHeight
+		);
+		const viewportHeight = window.innerHeight;
+		console.log(height - viewportHeight);
+		return height - viewportHeight;
+	}
 </script>
+
+{#if id['map']}
+	<NavIndicator {maxScrollY} />
+{/if}
 
 <LogoHeader filled={true} center={true} />
 
@@ -239,8 +272,6 @@
 	</p>
 </Section>
 <Divider />
-
-
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
@@ -311,30 +342,40 @@
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in <strong>2020</strong> by region. Regions are coloured from <Em
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2020</strong>
+						by region. Regions are coloured from <Em
 							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>. You can
-						hover to see the region name and density.
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>. You can hover to see the region name and density.
 					</p>
 				</div>
 			</section>
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in <strong>2021</strong> by region. Regions are coloured from <Em
-						color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-					> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2021</strong>
+						by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>
 					</p>
 				</div>
 			</section>
 			<section data-id="map04">
 				<div class="col-medium">
 					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in <strong>2022</strong> by region. Regions are coloured from <Em
-						color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-					> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}>highest passenger-kilometres</Em>
+						This map shows the average <strong>passenger-kilometres</strong> in
+						<strong>2022</strong>
+						by region. Regions are coloured from <Em
+							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
+						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
+							>highest passenger-kilometres</Em
+						>
 					</p>
-				
 				</div>
 			</section>
 			<section data-id="map03">
@@ -369,27 +410,26 @@
 			</section>
 		</div>
 	</Scroller>
-{/if} 
+{/if}
 
 <Divider />
 
 <Section>
 	<h2>This is a fery fancy line chart that's still not working</h2>
 	<p class="mb">
-		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works). 
+		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
 	</p>
 </Section>
-
 
 <Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
 	<div slot="background">
 		<figure>
 			<div class="col-wide height-full">
-					{#if verkehrData}
+				{#if verkehrData}
 					<div class="chart">
-						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger}/>
+						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger} />
 					</div>
-					{/if}
+				{/if}
 			</div>
 		</figure>
 	</div>
@@ -399,56 +439,52 @@
 			<div class="col-medium">
 				<div class="icon-heading">
 					<div class="icon-background" style="background-color: {themes.bike.teritary};">
-						<Bike size="40" color={themes.bike.primary}/>
+						<Bike size="40" color={themes.bike.primary} />
 					</div>
 					<div class="icon-background" style="background-color: {themes.car.teritary};">
-						<Car size="40" color={themes.car.primary}/>
+						<Car size="40" color={themes.car.primary} />
 					</div>
 					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-						<Oepnv size="40" color={themes.oepnv.primary}/>
+						<Oepnv size="40" color={themes.oepnv.primary} />
 					</div>
 					<h2>Fahrräder</h2>
 				</div>
 				<p>
-					This chart shows the <strong>prices </strong> of the usage of the three different means of transportation. Each circle represents one mean of transportation.
+					This chart shows the <strong>prices </strong> of the usage of the three different means of
+					transportation. Each circle represents one mean of transportation.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
-				<p>
-					Flying through the years
-				</p>
+				<p>Flying through the years</p>
 			</div>
 		</section>
 		<section data-id="lineChart03">
 			<div class="col-medium">
-				<p>
-					some more years
-				</p>
+				<p>some more years</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
-					<h3>Watch what's going to happen</h3>
+				<h3>Watch what's going to happen</h3>
 			</div>
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<h3> Whopala! That's interesting, but let's move on</h3>
+				<h3>Whopala! That's interesting, but let's move on</h3>
 			</div>
 		</section>
 	</div>
 </Scroller>
-
 
 <Divider />
 
 <Section>
 	<h2>Bußgeldkatalog</h2>
 	<p>
-		Die Busgelder für die einzelnen Vergehen der Verkehrmittel zeigen deutliche unterschiede.
-		This is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
+		Die Busgelder für die einzelnen Vergehen der Verkehrmittel zeigen deutliche unterschiede. This
+		is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
 	</p>
 </Section>
 
@@ -458,19 +494,17 @@
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
-
 						{#if bussGeldData}
-								<Barcharts
+							<Barcharts
 								data={bussDatafiltered}
 								xKey="amount"
 								yKey="category"
 								xSuffix=" €"
 								title="Bußgeldkatalog"
 								source="a nice source"
-								xTicks=0
+								xTicks="0"
 							/>
-							{/if}
-
+						{/if}
 					</div>
 				</div>
 			</figure>
@@ -481,12 +515,13 @@
 				<div class="col-medium">
 					<div style="color: {themes.bike.primary};" class="icon-heading">
 						<div class="icon-background" style="background-color: {themes.bike.teritary};">
-							<Bike size="40"/>
+							<Bike size="40" />
 						</div>
 						<h2>Fahrräder</h2>
 					</div>
 					<p>
-						Die Busßgelder für <strong style="color: {themes.bike.primary};">Bikes</strong> sind ziemlich hoch!
+						Die Busßgelder für <strong style="color: {themes.bike.primary};">Bikes</strong> sind ziemlich
+						hoch!
 					</p>
 				</div>
 			</section>
@@ -494,25 +529,28 @@
 				<div class="col-medium">
 					<div style="color: {themes.car.primary};" class="icon-heading">
 						<div class="icon-background" style="background-color: {themes.car.teritary};">
-							<Car size="40"/>
+							<Car size="40" />
 						</div>
 						<h2 style="color: {themes.car.primary};">Autos</h2>
 					</div>
 					<p>
-						This chart shows the fines for <strong style="color: {themes.car.primary};">Cars</strong>!
+						This chart shows the fines for <strong style="color: {themes.car.primary};">Cars</strong
+						>!
 					</p>
 				</div>
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<div style="color: {themes.oepnv.primary};" class="icon-heading">
-					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-						<Oepnv size="40"/>
+						<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
+							<Oepnv size="40" />
+						</div>
+						<h2 style="color: {themes.oepnv.primary};">Öffentliche Verkehrmittel</h2>
 					</div>
-					<h2 style="color: {themes.oepnv.primary};">Öffentliche Verkehrmittel</h2>
-				</div>
 					<p>
-						This chart shows the fines for <strong style="color: {themes.oepnv.primary};">Oepnv</strong>!
+						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"
+							>Oepnv</strong
+						>!
 					</p>
 				</div>
 			</section>
@@ -534,7 +572,7 @@
 		max-width: 350px;
 	}
 
-	.chart{
+	.chart {
 		height: 100%;
 	}
 
@@ -542,7 +580,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-    	flex-shrink: 0;
+		flex-shrink: 0;
 		padding: 0px;
 		gap: 16px;
 	}
