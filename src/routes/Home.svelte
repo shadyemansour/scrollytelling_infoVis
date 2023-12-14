@@ -410,34 +410,32 @@
 					<h2>Fahrräder</h2>
 				</div>
 				<p>
-					This chart shows the <strong>area in square kilometres</strong> of each local authority district in the UK. Each circle represents one district. The scale is logarithmic.
+					This chart shows the <strong>prices </strong> of the usage of the three different means of transportation. Each circle represents one mean of transportation.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
 				<p>
-					The radius of each circle shows the <strong>total population</strong> of the district.
+					Flying through the years
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
-					The vertical axis shows the <strong>density</strong> of the district in people per hectare.
+					some more years
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
-				<p>
-					The colour of each circle shows the <strong>part of the country</strong> that the district is within.
-				</p>
+					<h3>Watch what's going to happen</h3>
 			</div>
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<h3>The End</h3>
+				<h3> Whopala! That's interesting, but let's move on</h3>
 			</div>
 		</section>
 	</div>
