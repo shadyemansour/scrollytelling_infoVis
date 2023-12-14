@@ -8,7 +8,7 @@
 </script>
 
 <nav style="background-color: {themes.brand.background}">
-  <div class="col-wide middle" class:center>
+	<div class="col-wide middle" class:center>
 		<a href="/" use:link>
 			<picture>
 				<img src="/img/favicon.png" alt="Team 7" />

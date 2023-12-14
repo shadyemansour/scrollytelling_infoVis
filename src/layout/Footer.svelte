@@ -1,23 +1,47 @@
 <script>
 	import { themes } from '../config.js';
-	import { link } from "svelte-routing";
+	import { link } from 'svelte-routing';
 	import About from '../routes/About.svelte';
-
 </script>
 
-<footer style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral']['pale']};">
+<footer
+	style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral'][
+		'pale'
+	]};"
+>
 	<div class="col-wide" data-analytics="footer">
 		<a href="/" use:link>
 			<img class="logo-img" src="./img/favicon.png" alt="Team 7" />
 		</a>
 		<div>
-		<ul>
-			<li><a class="link" href="/aboutus" use:link style="color: {themes['brand']['text']['primary']}">Unser Dreamteam</a></li>
-			<li><a class="link" href="/"  use:link style="color: {themes['brand']['text']['primary']}">Repository</a></li>
-			<li><a class="link" href="/sources"  use:link style="color: {themes['brand']['text']['primary']}">Quellen</a></li>
-
-		</ul>
-		<p style="color: {themes['neutral']['text-dark']['teritary']};">Letztes Update am 28.11.2023</p>
+			<ul>
+				<li>
+					<a
+						class="link"
+						href="/aboutus"
+						use:link
+						style="color: {themes['brand']['text']['primary']}">Unser Dreamteam</a
+					>
+				</li>
+				<li>
+					<a class="link" href="/" use:link style="color: {themes['brand']['text']['primary']}"
+						>Repository</a
+					>
+				</li>
+				<li>
+					<a
+						class="link"
+						href="/sources"
+						use:link
+						style="color: {themes['brand']['text']['primary']}">Quellen</a
+					>
+				</li>
+			</ul>
+			<p style="color: {themes['neutral']['text-dark']['teritary']};">
+				Letztes Update am 28.11.2023
+			</p>
+		</div>
+	</div>
 </footer>
 
 <style>

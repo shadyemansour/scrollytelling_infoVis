@@ -40,14 +40,17 @@
 </script>
 
 <div class="nav-container">
-    <div
-        style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.oepnv.primary}; min-width: 4px"
-    ></div>
 	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.bike.primary}; min-width: 4px"
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.oepnv
+			.primary}; min-width: 4px"
 	></div>
 	<div
-		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.car.primary}; min-width: 4px"
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.bike
+			.primary}; min-width: 4px"
+	></div>
+	<div
+		style="height: {(scrollY / maxScrollY) * 100}vh; background-color: {themes.car
+			.primary}; min-width: 4px"
 	></div>
 </div>
 

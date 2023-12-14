@@ -101,7 +101,7 @@
 
 	$: top_px = Math.round(top * wh);
 	$: bottom_px = Math.round(bottom * wh);
-	$: threshold_px = Math.round(threshold * wh); 
+	$: threshold_px = Math.round(threshold * wh);
 
 	$: top, bottom, threshold, parallax, update();
 
@@ -146,7 +146,6 @@
 
 		const foreground_height = fg.bottom - fg.top; //4302
 		const background_height = bg.bottom - bg.top; //
-		
 
 		const available_space = bottom_px - top_px;
 		progress = (top_px - fg.top) / (foreground_height - available_space);
