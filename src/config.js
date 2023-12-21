@@ -17,6 +17,7 @@ export const themes = {
     'pale': '#f0f0f0',
     'background': '#fff',
     'chartLines': trspBlack[50],
+
   },
   'brand': {
     'text': {

@@ -37,10 +37,6 @@
 	onMount(() => {
 		idPrev = { ...id };
 
-		function onResize() {
-			maxScrollY = getMaxScrollY();
-		}
-		window.addEventListener('resize', onResize);
 	});
 
 	onDestroy(() => {
@@ -70,7 +66,6 @@
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
-	let maxScrollY;
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -228,39 +223,22 @@
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
 
-	$: if (id['map'] && !maxScrollY) {
-		maxScrollY = getMaxScrollY();
-	}
-
-	function getMaxScrollY() {
-		const height = Math.max(
-			document.body.scrollHeight,
-			document.body.offsetHeight,
-			document.documentElement.clientHeight,
-			document.documentElement.scrollHeight,
-			document.documentElement.offsetHeight
-		);
-		const viewportHeight = window.innerHeight;
-		console.log(height - viewportHeight);
-		return height - viewportHeight;
-	}
 </script>
 
-{#if id['map']}
-	<NavIndicator {maxScrollY} />
-{/if}
 
-<LogoHeader filled={true} center={true} />
-
-<Header bgcolor={themes.brand.background} bgfixed={true} center={true} short={true}>
-	<h1>Was Deutschland bewegt</h1>
-	<p class="text-big" style="margin-top: 10px; color:{themes.neutral.text.secondary}">
+<Header bgcolor={themes.neutral.background} bgfixed={true} center={false} short={true}>
+	<h1>Was <br> Deutschland <br> bewegt</h1>
+	<p class="text-big" style="margin-top: 10px; color:{themes.neutral['text-dark'].secondary}">
 		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
 	</p>
 	<div style="margin-top: 90px;">
-		<Arrow color="white" {animation}></Arrow>
+		<Arrow color="black" {animation}></Arrow>
 	</div>
 </Header>
+
+{#if id['map']}
+	<NavIndicator/>
+{/if}
 
 <Divider />
 
@@ -384,7 +362,7 @@
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {region['2023']} kilometers.
+							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat("de-DE").format(region['2023'])} kilometers.
 						</p>
 					{/each}
 				</div>

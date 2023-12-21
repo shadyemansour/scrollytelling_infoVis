@@ -22,7 +22,7 @@
 </script>
 
 <header
-	style="color: {themes['neutral']['text']['primary']}; background-color: {bgcolor
+	style="color: {themes['neutral']['text-dark']['primary']}; background-color: {bgcolor
 		? bgcolor
 		: themes['neutral']['background']}; {style}"
 	class:short
@@ -41,7 +41,7 @@
 
 <style>
 	.short {
-		min-height: 85vh;
+		height: calc(100vh - 32px);
 	}
 	.v-padded {
 		box-sizing: border-box;
