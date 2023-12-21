@@ -17,6 +17,7 @@ export const themes = {
     'pale': '#f0f0f0',
     'background': '#fff',
     'chartLines': trspBlack[50],
+
   },
   'brand': {
     'text': {
@@ -49,6 +50,18 @@ export const themes = {
 }
 
 // DEMO-SPECIFIC CONFIG
+
+export const spacings = {
+  'xs-4': 4, 
+  'x-8': 8, 
+  'm-12': 12, 
+  'd-16': 16, 
+  'l-24': 24, 
+  'xl-32': 32, 
+  'xxl-48': 48, 
+  'xxxl-64': 64, 
+  'xxxxl-96': 96, 
+}
 
 export const colors = {
   seq: ['rgb(234, 236, 177)', 'rgb(169, 216, 145)', 'rgb(0, 167, 186)', 'rgb(0, 78, 166)', 'rgb(0, 13, 84)'],

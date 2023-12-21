@@ -4,7 +4,7 @@
 	import About from '../routes/About.svelte';
 </script>
 
-<footer
+<footer id="footer"
 	style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral'][
 		'pale'
 	]};"

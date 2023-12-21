@@ -13,9 +13,7 @@ export async function getRegionData() {
         parent: d.parent ? d.parent : null
     }));
     let lookup = {};
-    console.log(loadedData)
 
-    console.log(meta)
     meta.forEach((d) => {
         lookup[d.code] = d;
     });
@@ -87,7 +85,6 @@ export async function getRegionData() {
     // });
     
     // regionData.data.region.timeseries = timeseries; // Save timeseries indictors to data
-    console.log(regionData);
     return regionData;
 }
 

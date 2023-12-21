@@ -2,6 +2,7 @@ let subscribers = [];
 let timeout;
 
 function onResize() {
+    console.log('resized with debounce');
     clearTimeout(timeout);
     timeout = setTimeout(() => {
         subscribers.forEach(callback => callback());
@@ -10,7 +11,7 @@ function onResize() {
 
 window.addEventListener('resize', onResize);
 
-export function subscribe(callback) {
+export function subscribeResize(callback) {
     subscribers.push(callback);
     return () => {
         subscribers = subscribers.filter(sub => sub !== callback);

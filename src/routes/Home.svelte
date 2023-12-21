@@ -4,7 +4,7 @@
 	import bbox from '@turf/bbox';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
-	import { themes } from '../config.js';
+	import { themes, spacings } from '../config.js';
 	import LogoHeader from '../layout/LogoHeader.svelte';
 	import Footer from '../layout/Footer.svelte';
 	import Header from '../layout/Header.svelte';
@@ -27,6 +27,8 @@
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
 	import NavIndicator from '../layout/NavIndicator.svelte';
+	import Filler from '../layout/Filler.svelte';
+	import Spacer from '../layout/Spacer.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -37,10 +39,6 @@
 	onMount(() => {
 		idPrev = { ...id };
 
-		function onResize() {
-			maxScrollY = getMaxScrollY();
-		}
-		window.addEventListener('resize', onResize);
 	});
 
 	onDestroy(() => {
@@ -70,7 +68,6 @@
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
-	let maxScrollY;
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
 
@@ -87,7 +84,7 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
-		console.log(e.detail);
+		//console.log(e.detail);
 	}
 
 	// Functions for map component
@@ -228,50 +225,28 @@
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
 
-	$: if (id['map'] && !maxScrollY) {
-		maxScrollY = getMaxScrollY();
-	}
-
-	function getMaxScrollY() {
-		const height = Math.max(
-			document.body.scrollHeight,
-			document.body.offsetHeight,
-			document.documentElement.clientHeight,
-			document.documentElement.scrollHeight,
-			document.documentElement.offsetHeight
-		);
-		const viewportHeight = window.innerHeight;
-		console.log(height - viewportHeight);
-		return height - viewportHeight;
-	}
 </script>
 
-{#if id['map']}
-	<NavIndicator {maxScrollY} />
-{/if}
 
-<LogoHeader filled={true} center={true} />
+<Header bgcolor={themes.neutral.background} center={false} short={true}>
 
-<Header bgcolor={themes.brand.background} bgfixed={true} center={true} short={true}>
-	<h1>Was Deutschland bewegt</h1>
-	<p class="text-big" style="margin-top: 10px; color:{themes.neutral.text.secondary}">
-		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
-	</p>
-	<div style="margin-top: 90px;">
-		<Arrow color="white" {animation}></Arrow>
-	</div>
 </Header>
 
-<Divider />
+{#if id['map']}
+	<NavIndicator/>
+{/if}
+<Spacer size={spacings['xxxxl-96']} />
 
 <Section>
-	<h2>This is Deutschland</h2>
-	<p class="mb">
-		The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
-		about this cool scrolly molly.
-	</p>
+	<div slot="animating">
+		<h2>This is Deutschland</h2>
+		<p class="mb">
+			The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
+			about this cool scrolly molly.
+		</p>
+		
+	</div>
 </Section>
-<Divider />
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
@@ -384,7 +359,7 @@
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {region['2023']} kilometers.
+							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat("de-DE").format(region['2023'])} kilometers.
 						</p>
 					{/each}
 				</div>
@@ -412,13 +387,14 @@
 	</Scroller>
 {/if}
 
-<Divider />
 
 <Section>
-	<h2>This is a fery fancy line chart that's still not working</h2>
-	<p class="mb">
-		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
-	</p>
+	<div slot="animating">
+		<h2>This is a fery fancy line chart that's still not working</h2>
+		<p class="mb">
+			The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
+		</p>
+	</div>
 </Section>
 
 <Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
@@ -478,7 +454,6 @@
 	</div>
 </Scroller>
 
-<Divider />
 
 <Section>
 	<h2>Bußgeldkatalog</h2>

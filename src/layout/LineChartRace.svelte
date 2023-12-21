@@ -97,7 +97,7 @@
 		// Add yAxis
 		svgAxis.append('g').call(yAxis).selectAll('g line').style('stroke', themes.neutral.chartLines);
 
-		svgAxis.select('.domain').attr('d', 'M394,250H0V0H'); // Vanishes top line on chart
+		svgAxis.select('.domain').attr('d', 'M394,250H0V0H0'); // Vanishes top line on chart
 		svgAxis.selectAll('g text').style('fill', themes.neutral['text-dark'].primary);
 
 		const inVisibleData = data.map((series) => ({

@@ -19,7 +19,6 @@ export async function getBussGeldData() {
     });
     
     bussGeldData.data = series; // Save timeseries indictors to data
-    console.log(bussGeldData)
     return bussGeldData;
 }
 
