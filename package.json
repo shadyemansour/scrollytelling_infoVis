@@ -36,6 +36,7 @@
         "topojson-client": "^3.1.0"
     },
     "dependencies": {
+        "@studio-freight/lenis": "^1.0.29",
         "d3": "^7.8.5",
         "geojson-bounds": "^1.0.2",
         "gsap": "^3.12.4",

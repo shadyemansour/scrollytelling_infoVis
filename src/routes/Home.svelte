@@ -4,7 +4,7 @@
 	import bbox from '@turf/bbox';
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
-	import { themes } from '../config.js';
+	import { themes, spacings } from '../config.js';
 	import LogoHeader from '../layout/LogoHeader.svelte';
 	import Footer from '../layout/Footer.svelte';
 	import Header from '../layout/Header.svelte';
@@ -28,6 +28,7 @@
 	import Oepnv from '../ui/Oepnv.svelte';
 	import NavIndicator from '../layout/NavIndicator.svelte';
 	import Filler from '../layout/Filler.svelte';
+	import Spacer from '../layout/Spacer.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -227,14 +228,14 @@
 </script>
 
 
-<Header bgcolor={themes.neutral.background} bgfixed={true} center={false} short={true}>
+<Header bgcolor={themes.neutral.background} center={false} short={true}>
 
 </Header>
 
 {#if id['map']}
 	<NavIndicator/>
 {/if}
-<Filler/>
+<Spacer size={spacings['xxxxl-96']} />
 
 <Section>
 	<div slot="animating">
@@ -246,7 +247,6 @@
 		
 	</div>
 </Section>
-<Divider />
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
@@ -387,7 +387,6 @@
 	</Scroller>
 {/if}
 
-<Divider />
 
 <Section>
 	<div slot="animating">
@@ -455,7 +454,6 @@
 	</div>
 </Scroller>
 
-<Divider />
 
 <Section>
 	<h2>Bußgeldkatalog</h2>

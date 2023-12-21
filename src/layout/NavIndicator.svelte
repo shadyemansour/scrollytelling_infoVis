@@ -27,7 +27,6 @@
 	gsap.registerPlugin(ScrollTrigger);
 
 	function setupGSAP() {
-		console.log('setupGSAP');
 		navContainer = document.querySelector('.nav-container');
 
 		navContainer.addEventListener('mouseenter', expandScrollbar);

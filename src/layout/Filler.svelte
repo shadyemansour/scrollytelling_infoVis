@@ -1,6 +1,5 @@
 <script>
 	import { themes } from '../config.js';
-	import { getContext } from 'svelte';
 
 	export let center = true;
 	export let wide = false;

@@ -47,7 +47,6 @@ export async function getVerkehrData() {
     });
     
     verkehrData.data.timeseries = timeseries; // Save timeseries indictors to data
-    console.log(verkehrData)
     return verkehrData;
 }
 
