@@ -2,13 +2,12 @@
 	import { themes } from '../config.js';
 	import { getContext } from 'svelte';
 
-	export let theme = getContext('theme');
 	export let center = true;
 	export let wide = false;
 	export let short = false;
 </script>
 
-<section style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+<section style="color: {themes.neutral['text-dark'].primary}; background-color: {themes.neutral.background};">
 	<div
 		class="middle"
 		class:center

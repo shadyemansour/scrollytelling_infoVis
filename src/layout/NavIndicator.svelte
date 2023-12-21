@@ -2,13 +2,18 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { themes } from '../config';
 	import { gsap } from 'gsap';
-	import { Flip } from 'gsap/Flip';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { subscribeResize } from '../helpers/resizeService.js';
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
 	import Bike from '../ui/Bike.svelte';
 
 	let enableHover = false;
+	let navContainer;
+
+	let hoverAnimation;
+	let showIconAnimation;
+	let shrinkNavAnimation;
 
 	onMount(() => {
 		setupGSAP();
@@ -16,66 +21,59 @@
 
 	onDestroy(() => {});
 
+	subscribeResize(setupGSAP);
+
 	//GSAP
-	gsap.registerPlugin(Flip);
 	gsap.registerPlugin(ScrollTrigger);
 
 	function setupGSAP() {
+		console.log('setupGSAP');
+		navContainer = document.querySelector('.nav-container');
+
+		navContainer.addEventListener('mouseenter', expandScrollbar);
+		navContainer.addEventListener('mouseleave', shrinkScrollbar);
+
+		// ANIMATIONS
+		showIconAnimation = gsap.to('.iconNavbar', {
+			opacity: '100%',
+			ease: 'power2.inOut',
+			duration: 0.3,
+			paused: true
+		});
+
+		hoverAnimation = gsap.to(navContainer, {
+			width: 200,
+			ease: 'power4.inOut',
+			duration: 0.4,
+			paused: true
+		});
+
+		shrinkNavAnimation = gsap.to(navContainer, {
+			width: 12,
+			ease: 'power4.inOut',
+			duration: 1,
+			paused: true
+		});
+
+		// SCROLLTRIGGERS
+
 		ScrollTrigger.create({
+			id: 'toSide',
 			trigger: '#nav-animator',
 			start: 'top top',
 			endTrigger: '#nav-animator',
 			end: 'bottom bottom',
 			//markers: true,
 			onLeave: () => {
-				animateToSide();
-				enableHover = true;
+				toggleToSide(true);
 			},
 			onEnterBack: () => {
-				animateToSide();
-				enableHover = false;
+				toggleToSide(false);
 			}
 		});
 
-		// Hover
-		const navContainer = document.querySelector('.nav-container');
-
-		function onMouseEnter() {
-			if (enableHover) {
-				animateHover(true);
-			}
-		}
-
-		function onMouseLeave() {
-			if (enableHover) {
-				animateHover(false);
-			}
-		}
-
-		navContainer.addEventListener('mouseenter', onMouseEnter);
-		navContainer.addEventListener('mouseleave', onMouseLeave);
-
-		// gsap.to('.nav-scroller', {
-		// 	height: '100%',
-		// 	duration: 1,
-		// 	scrollTrigger: {
-		// 		trigger: '#nav-animator',
-		// 		start: 'top top',
-		// 		endTrigger: '#footer',
-		// 		end: 'top bottom',
-		// 		scrub: 1,
-		// 		markers: true,
-		// 		onEnter: () => {
-		// 			console.log('back in');
-		// 			gsap.to('.nav-scroller', {
-		// 				height: '0%',
-		// 			});
-		// 		}
-		// 	}
-		// });
-
-
 		ScrollTrigger.create({
+			id: 'scroll',
 			trigger: '#nav-animator',
 			start: 'top top',
 			endTrigger: '#footer',
@@ -88,78 +86,56 @@
 				});
 			},
 			onLeaveBack: () => {
-				//gsap.killTweensOf('.nav-scroller');
 				console.log('back in');
 				gsap.to('.nav-scroller', {
 					height: '100%'
 				});
 			}
 		});
+
+		ScrollTrigger.create({
+			id: 'hover',
+			trigger: '#nav-animator',
+			start: 'bottom top',
+			endTrigger: '#nav-animator',
+			end: 'bottom bottom',
+			//markers: true,
+			onLeave: () => {
+				enableHover = true;
+			},
+			onEnterBack: () => {
+				enableHover = false;
+			}
+		});
 	}
 
-	function animateToSide() {
-		const group = document.querySelector('.nav-container');
-
-		// Get the initial state
-		const state = Flip.getState('.nav-container', { props: 'backgroundColor' });
-
-		// toggle the flex direction
-		let isOnSide = group.classList.toggle('reorder');
-
-		Flip.from(state, {
-			duration: 1,
-			scale: true,
-			ease: 'power3.out',
-		});
-
-		if (isOnSide) {
-			console.log('hide');
-			hideIcons();
-		}
-		if (!isOnSide) {
-			showIcons();
+	function expandScrollbar() {
+		if (enableHover) {
+			hoverAnimation.play();
+			showIconAnimation.play();
 		}
 	}
 
-	function showIcons() {
-		gsap.to('.iconNavbar', {
-			opacity: '100%',
-			duration: 0.5,
-			delay: 0.2
-		});
-	}
-
-	function hideIcons() {
-		gsap.to('.iconNavbar', {
-			opacity: '0%',
-			duration: 0.5
-		});
-	}
-
-	function animateHover(onEnter) {
-		const group = document.querySelector('.nav-container');
-
-		// Get the initial state
-		const state = Flip.getState('.nav-container, .nav-scroller, .iconSizer', {
-			props: 'backgroundColor'
-		});
-
-		// toggle the flex direction
-		if (onEnter) {
-			showIcons();
-			group.classList.add('hover');
-		} else {
-			hideIcons();
-			group.classList.remove('hover');
+	function shrinkScrollbar() {
+		if (enableHover) {
+			hoverAnimation.reverse();
+			showIconAnimation.reverse();
 		}
+	}
 
-		Flip.from(state, {
-			duration: 1,
-			scale: true,
-			ease: 'power3.out'
-			//absolute: true,
-			//targets: '.nav-container'
-		});
+	function toggleToSide(shrink) {
+		if (shrink) {
+			navContainer.classList.add('onside');
+			console.log('shrink');
+			shrinkNavAnimation.play();
+			showIconAnimation.reverse();
+		}
+		if (!shrink) {
+			navContainer.classList.remove('onside');
+			console.log('expand');
+			shrinkNavAnimation.reverse();
+			showIconAnimation.play();
+		}
 	}
 </script>
 
@@ -168,19 +144,16 @@
 		<div class="nav-scroller" style="background-color: {themes.oepnv.primary};">
 			<div class="iconSizer">
 				<Oepnv size="100%" cssClass="iconNavbar" />
-				<!-- <p style="color: {themes.neutral.text.teritary};" class="itemText">Public</p> -->
 			</div>
 		</div>
 		<div class="nav-scroller" style="background-color: {themes.bike.primary};">
 			<div class="iconSizer">
 				<Bike size="100%" cssClass="iconNavbar" />
-				<!-- <p style="color: {themes.neutral.text.teritary};" class="itemText">Bike</p> -->
 			</div>
 		</div>
 		<div class="nav-scroller" style="background-color: {themes.car.primary};">
 			<div class="iconSizer">
 				<Car size="100%" cssClass="iconNavbar" />
-				<!-- <p style="color: {themes.neutral.text.teritary};" class="itemText">Car</p> -->
 			</div>
 		</div>
 	</div>
@@ -193,23 +166,20 @@
 	}
 	:global(.nav-container) {
 		position: relative;
-		width: 100%;
 		display: flex;
 		height: 100%;
+		width: 100%;
 		left: 0;
 		top: 0;
 		right: auto;
 		bottom: 0;
-		background-color: rgba(54, 28, 28, 0);
+		background-color: rgba(237, 237, 237, 0);
 		z-index: 100;
+		backdrop-filter: blur(10px);
 	}
-	:global(.nav-container.reorder) {
+	:global(.nav-container.onside) {
 		position: fixed;
-		width: 12px;
-		background-color: rgba(54, 28, 28, 0.1);
-	}
-	:global(.nav-container.hover) {
-		width: 256px;
+		background-color: rgba(242, 242, 242, 0.8);
 	}
 	.nav-scroller {
 		position: relative;
@@ -217,11 +187,10 @@
 		justify-content: center;
 		align-items: center;
 		flex-grow: 1;
-		height: 100%;
+		border-radius: 0px 0px 50vw 50vw;
 	}
 	.iconSizer {
 		width: 50%;
-		height: 50%;
 	}
 	.itemText {
 		bottom: -0.2ch;

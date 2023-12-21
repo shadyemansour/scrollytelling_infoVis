@@ -27,6 +27,7 @@
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
 	import NavIndicator from '../layout/NavIndicator.svelte';
+	import Filler from '../layout/Filler.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -82,7 +83,7 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
-		console.log(e.detail);
+		//console.log(e.detail);
 	}
 
 	// Functions for map component
@@ -227,27 +228,23 @@
 
 
 <Header bgcolor={themes.neutral.background} bgfixed={true} center={false} short={true}>
-	<h1>Was <br> Deutschland <br> bewegt</h1>
-	<p class="text-big" style="margin-top: 10px; color:{themes.neutral['text-dark'].secondary}">
-		Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
-	</p>
-	<div style="margin-top: 90px;">
-		<Arrow color="black" {animation}></Arrow>
-	</div>
+
 </Header>
 
 {#if id['map']}
 	<NavIndicator/>
 {/if}
-
-<Divider />
+<Filler/>
 
 <Section>
-	<h2>This is Deutschland</h2>
-	<p class="mb">
-		The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
-		about this cool scrolly molly.
-	</p>
+	<div slot="animating">
+		<h2>This is Deutschland</h2>
+		<p class="mb">
+			The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
+			about this cool scrolly molly.
+		</p>
+		
+	</div>
 </Section>
 <Divider />
 
@@ -393,10 +390,12 @@
 <Divider />
 
 <Section>
-	<h2>This is a fery fancy line chart that's still not working</h2>
-	<p class="mb">
-		The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
-	</p>
+	<div slot="animating">
+		<h2>This is a fery fancy line chart that's still not working</h2>
+		<p class="mb">
+			The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
+		</p>
+	</div>
 </Section>
 
 <Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
