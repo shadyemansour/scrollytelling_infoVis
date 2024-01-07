@@ -37,7 +37,7 @@ export async function getRegionData() {
         const max = Math.max(...values);
         indicators.forEach(
             (d, i) =>
-                (indicators[i][key + '_color'] = getColor(min, max, 'interpolateGreens')(d[key]))
+                (indicators[i][key + '_color'] = getColor(min, max, 'car')(d[key]))
         );
         // switch (key) {
         //     case 'density':

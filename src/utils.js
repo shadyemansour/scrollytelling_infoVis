@@ -1,13 +1,9 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
 import { extent } from 'geojson-bounds';
+import { themes } from './config.js';
 import * as d3 from 'd3';
 // CORE FUNCTIONS
-export function setColors(themes, theme) {
-  for (let color in themes[theme]) {
-    document.documentElement.style.setProperty('--' + color, themes[theme][color]);
-  }
-}
 
 export function getMotion() {
   let mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)"); // Check if browser prefers reduced motion
@@ -57,6 +53,11 @@ export function getColor(min, max, colors= "") {
       colorScale = d3.scaleSequential()
             .domain([min, max])
             .interpolator(d3.interpolateGreens);
+            break;
+      case "car":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateHsl(themes.car.bright, themes.car.dark));
             break;
             
     default:

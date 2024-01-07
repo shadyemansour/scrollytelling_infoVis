@@ -29,6 +29,7 @@
 	import NavIndicator from '../layout/NavIndicator.svelte';
 	import Filler from '../layout/Filler.svelte';
 	import Spacer from '../layout/Spacer.svelte';
+	import Legend from '../ui/Legend.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -38,7 +39,6 @@
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
 		idPrev = { ...id };
-
 	});
 
 	onDestroy(() => {
@@ -64,7 +64,7 @@
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = 'density'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
-	let mapColor = 'inferno'; // Changes the default color of map
+	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
@@ -111,13 +111,14 @@
 				mapKey = 2020;
 				mapHighlighted = [];
 				explore = false;
-				mapColor = 'inferno';
+				mapColor = 'interpolateInferno';
 			},
 			map02: () => {
 				fitBounds(mapbounds);
 				mapKey = 2021;
 				mapHighlighted = [];
 				explore = false;
+				mapColor= 'interpolateGreens';
 			},
 			map03: () => {
 				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
@@ -125,6 +126,7 @@
 				mapKey = 2023;
 				mapHighlighted = [hl.code];
 				explore = false;
+				mapColor= 'interpolateMagma';
 			},
 			map04: () => {
 				fitBounds(mapbounds);
@@ -224,16 +226,12 @@
 		currentLineChart = id['lineChart'];
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
-
 </script>
 
-
-<Header bgcolor={themes.neutral.background} center={false} short={true}>
-
-</Header>
+<Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 
 {#if id['map']}
-	<NavIndicator/>
+	<NavIndicator />
 {/if}
 <Spacer size={spacings['xxxxl-96']} />
 
@@ -244,13 +242,13 @@
 			The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
 			about this cool scrolly molly.
 		</p>
-		
 	</div>
 </Section>
 
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
+			<Legend color={mapColor}></Legend>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>
@@ -359,7 +357,9 @@
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat("de-DE").format(region['2023'])} kilometers.
+							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat(
+								'de-DE'
+							).format(region['2023'])} kilometers.
 						</p>
 					{/each}
 				</div>
@@ -386,7 +386,6 @@
 		</div>
 	</Scroller>
 {/if}
-
 
 <Section>
 	<div slot="animating">
@@ -453,7 +452,6 @@
 		</section>
 	</div>
 </Scroller>
-
 
 <Section>
 	<h2>Bußgeldkatalog</h2>
@@ -558,6 +556,7 @@
 		flex-shrink: 0;
 		padding: 0px;
 		gap: 16px;
+		margin: 0 0 12px 0;
 	}
 
 	.icon-background {

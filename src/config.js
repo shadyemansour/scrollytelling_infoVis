@@ -32,6 +32,8 @@ export const themes = {
     'primary': car[1000],
     'secondary': car[600],
     'teritary': car[200],
+    'dark': '#2F1D2D',
+    'bright': '#D6C0D4'
   },
 
   'bike': {

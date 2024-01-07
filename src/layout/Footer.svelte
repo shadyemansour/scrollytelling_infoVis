@@ -20,11 +20,11 @@
 						class="link"
 						href="/aboutus"
 						use:link
-						style="color: {themes['brand']['text']['primary']}">Unser Dreamteam</a
+						>Unser Dreamteam</a
 					>
 				</li>
 				<li>
-					<a class="link" href="/" use:link style="color: {themes['brand']['text']['primary']}"
+					<a class="link" href="/" use:link 
 						>Repository</a
 					>
 				</li>
@@ -33,7 +33,7 @@
 						class="link"
 						href="/sources"
 						use:link
-						style="color: {themes['brand']['text']['primary']}">Quellen</a
+						>Quellen</a
 					>
 				</li>
 			</ul>
@@ -50,26 +50,7 @@
 		padding-top: 36px;
 		font-size: 18px;
 	}
-	footer a.link {
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-		text-decoration: none;
-		display: inline-block;
-	}
-	footer a.link:hover {
-		color: #222;
-	}
-	footer a.link:active {
-		outline: 3px solid transparent;
-		background-color: #fd0;
-		-webkit-box-shadow:
-			0 -2px #fd0,
-			0 4px #222;
-		box-shadow:
-			0 -2px #fd0,
-			0 4px #222;
-		color: #222;
-	}
+
 	ul {
 		padding: 0;
 		margin: 0;
