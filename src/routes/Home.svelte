@@ -138,26 +138,20 @@
 				checkCities();
 			},
 			map03: () => {
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
+				mapKey = 'Oepnv';
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b[mapKey] - a[mapKey])[0];
 				fitById(hl.code);
-				mapKey = 2023;
 				mapHighlighted = [hl.code];
 				explore = false;
 				checkCities();
 			},
 			map04: () => {
 				fitBounds(mapbounds);
-				mapKey = 2022;
+				mapKey = 'Oepnv';
 				mapHighlighted = [];
-				explore = true;
+				explore = false;
+				mapColor = 'interpolateOepnv';
 				showCities = true;
-			},
-			map05: () => {
-				fitBounds(mapbounds);
-				mapKey = 2023;
-				mapHighlighted = [];
-				explore = true;
-				checkCities();
 			}
 		}
 	};
@@ -364,20 +358,24 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="map04">
+			<section data-id="map03">
 				<div class="col-medium">
-					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in
-						<strong>2022</strong>
-						by region. Regions are coloured from <Em
-							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
-							>highest passenger-kilometres</Em
-						>
-					</p>
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b['Oepnv'] - a['Oepnv'])[0]] as region}
+						<p>
+							The map is now zoomed on <Em color={region['Oepnv_color']}>{region.name}</Em>, the
+							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat(
+								'de-DE'
+							).format(region['Oepnv'])} kilometers.
+						</p>
+					{/each}
 				</div>
 			</section>
 
+			<section data-id="map04">
+				<div class="col-medium">
+					<p>Test</p>
+				</div>
+			</section>
 			<!-- <section data-id="map03">
 				<div class="col-medium">
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
