@@ -29,12 +29,14 @@
 	function setupGSAP() {
 		navContainer = document.querySelector('.nav-container');
 
-		navContainer.addEventListener('mouseenter', expandScrollbar);
-		navContainer.addEventListener('mouseleave', shrinkScrollbar);
+		setTimeout(() => {
+			navContainer.addEventListener('mouseenter', expandScrollbar);
+			navContainer.addEventListener('mouseleave', shrinkScrollbar);
+		}, 1200);
 
 		// ANIMATIONS
 		showIconAnimation = gsap.to('.iconNavbar', {
-			opacity: '100%',
+			autoAlpha: '100%',
 			ease: 'power2.inOut',
 			duration: 0.3,
 			paused: true
@@ -55,7 +57,6 @@
 		});
 
 		// SCROLLTRIGGERS
-
 		ScrollTrigger.create({
 			id: 'toSide',
 			trigger: '#nav-animator',
@@ -110,6 +111,7 @@
 
 	function expandScrollbar() {
 		if (enableHover) {
+			console.log('expand - scroll');
 			hoverAnimation.play();
 			showIconAnimation.play();
 		}
@@ -117,6 +119,7 @@
 
 	function shrinkScrollbar() {
 		if (enableHover) {
+			console.log('shrink - scroll');
 			hoverAnimation.reverse();
 			showIconAnimation.reverse();
 		}
