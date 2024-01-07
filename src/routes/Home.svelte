@@ -62,7 +62,7 @@
 	let hovered; // Hovered district (chart or map)
 	let selected; // Selected district (chart or map)
 	let mapHighlighted = []; // Highlighted district (map only)
-	let mapKey = 'density'; // Key for data to be displayed on map
+	let mapKey = 'Car'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let currentBarChart = '';
@@ -108,44 +108,18 @@
 			map01: () => {
 				// Action for <section/> with data-id="map01"
 				fitBounds(mapbounds);
-				mapKey = 2020;
+				mapKey = 'Car';
 				mapHighlighted = [];
 				explore = false;
-				mapColor = 'interpolateInferno';
+				mapColor = 'interpolateCar';
 			},
 			map02: () => {
-				fitBounds(mapbounds);
-				mapKey = 2021;
+				// fitBounds(mapbounds);
+				mapKey = 'Oepnv';
 				mapHighlighted = [];
 				explore = false;
-				mapColor= 'interpolateGreens';
-			},
-			map03: () => {
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
-				fitById(hl.code);
-				mapKey = 2023;
-				mapHighlighted = [hl.code];
-				explore = false;
-				mapColor= 'interpolateMagma';
-			},
-			map04: () => {
-				fitBounds(mapbounds);
-				mapKey = 2022;
-				mapHighlighted = [];
-				explore = true;
-			},
-			map05: () => {
-				fitBounds(mapbounds);
-				mapKey = 2023;
-				mapHighlighted = [];
-				explore = true;
+				mapColor = 'interpolateOepnv';
 			}
-			// map06: () => {
-			// 	fitBounds(mapbounds);
-			// 	mapKey = 'area';
-			// 	mapHighlighted = [];
-			// 	explore = true;
-			// }
 		}
 	};
 
@@ -295,7 +269,7 @@
 									'line-color': [
 										'case',
 										['==', ['feature-state', 'hovered'], true],
-										'orange',
+										'white',
 										['==', ['feature-state', 'selected'], true],
 										'black',
 										['==', ['feature-state', 'highlighted'], true],
@@ -351,9 +325,9 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="map03">
+
+			<!-- <section data-id="map03">
 				<div class="col-medium">
-					<!-- This gets the data object for the region with the oldest median age -->
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
@@ -363,26 +337,7 @@
 						</p>
 					{/each}
 				</div>
-			</section>
-			<section data-id="map05">
-				<div class="col-medium">
-					<h3>Passenger Kilometer 2023</h3>
-					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
-				</div>
-			</section>
+			</section> -->
 		</div>
 	</Scroller>
 {/if}
