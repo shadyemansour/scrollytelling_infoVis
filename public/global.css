@@ -11,8 +11,9 @@ body::-webkit-scrollbar {
 
 html, body {
 	position: relative;
-	width: 100%;
+	width: 100vw;
 	height: 100%;
+	/* overflow-x: hidden; */
 }
 
 body {
@@ -23,7 +24,7 @@ body {
 	-webkit-box-sizing: border-box;
 	        box-sizing: border-box;
 	font-family: "Inter", "Helvetica Neue", "Arial", sans-serif;
-	font-size: 21px;
+	font-size: clamp(1rem, 1.5vw, 1.8rem);
 	line-height: 1.5;
 	word-wrap: break-word;
 }
@@ -31,11 +32,13 @@ body {
 /* COMPONENTS */
 
 a {
-	color: #206095;
+	color: rgb(33, 135, 89);
+	text-decoration: none;
 }
 
 a:hover {
-	color: #323132;
+	color: rgb(33, 80, 50);
+	text-decoration: underline;
 }
 
 label {
@@ -113,7 +116,7 @@ h3 {
 }
 
 p {
-	margin: 30px 0 0 0;
+	margin: 0 0 0 0;
 }
 
 img {
@@ -202,7 +205,7 @@ small {
 }
 
 .text-big {
-	font-size: 30px;
+	font-size: clamp(1rem, 3vw, 1.8rem);
 	margin: 20px 0;
 }
 
@@ -267,14 +270,14 @@ svelte-scroller-background-container {
 	position: relative;
 }
 
-[slot="foreground"] section div::before {
+[slot="foreground"] section div.col-medium::before {
 	content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-	background-color: #ffffffb0;
+	background-color: rgba(255, 255, 255, .80);
   z-index: -1;
   border-radius: 12px;
   border-color: rgba(0, 0, 0, .1);
@@ -284,8 +287,6 @@ svelte-scroller-background-container {
 	-webkit-box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.08), 0px 2px 4px 0px rgba(0,0,0,0.05);
 	-moz-box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.08), 0px 2px 4px 0px rgba(0,0,0,0.05);
 	box-shadow: 0px 8px 14px 0px rgba(0,0,0,0.08), 0px 2px 4px 0px rgba(0,0,0,0.05), inset 0px 8px 16px 0px #ffffffd5, inset 0px -6px 16px -4px #0000000f;
-	
-  
 }
 
 [slot="foreground"] section div p {

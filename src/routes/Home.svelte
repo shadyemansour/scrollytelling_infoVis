@@ -29,6 +29,7 @@
 	import NavIndicator from '../layout/NavIndicator.svelte';
 	import Filler from '../layout/Filler.svelte';
 	import Spacer from '../layout/Spacer.svelte';
+	import Legend from '../ui/Legend.svelte';
 
 	// Config
 	const threshold = 0.8;
@@ -63,7 +64,7 @@
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = 'Car'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
-	let mapColor = 'default'; // Changes the default color of map
+	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
@@ -110,14 +111,14 @@
 				mapKey = 'Car';
 				mapHighlighted = [];
 				explore = false;
-				//mapColor = 'interpolateBlues';
+				mapColor = 'interpolateCar';
 			},
 			map02: () => {
 				// fitBounds(mapbounds);
 				mapKey = 'Oepnv';
 				mapHighlighted = [];
 				explore = false;
-				// mapColor = 'interpolateInferno';
+				mapColor = 'interpolateOepnv';
 			}
 		}
 	};
@@ -221,6 +222,7 @@
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
+			<Legend indicators={regionData.data.region.indicators} {mapKey}></Legend>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>
@@ -509,6 +511,7 @@
 		flex-shrink: 0;
 		padding: 0px;
 		gap: 16px;
+		margin: 0 0 12px 0;
 	}
 
 	.icon-background {
