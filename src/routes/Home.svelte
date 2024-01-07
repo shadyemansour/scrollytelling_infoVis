@@ -48,12 +48,14 @@
 	// Data
 	let regionData;
 	let geojson;
+	let cityGeojson;
 	const mapbounds = [
 		[5, 47.3],
 		[15, 55.2]
 	];
 	let verkehrData;
 	let bussGeldData;
+	let showCities;
 
 	// Element bindings
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -101,6 +103,19 @@
 		}
 	}
 
+	function checkCities() {
+		if (showCities) {
+			showCities = false;
+			console.log(map.getSource('cities'));
+			if (map.getLayer('city-points')) {
+				map.removeLayer('city-points');
+			}
+			if (map.getSource('cities')) {
+				map.removeSource('cities');
+			}
+		}
+	}
+
 	// Actions for Scroller components
 	const actions = {
 		map: {
@@ -112,6 +127,7 @@
 				mapHighlighted = [];
 				explore = false;
 				mapColor = 'interpolateCar';
+				checkCities();
 			},
 			map02: () => {
 				// fitBounds(mapbounds);
@@ -119,6 +135,29 @@
 				mapHighlighted = [];
 				explore = false;
 				mapColor = 'interpolateOepnv';
+				checkCities();
+			},
+			map03: () => {
+				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
+				fitById(hl.code);
+				mapKey = 2023;
+				mapHighlighted = [hl.code];
+				explore = false;
+				checkCities();
+			},
+			map04: () => {
+				fitBounds(mapbounds);
+				mapKey = 2022;
+				mapHighlighted = [];
+				explore = true;
+				showCities = true;
+			},
+			map05: () => {
+				fitBounds(mapbounds);
+				mapKey = 2023;
+				mapHighlighted = [];
+				explore = true;
+				checkCities();
 			}
 		}
 	};
@@ -145,9 +184,10 @@
 			console.error('Error fetching region data:', error);
 		});
 
-	getTopo(DataPaths.TOPO_DATA, 'states').then((geo) => {
-		geo.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
-		geojson = geo;
+	getTopo(DataPaths.TOPO_DATA, 'states', 'cities').then((geo) => {
+		geo.states.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
+		geojson = geo.states;
+		cityGeojson = geo.cities;
 	});
 
 	getVerkehrData()
@@ -219,7 +259,7 @@
 	</div>
 </Section>
 
-{#if geojson && regionData.data.region.indicators}
+{#if geojson && cityGeojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
 			<Legend indicators={regionData.data.region.indicators} {mapKey}></Legend>
@@ -258,7 +298,7 @@
 												regionData.metadata.region.lookup[hovered].name
 										  }<br/><strong>${regionData.data.region.indicators
 												.find((d) => d.code == hovered)
-												[mapKey].toLocaleString()} ${units[mapKey]}</strong>`
+												[mapKey].toLocaleString()} personenkilometer</strong>`
 										: ''}
 								/>
 							</MapLayer>
@@ -280,6 +320,18 @@
 								}}
 							/>
 						</MapSource>
+						{#if showCities}
+							<MapSource id="cities" type="geojson" data={cityGeojson} promoteId="AREANM">
+								<MapLayer
+									id="city-points"
+									type="circle"
+									paint={{
+										'circle-radius': 5,
+										'circle-color': '#007cbf'
+									}}
+								/>
+							</MapSource>
+						{/if}
 					</Map>
 				</div>
 			</figure>

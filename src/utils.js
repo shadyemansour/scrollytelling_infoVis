@@ -27,13 +27,15 @@ export async function getData(url) {
   return data;
 }
 
-export async function getTopo(url, layer) {
+export async function getTopo(url, layer1, layer2) {
   let response = await fetch(url);
   let json = await response.json();
-  let geojson = await feature(json, layer);
-  return geojson;
-}
 
+  let states = await feature(json, json.objects[layer1]);
+  let cities = await feature(json, json.objects[layer2]);
+
+  return { states, cities  };
+}
 
 export function getColor(min, max, colors= "") {
   var colorScale;
