@@ -1,53 +1,58 @@
 <script>
-    import { onMount } from 'svelte';
-    import * as d3 from 'd3';
+	import { onMount } from 'svelte';
+	import * as d3 from 'd3';
 	import { themes } from '../config.js';
-	import { getColor } from '../utils.js';
+	import { getColor, numberWithPoints } from '../utils.js';
 
-	export let color = '#fff';
-	export let colorStart = '#fff';
-	export let colorEnd = '#000';
+	export let mapKey = 'Car';
+	export let indicators;
 
-    let onmount = false;
+	let onmount = false;
+	let sortedIndicators = 0;
 
-	$: if (color && onmount) {
-		colorStart = getColor(1, 100, color)(1);
-		colorEnd = getColor(1, 100, color)(100);
-        drawCanvas();
+    let min = 0;
+    let max = 1;
+
+	$: if (mapKey && onmount) {
+		drawCanvas();
 	}
 
-    onMount(() => {
-        onmount = true;
+	onMount(() => {
+		onmount = true;
 	});
 
-    function drawCanvas() {
-        const canvas = document.getElementById('myCanvas');
-        const context = canvas.getContext('2d');
-    
-    
-        // Create an interpolator between the two colors
-        const interpolate = d3.interpolateHsl(colorStart, colorEnd);
-    
-        // Get the width of the canvas
-        const width = canvas.width;
-    
-        // Loop over the width of the canvas
-        for (let i = 0; i < width; i++) {
-            // Use the interpolator to get the color at each point
-            const color = interpolate(i / width);
-    
-            // Set the fill style and draw a rectangle
-            context.fillStyle = color;
-            context.fillRect(i, 0, 1, canvas.height);
-        }
-    }
+	function drawCanvas() {
+		const canvas = document.getElementById('myCanvas');
+		const context = canvas.getContext('2d');
+
+		sortedIndicators = [...indicators].sort((a, b) => a[mapKey] - b[mapKey]);
+		min = numberWithPoints(sortedIndicators[0][mapKey].toFixed(0));
+		max = numberWithPoints(sortedIndicators[sortedIndicators.length-1][mapKey].toFixed(0));
+
+		// Create an interpolator between the two colors
+		const interpolate = getColor(0, 1, 'interpolate' + mapKey);
+
+		// Get the width of the canvas
+		const width = canvas.width;
+
+		// Loop over the width of the canvas
+		for (let i = 0; i < width; i++) {
+			// Use the interpolator to get the color at each point
+			const color = interpolate(i / width);
+
+			// Set the fill style and draw a rectangle
+			context.fillStyle = color;
+			context.fillRect(i, 0, 1, canvas.height);
+		}
+	}
+
+
 </script>
 
 <div class="legend">
-	<p style="color: {themes.neutral['text-dark'].secondary};">10k</p>
-	<div class="bar" style="background: linear-gradient(0.25turn, {colorStart}, {colorEnd});"></div>
-    <canvas id="myCanvas" class="bar"></canvas>
-	<p style="color: {themes.neutral['text-dark'].secondary};">1.000k</p>
+	<p style="color: {themes.neutral['text-dark'].secondary};">{min}</p>
+	<canvas id="myCanvas" class="bar"></canvas>
+	<p style="color: {themes.neutral['text-dark'].secondary};">{max}</p>
 </div>
 
 <style>

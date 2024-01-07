@@ -222,7 +222,7 @@
 {#if geojson && regionData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
-			<Legend color={mapColor}></Legend>
+			<Legend indicators={regionData.data.region.indicators} {mapKey}></Legend>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>

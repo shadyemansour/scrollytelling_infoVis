@@ -10,6 +10,10 @@ export function setColors(themes, theme) {
   }
 }
 
+export function numberWithPoints(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export function getMotion() {
   let mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)"); // Check if browser prefers reduced motion
 	return !mediaQuery || mediaQuery.matches ? false : true; // return true for motion, false for no motion
