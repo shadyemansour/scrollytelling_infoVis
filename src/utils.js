@@ -1,9 +1,14 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
 import { extent } from 'geojson-bounds';
-import { themes } from './config.js';
+import { themes } from "./config.js";
 import * as d3 from 'd3';
 // CORE FUNCTIONS
+export function setColors(themes, theme) {
+  for (let color in themes[theme]) {
+    document.documentElement.style.setProperty('--' + color, themes[theme][color]);
+  }
+}
 
 export function getMotion() {
   let mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)"); // Check if browser prefers reduced motion
@@ -49,21 +54,26 @@ export function getColor(min, max, colors= "") {
             .domain([min, max])
             .interpolator(d3.interpolateViridis);
             break;
-      case "interpolateGreens":
+    case "interpolateGreens":
       colorScale = d3.scaleSequential()
             .domain([min, max])
             .interpolator(d3.interpolateGreens);
             break;
-      case "car":
+    case "interpolateCar":
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateHsl(themes.car.bright, themes.car.dark));
+            .interpolator(d3.interpolateRgb.gamma(.1)(themes.car.bright, themes.car.dark));
             break;
-            
+    case "interpolateOepnv":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateRgb.gamma(2)(themes.oepnv.bright, themes.oepnv.dark));
+            break;
+    
     default:
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateMagma);
+            .interpolator(d3.interpolateViridis);
       break;
   }
   return colorScale;
