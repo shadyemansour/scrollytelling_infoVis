@@ -134,6 +134,10 @@ small {
 
 /* CLASSES */
 
+.text-balanced {
+	text-wrap: balance
+}
+
 .col-full {
 	width: 100%;
 }

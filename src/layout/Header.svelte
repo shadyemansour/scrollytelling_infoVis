@@ -12,33 +12,48 @@
 
 	let splitTypes;
 	onMount(() => {
-		//setupGSAP();
+		setupGSAP();
 	});
 
 	function setupGSAP(){
-		gsap.registerPlugin(ScrollTrigger);
+		//gsap.registerPlugin(ScrollTrigger);
 
-		splitTypes = document.querySelectorAll('.animatingHeading')
+		var tl = gsap.timeline();
+		
+		splitTypes = document.querySelectorAll('#gsap-heading')
 		splitTypes.forEach((char, i) => {
 			if (char.textContent.trim().length > 0) {
 
 				const text = new SplitType(char, {types: 'chars'})
 				console.log(text.chars);
-				gsap.from(text.chars, {
-					scrollTrigger: {
-						trigger: char, 
-						start: 'top 80%',
-						end: 'top 20%',
-						scrub: true,
-						markers: true,
-	
+				tl.from(text.chars, {
+					y: 40,
+					scaleY: 0,
+					skewY: 8,
+					skewX: -15,
+					stagger: {
+						amount: 1
 					},
-					opacity: 0.2,
-					stagger: 0.1
+					delay: .5,
+					ease: "power3.out",
+
 				})
 			}
+			
+			tl.from('#gsap-subheading', {
+				y: 40,
+				opacity: 0,
+				duration: .8,
+				ease: "power3.out",
+			})
+			tl.from('.short', {
+				height: '100vh',
+				delay: .5,
+				duration: .6,
+				ease: "power3.out",
+			})
+		});
 
-		})
 
 
 	};
@@ -58,8 +73,8 @@
 	>
 		<div class:center>
 			<h1 id="gsap-heading">Was <br> Deutschland <br> bewegt</h1>
-			<p class="text-big" style="margin-top: 10px; color:{themes.neutral['text-dark'].secondary}">
-				Eine interaktive Geschichte über die Beförderungsmittel in Deutschland
+			<p id="gsap-subheading" class="text-big text-balanced" style="margin-top: 10px; color:{themes.neutral['text-dark'].secondary}">
+				Die häufigsten genutzten Verkehrsmittel: Autos, ÖPNV und die CO2-freundlichen Alternativen - Fahrräder. Scrolle dich durch eine Daten-Geschichte über das, was dich täglich bewegt. 🙂
 			</p>
 			<div style="margin-top: 90px;">
 				<!-- <Arrow color="black" {animation}></Arrow> -->
