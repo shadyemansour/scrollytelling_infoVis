@@ -24,67 +24,25 @@ export async function getRegionData() {
     // Process indicators
     let indicators = loadedData.map((d, i) => ({
         ...meta[i],
-        2020: d['2020'],
-        2021: d['2021'],
-        2022: d['2022'],
-        2023: d['2023']
+        "Car": d['car'],
+        "Oepnv": d['oepnv'],
     }));
 
     // Additional processing for region
-    [2020, 2021, 2022, 2023].forEach((key) => {
+    ["Car", "Oepnv"].forEach((key) => {
         let values = indicators.map((d) => d[key]).sort((a, b) => a - b);
         const min = Math.min(...values);
         const max = Math.max(...values);
         indicators.forEach(
-            (d, i) =>
-                (indicators[i][key + '_color'] = getColor(min, max, 'interpolateGreens')(d[key]))
+            (d, i) => {
+                (indicators[i][key + '_color'] = getColor(min, max, 'interpolate'+key)(d[key]));
+            }
         );
-        // switch (key) {
-        //     case 'density':
-        //         indicators.forEach(
-        //             (d, i) =>
-        //                 (indicators[i][key + '_color'] = getColor(min, max, 'interpolateViridis')(d[key]))
-        //         );
-        //         break;
-        //     case 'age_med':
-        //         indicators.forEach(
-        //             (d, i) =>
-        //                 (indicators[i][key + '_color'] = getColor(min, max, 'interpolateInferno')(d[key]))
-        //         );
-        //         break;
-        //     case 'area':
-        //         indicators.forEach(
-        //             (d, i) =>
-        //                 (indicators[i][key + '_color'] = getColor(min, max, 'interpolateBlues')(d[key]))
-        //         );
-        //         break;
-
-        //     default:
-        //         indicators.forEach((d, i) => (indicators[i][key + '_color'] = colorScale(d[key])));
-        //         break;
-        // }
+            
     });
+    console.log(indicators);    
     regionData.data.region.indicators = indicators; // Save regions indictors to data
 
-    // // Process timeseries
-    // let years = [
-    //     2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-    //     2016, 2017, 2018, 2019, 2020
-    // ];
-
-    // let timeseries = [];
-    // loadedData.forEach((d) => {
-    //     years.forEach((year) => {
-    //         timeseries.push({
-    //             code: d.code,
-    //             name: d.name,
-    //             value: d[year],
-    //             year
-    //         });
-    //     });
-    // });
-    
-    // regionData.data.region.timeseries = timeseries; // Save timeseries indictors to data
     return regionData;
 }
 

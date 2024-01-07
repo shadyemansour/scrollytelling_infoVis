@@ -53,16 +53,26 @@ export function getColor(min, max, colors= "") {
             .domain([min, max])
             .interpolator(d3.interpolateViridis);
             break;
-      case "interpolateGreens":
+    case "interpolateGreens":
       colorScale = d3.scaleSequential()
             .domain([min, max])
             .interpolator(d3.interpolateGreens);
             break;
-            
+    case "interpolateCar":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateGreens);
+            break;
+    case "interpolateOepnv":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateGreens);
+            break;
+    
     default:
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateMagma);
+            .interpolator(d3.interpolateViridis);
       break;
   }
   return colorScale;

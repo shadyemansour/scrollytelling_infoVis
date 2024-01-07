@@ -38,7 +38,6 @@
 	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
 	onMount(() => {
 		idPrev = { ...id };
-
 	});
 
 	onDestroy(() => {
@@ -62,9 +61,9 @@
 	let hovered; // Hovered district (chart or map)
 	let selected; // Selected district (chart or map)
 	let mapHighlighted = []; // Highlighted district (map only)
-	let mapKey = 'density'; // Key for data to be displayed on map
+	let mapKey = 'Car'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
-	let mapColor = 'inferno'; // Changes the default color of map
+	let mapColor = 'default'; // Changes the default color of map
 	let currentBarChart = '';
 	let lineChartTrigger = -1;
 	let currentLineChart = '';
@@ -108,42 +107,18 @@
 			map01: () => {
 				// Action for <section/> with data-id="map01"
 				fitBounds(mapbounds);
-				mapKey = 2020;
+				mapKey = 'Car';
 				mapHighlighted = [];
 				explore = false;
-				mapColor = 'inferno';
+				//mapColor = 'interpolateBlues';
 			},
 			map02: () => {
-				fitBounds(mapbounds);
-				mapKey = 2021;
+				// fitBounds(mapbounds);
+				mapKey = 'Oepnv';
 				mapHighlighted = [];
 				explore = false;
-			},
-			map03: () => {
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0];
-				fitById(hl.code);
-				mapKey = 2023;
-				mapHighlighted = [hl.code];
-				explore = false;
-			},
-			map04: () => {
-				fitBounds(mapbounds);
-				mapKey = 2022;
-				mapHighlighted = [];
-				explore = true;
-			},
-			map05: () => {
-				fitBounds(mapbounds);
-				mapKey = 2023;
-				mapHighlighted = [];
-				explore = true;
+				// mapColor = 'interpolateInferno';
 			}
-			// map06: () => {
-			// 	fitBounds(mapbounds);
-			// 	mapKey = 'area';
-			// 	mapHighlighted = [];
-			// 	explore = true;
-			// }
 		}
 	};
 
@@ -224,16 +199,12 @@
 		currentLineChart = id['lineChart'];
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
-
 </script>
 
-
-<Header bgcolor={themes.neutral.background} center={false} short={true}>
-
-</Header>
+<Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 
 {#if id['map']}
-	<NavIndicator/>
+	<NavIndicator />
 {/if}
 <Spacer size={spacings['xxxxl-96']} />
 
@@ -244,7 +215,6 @@
 			The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
 			about this cool scrolly molly.
 		</p>
-		
 	</div>
 </Section>
 
@@ -297,7 +267,7 @@
 									'line-color': [
 										'case',
 										['==', ['feature-state', 'hovered'], true],
-										'orange',
+										'white',
 										['==', ['feature-state', 'selected'], true],
 										'black',
 										['==', ['feature-state', 'highlighted'], true],
@@ -353,40 +323,22 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="map03">
+
+			<!-- <section data-id="map03">
 				<div class="col-medium">
-					<!-- This gets the data object for the region with the oldest median age -->
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat("de-DE").format(region['2023'])} kilometers.
+							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat(
+								'de-DE'
+							).format(region['2023'])} kilometers.
 						</p>
 					{/each}
 				</div>
-			</section>
-			<section data-id="map05">
-				<div class="col-medium">
-					<h3>Passenger Kilometer 2023</h3>
-					<p>Use the selection box below or click on the map to select and zoom to a region.</p>
-					{#if geojson}
-						<p>
-							<!-- svelte-ignore a11y-no-onchange -->
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if}
-				</div>
-			</section>
+			</section> -->
 		</div>
 	</Scroller>
 {/if}
-
 
 <Section>
 	<div slot="animating">
@@ -453,7 +405,6 @@
 		</section>
 	</div>
 </Scroller>
-
 
 <Section>
 	<h2>Bußgeldkatalog</h2>
