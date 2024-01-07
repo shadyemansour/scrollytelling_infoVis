@@ -21,6 +21,26 @@
 	let svgAxis;
 	let lastLengths = {}; // Store the last length of each line
 	let circles = {}; // Store references to circle elements
+	let highlightedRegionsEl = {};
+	const transitionTime = 500;
+	let highlightedRegions = [
+		{
+			step: 3,
+			event: 'something',
+			start: new Date(2018, 11, 1),
+			end: new Date(2020, 1, 1),
+			color: 'blue',
+			isVisible: false
+		},
+		{
+			step: 5,
+			event: 'something else',
+			start: new Date(2021, 11, 1),
+			end: new Date(2022, 9, 1),
+			color: 'red',
+			isVisible: false
+		}
+	];
 
 	onMount(() => {
 		data = updateDataStructure(rawData);
@@ -144,6 +164,7 @@
 	}
 
 	function updateChart(step) {
+		console.log(step);
 		yearLimit = getYearLimit(step);
 
 		const inVisibleData = data.map((series) => ({
@@ -151,6 +172,7 @@
 			ys: series.ys.filter((d) => d.x <= yearLimit)
 		}));
 		d3.select(svg).selectAll('circle').remove();
+		let isForward;
 
 		inVisibleData.forEach((series) => {
 			let inVisPath = d3.select(svg).select(`path.${series.name + 1}`);
@@ -163,7 +185,7 @@
 
 			// Determine the direction of animation
 			let previousLength = lastLengths[series.name] || 0;
-			const isForward = totalLength > previousLength;
+			isForward = totalLength > previousLength;
 
 			circles[series.name] = d3
 				.select(svg)
@@ -185,7 +207,7 @@
 					.attr('stroke-dashoffset', maxLength - previousLength)
 					.transition()
 					.ease(d3.easeQuadOut)
-					.duration(500)
+					.duration(transitionTime)
 					.attr('stroke-dashoffset', maxLength - totalLength)
 					.tween('pathTween', () => {
 						return (t) => {
@@ -201,7 +223,7 @@
 					.attr('stroke-dashoffset', maxLength - previousLength)
 					.transition()
 					.ease(d3.easeLinear)
-					.duration(500)
+					.duration(transitionTime)
 					.attr('stroke-dashoffset', maxLength - totalLength)
 					.tween('pathTween', () => {
 						return (t) => {
@@ -215,6 +237,9 @@
 			// Perform the transition
 			lastLengths[series.name] = totalLength;
 		});
+		updateHighlightedRegions(step);
+		// if (isForward) highlightRegions(step);
+		// else unhighlightRegions(step + 1);
 	}
 
 	function getYearLimit(step) {
@@ -262,6 +287,136 @@
 		return data
 			.filter((d) => d.code === category)
 			.map((d) => ({ x: new Date(d.year, d.month - 1, 1), y: d.value }));
+	}
+
+	function highlightRegions(region) {
+		console.log('highlight', region.step);
+		highlightedRegionsEl[region.step] = svgAxis
+			.append('rect')
+			.attr('class', `highlight-rect.step-${region.step}`)
+			.attr('x', xScale(region.start))
+			.attr('width', 0)
+			.attr('y', 0)
+			.attr('height', height)
+			.style('fill', region.color)
+			.style('opacity', 0.3);
+		highlightedRegionsEl[region.step]
+			.transition()
+			.duration(transitionTime) // Duration in milliseconds
+			.attr('width', xScale(region.end) - xScale(region.start));
+	}
+
+	function unhighlightRegions(step) {
+		console.log('unhighlight', step);
+		if (highlightedRegionsEl[step]) {
+			// Select the highlighted element
+			console.log(highlightedRegionsEl);
+			let highlightRect = highlightedRegionsEl[step];
+
+			// let currentWidth = parseFloat(highlightRect.attr('width'));
+			// Animate the properties back to their original state
+			highlightRect
+				.transition()
+				.duration(transitionTime) // Duration in milliseconds
+				.attr('width', 0)
+				// .attr('width', currentWidth) // Assuming the original width was 0
+				.on('end', () => {
+					highlightRect.remove(); // Optionally remove the element after animation
+				});
+		}
+	}
+
+	function updateHighlightedRegions(step) {
+		highlightedRegions.forEach((region) => {
+			if (region.step <= step + 1) {
+				drawStartLine(region);
+			}
+			if (region.step >= step + 2) {
+				undrawStartLine(region.step);
+			}
+			if (region.step <= step) {
+				// Highlight this region as it is before or at the current step
+				// Ensure this does not duplicate existing highlights
+				if (!region.isVisible) {
+					highlightRegions(region);
+					region.isVisible = true;
+				}
+			} else {
+				// Unhighlight this region as it is after the current step
+				if (region.isVisible) {
+					unhighlightRegions(region.step);
+					region.isVisible = false;
+				}
+			}
+		});
+	}
+
+	function drawStartLine(region) {
+		// Check if the line is already drawn
+		if (!highlightedRegionsEl[`start-line-${region.step}`]) {
+			highlightedRegionsEl[`start-line-${region.step}`] = svgAxis
+				.append('line')
+				.attr('class', `start-line step-${region.step}`)
+				.attr('x1', xScale(region.start))
+				.attr('x2', xScale(region.start))
+				.attr('y1', height)
+				.attr('y2', height)
+				.attr('stroke', region.color)
+				.attr('stroke-opacity', 0.7)
+				.attr('stroke-width', 2);
+
+			// Animate the start line
+			highlightedRegionsEl[`start-line-${region.step}`]
+				.transition()
+				.duration(transitionTime)
+				.attr('y2', 0);
+
+			highlightedRegionsEl[`start-text-${region.step}`] = svgAxis
+				.append('text')
+				.attr('class', `start-text step-${region.step}`)
+				.attr('x', xScale(region.start))
+				.attr('y', -5) // Adjust this value to position the text above the line
+				.attr('text-anchor', 'middle') // Center the text over the line
+				.text(region.event) // Assuming the text is stored in region.event
+				.style('fill', region.color)
+				.style('opacity', 0) // Start with text invisible
+				.style('font-weight', 'bold')
+				.style('font-size', '12px');
+
+			// Animate the text to fade in
+			highlightedRegionsEl[`start-text-${region.step}`]
+				.transition()
+				.duration(transitionTime)
+				.style('opacity', 1);
+		}
+	}
+	function undrawStartLine(step) {
+		// Check if the line is already drawn
+		if (highlightedRegionsEl[`start-line-${step}`]) {
+			let startLine = highlightedRegionsEl[`start-line-${step}`];
+
+			startLine
+				.transition()
+				.duration(transitionTime)
+				.attr('y2', height)
+				.on('end', () => {
+					startLine.remove();
+					delete highlightedRegionsEl[`start-line-${step}`];
+				});
+
+			// Remove the text element
+			if (highlightedRegionsEl[`start-text-${step}`]) {
+				let startText = highlightedRegionsEl[`start-text-${step}`];
+				startText
+					.transition()
+					.duration(transitionTime)
+					.style('opacity', 0) // Fade out the text
+					.on('end', () => {
+						startText.remove();
+						delete highlightedRegionsEl[`start-text-${step}`];
+					});
+			}
+		}
 	}
 </script>
 
