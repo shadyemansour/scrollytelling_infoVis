@@ -1,6 +1,7 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
 import { extent } from 'geojson-bounds';
+import { themes } from "./config.js";
 import * as d3 from 'd3';
 // CORE FUNCTIONS
 export function setColors(themes, theme) {
@@ -61,12 +62,12 @@ export function getColor(min, max, colors= "") {
     case "interpolateCar":
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateGreens);
+            .interpolator(d3.interpolateRgb.gamma(.1)(themes.car.bright, themes.car.dark));
             break;
     case "interpolateOepnv":
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateGreens);
+            .interpolator(d3.interpolateRgb.gamma(2)(themes.oepnv.bright, themes.oepnv.dark));
             break;
     
     default:

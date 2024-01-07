@@ -32,20 +32,24 @@ export const themes = {
     'primary': car[1000],
     'secondary': car[600],
     'teritary': car[200],
+    'dark': '#2E1E05',
+    'bright': '#FF9D00',
   },
-
+  
   'bike': {
-
+    
     'primary': bike[1000],
     'secondary': bike[600],
     'teritary': bike[200],
   },
-
-  'oepnv': {
   
+  'oepnv': {
+    
     'primary': oepnv[1000],
     'secondary': oepnv[600],
     'teritary': oepnv[200],
+    'dark': '#0E253E',
+    'bright': '#99C1EB',
   }
 }
 
