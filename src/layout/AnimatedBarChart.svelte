@@ -225,6 +225,6 @@
 		justify-content: center; /* Centers children along the main axis (vertically in this case) */
 		align-items: center; /* Centers children along the cross axis (horizontally) */
 		width: 100%;
-		height: 100%;
+		height: 90%;
 	}
 </style>

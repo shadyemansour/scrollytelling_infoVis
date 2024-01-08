@@ -16,6 +16,7 @@
 	import { getRegionData } from '../helpers/getRegionData.js';
 	import { getVerkehrData } from '../helpers/getVerkehrData.js';
 	import { getBussGeldData } from '../helpers/getBussGeldData.js';
+	import Hyphenopoly from 'hyphenopoly';
 
 	import DataPaths from '../utils/constants.js';
 	// DEMO-SPECIFIC IMPORTS
@@ -234,6 +235,18 @@
 		currentLineChart = id['lineChart'];
 		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
 	}
+
+	// Initialize Hyphenopoly
+	const hyphenateText = async () => {
+		const hyphenopoly = await Hyphenopoly.config({
+			displayToggleBox: true,
+			intermediateState: 'visible'
+		});
+
+		hyphenopoly.run();
+	};
+
+	hyphenateText();
 </script>
 
 <Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
@@ -241,14 +254,152 @@
 {#if id['map']}
 	<NavIndicator />
 {/if}
+
+<Spacer size={spacings['xxxxl-96']} />
+<Section>
+	<div slot="animating">
+		<h2>This is Deutschland</h2>
+		<p class="mb">
+			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
+			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
+			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
+			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
+			Ereignisse diesen möglicherweise beeinflussen.
+		</p>
+		<div class="erklaerungs-texte">
+			<p>
+				* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen,
+				die private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
+				Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
+				Zeitpunkten beeinflusst wird.
+			</p>
+		</div>
+	</div>
+</Section>
+
+<Scroller {threshold} bind:id={id['lineChart']}>
+	<div slot="background">
+		<figure>
+			<div class="col-wide height-full">
+				{#if verkehrData}
+					<div class="chart">
+						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger} />
+					</div>
+				{/if}
+			</div>
+		</figure>
+	</div>
+
+	<div slot="foreground">
+		<section data-id="lineChart01">
+			<div class="col-medium">
+				<div class="icon-heading">
+					<div class="icon-background" style="background-color: {themes.bike.teritary};">
+						<Bike size="40" color={themes.bike.primary} />
+					</div>
+					<div class="icon-background" style="background-color: {themes.car.teritary};">
+						<Car size="40" color={themes.car.primary} />
+					</div>
+					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
+						<Oepnv size="40" color={themes.oepnv.primary} />
+					</div>
+					<h2>Autos</h2>
+				</div>
+				<p>
+					Während am 02.01.2018 für Emissionsberechtigungen der Preis pro Tonne CO2 noch bei 7,81€
+					liegt, verzeichnen wir ein Jahr später am 02.01.2019 einen Preis von 25,31€.
+				</p>
+			</div>
+		</section>
+
+		<section data-id="lineChart02">
+			<div class="col-medium">
+				<p>
+					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
+					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
+					Jahr später am 02.01.2019 einen Preis von 25,31€. Dieser Wert entspricht einem Anstieg um
+					324%. Diese Steigerung markiert den Beginn eines anhaltenden Trends, der sich auf die
+					Preise und Art der Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und
+					Plug-in-Hybriden noch schneller an Beliebtheit.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart03">
+			<div class="col-medium">
+				<p>
+					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
+					Fabriken, welche die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
+					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart04">
+			<div class="col-medium">
+				<p>
+					Im Juni, Juli und August 2022 wird kurzzeitig das 9€ Ticket eingeführt, wodurch Bus und
+					Bahn erschwinglicher werden.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart05">
+			<div class="col-medium">
+				<p>
+					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49€ zur Verfügung.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart06">
+			<div class="col-medium">
+				<p style="text-align: center;">Generell sehen wir, dass alle Kurven ansteigen.</p>
+			</div>
+		</section>
+		<section data-id="lineChart06">
+			<div class="col-medium">
+				<p>
+					Der ÖPNV passt immer zum Jahreswechsel die Preise an. Die stärksten Anpassungen sind dabei
+					2016 und 2023.
+				</p>
+			</div>
+		</section>
+		<section data-id="lineChart06">
+			<div class="col-medium">
+				<p style="text-align: center;">Hingegen bleibt der Fahrrad-Index weitestgehend konstant.</p>
+			</div>
+		</section>
+		<section data-id="lineChart06">
+			<div class="col-medium">
+				<p>
+					Das generelle Ansteigen aller Kurven kann anhand der wachsenden Inflation begründet
+					werden. Während diese sich normalerweise zwischen 0% und 2% bewegen, beobachten wir seit
+					2021 eine signifikante Preissteigerung. Im Vergleich zu den Vorjahren liegt die
+					Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
+				</p>
+			</div>
+			<!-- add marker -->
+		</section>
+
+		<section data-id="lineChart06">
+			<div class="col-medium">
+				<p lang="de">
+					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7% im
+					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
+					-24,8%.
+				</p>
+			</div>
+		</section>
+	</div>
+</Scroller>
+
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
 	<div slot="animating">
 		<h2>This is Deutschland</h2>
 		<p class="mb">
-			The map is responding on ya scroll, Thats very cool right? yes yes it is. Dont get jaloussee
-			about this cool scrolly molly.
+			Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
+			ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
+			Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
+			Erklärung hindeutet.
 		</p>
 	</div>
 </Section>
@@ -335,57 +486,85 @@
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in
-						<strong>2020</strong>
-						by region. Regions are coloured from <Em
-							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
-							>highest passenger-kilometres</Em
-						>. You can hover to see the region name and density.
+						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
+						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
+						Bundesländern und erkunde die Deutschlandkarte:
 					</p>
 				</div>
 			</section>
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						This map shows the average <strong>passenger-kilometres</strong> in
-						<strong>2021</strong>
-						by region. Regions are coloured from <Em
-							color={getColor(1, 100, 'interpolateGreens')(1)}>lowest passenger-kilometres</Em
-						> to <Em color={getColor(1, 100, 'interpolateGreens')(100)}
-							>highest passenger-kilometres</Em
-						>
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten
+						CO2-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
+						und 20-mal so viel wie Fahrräder.
 					</p>
 				</div>
 			</section>
 			<section data-id="map03">
 				<div class="col-medium">
-					{#each [[...regionData.data.region.indicators].sort((a, b) => b['Oepnv'] - a['Oepnv'])[0]] as region}
-						<p>
-							The map is now zoomed on <Em color={region['Oepnv_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat(
-								'de-DE'
-							).format(region['Oepnv'])} kilometers.
-						</p>
+					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
+						<p>In Hessen kommen 11 mal so viele Kilometer auf einen Einwohner wie im Saarland.</p>
 					{/each}
+				</div>
+			</section>
+			<section data-id="map04">
+				<div class="col-medium">
+					<p>
+						In Berlin haben 99,4% der Einwohner in unmittelbarer Nähe* eine Haltestelle.
+						Mecklenburg-Vorpommern ist mit 66,1% das Schlusslicht. Die Netzdichte könnte ein Grund
+						für die Unterschiede zwischen den Bundesländern sein
+					</p>
+					<p style="font-size: 13px; font-style: italic ;">
+						* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags min.
+						28 Abfahrten
+					</p>
 				</div>
 			</section>
 
-			<section data-id="map04">
+			<!-- <section data-id="map05">
 				<div class="col-medium">
-					<p>Test</p>
+					<p style="text-align: center;">
+						Mach dir dein eigenes Bild der Nutzung des ÖPNV’s in den Bundesländern und erkunde die
+						Deutschlandkarte:
+					</p>
+					 {#if geojson}
+						<p>
+							<select bind:value={selected} on:change={() => fitById(selected)}>
+								<option value={null}>Select one</option>
+								{#each geojson.features as place}
+									<option value={place.properties.AREACD}>
+										{place.properties.AREANM}
+									</option>
+								{/each}
+							</select>
+						</p>
+					{/if} 
 				</div>
 			</section>
-			<!-- <section data-id="map03">
+			<section data-id="map02">
 				<div class="col-medium">
-					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
-						<p>
-							The map is now zoomed on <Em color={region['2023_color']}>{region.name}</Em>, the
-							region with the highest passenger-kilometer in 2023, {new Intl.NumberFormat(
-								'de-DE'
-							).format(region['2023'])} kilometers.
-						</p>
-					{/each}
+					<p>
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten
+						CO2-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
+						und 20-mal so viel wie Fahrräder.
+					</p>
+				</div>
+			</section>
+			<section data-id="map02">
+				<div class="col-medium">
+					<p>
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
+						die größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
+						nicht besonders gut ab…
+					</p>
+				</div>
+			</section>
+			<section data-id="map02">
+				<div class="col-medium">
+					<p style="text-align: center;">
+						Erkunde die Karte, indem du deine Maus über die einzelnen Städte bewegst.
+					</p>
 				</div>
 			</section> -->
 		</div>
@@ -393,81 +572,20 @@
 {/if}
 
 <Section>
-	<div slot="animating">
-		<h2>This is a fery fancy line chart that's still not working</h2>
-		<p class="mb">
-			The chart is responding on ya scroll, Thats very cool right? yes yes it is (if it works).
-		</p>
-	</div>
-</Section>
-
-<Scroller {threshold} bind:id={id['lineChart']} splitscreen={true}>
-	<div slot="background">
-		<figure>
-			<div class="col-wide height-full">
-				{#if verkehrData}
-					<div class="chart">
-						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger} />
-					</div>
-				{/if}
-			</div>
-		</figure>
-	</div>
-
-	<div slot="foreground">
-		<section data-id="lineChart01">
-			<div class="col-medium">
-				<div class="icon-heading">
-					<div class="icon-background" style="background-color: {themes.bike.teritary};">
-						<Bike size="40" color={themes.bike.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.car.teritary};">
-						<Car size="40" color={themes.car.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-						<Oepnv size="40" color={themes.oepnv.primary} />
-					</div>
-					<h2>Fahrräder</h2>
-				</div>
-				<p>
-					This chart shows the <strong>prices </strong> of the usage of the three different means of
-					transportation. Each circle represents one mean of transportation.
-				</p>
-			</div>
-		</section>
-		<section data-id="lineChart02">
-			<div class="col-medium">
-				<p>Flying through the years</p>
-			</div>
-		</section>
-		<section data-id="lineChart03">
-			<div class="col-medium">
-				<p>some more years</p>
-			</div>
-		</section>
-		<section data-id="lineChart04">
-			<div class="col-medium">
-				<h3>Watch what's going to happen</h3>
-			</div>
-		</section>
-		<section data-id="lineChart05">
-			<div class="col-medium">
-				<h3>Whopala! That's interesting, but let's move on</h3>
-			</div>
-		</section>
-	</div>
-</Scroller>
-
-<Section>
-	<h2>Bußgeldkatalog</h2>
-	<p>
-		Die Busgelder für die einzelnen Vergehen der Verkehrmittel zeigen deutliche unterschiede. This
-		is a barchart that animates on your scroll. Please don't be harsh on it. IT'S FRAGILE!
+	<h3>Klimawirkung im Personenverkehr</h3>
+	<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
+	<p style="font-size: 14px; font-style: italic ;">
+		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
+		unterschiedlicher Treibhausgase zu vergleichen
+	</p>
+	<p style="text-align: justify;">
+		Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
+		viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
 	</p>
 </Section>
 
 {#if geojson && regionData.data.region.indicators}
-	<Scroller {threshold} bind:id={id['barChart']} splitscreen={true}>
+	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
 			<figure>
 				<div class="col-wide height-full">
@@ -478,8 +596,9 @@
 								xKey="amount"
 								yKey="category"
 								xSuffix=" €"
-								title="Bußgeldkatalog"
-								source="a nice source"
+								title="CO2 Emissionen"
+								source="Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den Personen- 
+										und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021"
 								xTicks="0"
 							/>
 						{/if}
@@ -491,13 +610,7 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<div style="color: {themes.bike.primary};" class="icon-heading">
-						<div class="icon-background" style="background-color: {themes.bike.teritary};">
-							<Bike size="40" />
-						</div>
-						<h2>Fahrräder</h2>
-					</div>
-					<p>
+					<p style="text-align: center;">
 						Die Busßgelder für <strong style="color: {themes.bike.primary};">Bikes</strong> sind ziemlich
 						hoch!
 					</p>
@@ -505,13 +618,7 @@
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
-					<div style="color: {themes.car.primary};" class="icon-heading">
-						<div class="icon-background" style="background-color: {themes.car.teritary};">
-							<Car size="40" />
-						</div>
-						<h2 style="color: {themes.car.primary};">Autos</h2>
-					</div>
-					<p>
+					<p style="text-align: center;">
 						This chart shows the fines for <strong style="color: {themes.car.primary};">Cars</strong
 						>!
 					</p>
@@ -519,13 +626,7 @@
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
-					<div style="color: {themes.oepnv.primary};" class="icon-heading">
-						<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-							<Oepnv size="40" />
-						</div>
-						<h2 style="color: {themes.oepnv.primary};">Öffentliche Verkehrmittel</h2>
-					</div>
-					<p>
+					<p style="text-align: center;">
 						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"
 							>Oepnv</strong
 						>!
@@ -546,6 +647,7 @@
 	:global(svelte-scroller-foreground section div) {
 		pointer-events: all !important;
 	}
+
 	select {
 		max-width: 350px;
 	}
@@ -569,5 +671,17 @@
 		padding: 6px;
 		width: 40px;
 		height: 40px;
+	}
+
+	.erklaerungs-texte {
+		font-style: italic;
+		font-size: 13px;
+		hyphens: auto;
+	}
+	.hypens {
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		-ms-hyphens: auto;
+		hyphens: auto;
 	}
 </style>
