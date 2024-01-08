@@ -588,17 +588,16 @@
 <Section>
 	<h3>Klimawirkung im Personenverkehr</h3>
 	<br />
-
 	<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
-	<br />
-	<p style="font-size: 14px; font-style: italic ;">
-		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
-		unterschiedlicher Treibhausgase zu vergleichen
-	</p>
 	<br />
 	<p style="text-align: justify;">
 		Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
 		viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
+	</p>
+	<br />
+	<p style="font-size: 14px; font-style: italic ;">
+		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
+		unterschiedlicher Treibhausgase zu vergleichen
 	</p>
 </Section>
 
