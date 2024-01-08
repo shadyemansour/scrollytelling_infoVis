@@ -2,10 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBMPlexSerif:wght@700;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=RalewayDots:wght@700;700&display=swap');
 
 
 /* GLOBALS */
-body::-webkit-scrollbar {
+body::-webkit-scrollbar {	
 	display: none;
   }
 
@@ -155,6 +159,15 @@ small {
 	width: 100%;
 	max-width: 680px;
 	margin: 0 32px;
+	align-items: center; 
+	justify-content: center;
+	font-size: 19px;
+
+}
+
+.centerText{
+
+	text-align: center;
 }
 
 .col-narrow {
@@ -272,15 +285,15 @@ svelte-scroller-background-container {
 
 [slot="foreground"] section div.col-medium::before {
 	content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	background-color: rgba(255, 255, 255, .80);
-  z-index: -1;
-  border-radius: 12px;
-  border-color: rgba(0, 0, 0, .1);
+	z-index: -1;
+	border-radius: 12px;
+	border-color: rgba(0, 0, 0, .1);
 	border-width: 1px;
 	border-style: solid;
 	backdrop-filter: blur(10px);
