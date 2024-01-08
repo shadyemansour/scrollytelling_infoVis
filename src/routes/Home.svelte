@@ -569,15 +569,33 @@
 			</section> -->
 		</div>
 	</Scroller>
+
+	<Spacer size={spacings['xxxxl-96']} />
 {/if}
+<!--  <Section>
+	<div class="erklaerungs-texte">
+		<p>
+			Quelle: Unternehmen, Beförderte Personen, Personenkilometer (Personenverkehr mit Bussen und
+			Bahnen): Bundesländer, Quartale, Verkehrsart, DESTATIS Statistisches Bundesamt | Stand: 2023
+			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
+			Stand: 2023 Werte für: 2020
+		</p>
+	</div>
+</Section> -->
+
+<Spacer size={spacings['xxxxl-96']} />
 
 <Section>
 	<h3>Klimawirkung im Personenverkehr</h3>
+	<br />
+
 	<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
+	<br />
 	<p style="font-size: 14px; font-style: italic ;">
 		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
 		unterschiedlicher Treibhausgase zu vergleichen
 	</p>
+	<br />
 	<p style="text-align: justify;">
 		Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
 		viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
