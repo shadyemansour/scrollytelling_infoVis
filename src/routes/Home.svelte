@@ -69,7 +69,7 @@
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let currentBarChart = '';
-	let lineChartTrigger = -1;
+	let lineChartTrigger = 0;
 	let currentLineChart = '';
 
 	// FUNCTIONS (INCL. SCROLLER ACTIONS)
@@ -107,7 +107,6 @@
 	function checkCities() {
 		if (showCities) {
 			showCities = false;
-			console.log(map.getSource('cities'));
 			if (map.getLayer('city-points')) {
 				map.removeLayer('city-points');
 			}
@@ -227,13 +226,12 @@
 				break;
 		}
 		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-		console.log('Updated Bar Chart Data:', bussDatafiltered);
 	}
 
 	//linechart
 	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
 		currentLineChart = id['lineChart'];
-		lineChartTrigger = parseInt(id['lineChart'].charAt(id['lineChart'].length - 1), 10);
+		lineChartTrigger = parseInt(id['lineChart'].slice(-2), 10);
 	}
 
 	// Initialize Hyphenopoly
@@ -291,6 +289,7 @@
 	</div>
 
 	<div slot="foreground">
+		<section data-id="lineChart00"></section>
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<div class="icon-heading">
@@ -306,25 +305,24 @@
 					<h2>Autos</h2>
 				</div>
 				<p>
-					Während am 02.01.2018 für Emissionsberechtigungen der Preis pro Tonne CO2 noch bei 7,81€
-					liegt, verzeichnen wir ein Jahr später am 02.01.2019 einen Preis von 25,31€.
+					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
+					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
+					Jahr später am 02.01.2019 einen Preis von 25,31€.
 				</p>
 			</div>
 		</section>
 
-		<section data-id="lineChart02">
+		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
-					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
-					Jahr später am 02.01.2019 einen Preis von 25,31€. Dieser Wert entspricht einem Anstieg um
-					324%. Diese Steigerung markiert den Beginn eines anhaltenden Trends, der sich auf die
-					Preise und Art der Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und
-					Plug-in-Hybriden noch schneller an Beliebtheit.
+					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324%. Diese Steigerung
+					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
+					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
+					noch schneller an Beliebtheit.
 				</p>
 			</div>
 		</section>
-		<section data-id="lineChart03">
+		<section data-id="lineChart02">
 			<div class="col-medium">
 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
@@ -333,7 +331,7 @@
 				</p>
 			</div>
 		</section>
-		<section data-id="lineChart04">
+		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
 					Im Juni, Juli und August 2022 wird kurzzeitig das 9€ Ticket eingeführt, wodurch Bus und
@@ -341,14 +339,14 @@
 				</p>
 			</div>
 		</section>
-		<section data-id="lineChart05">
+		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
 					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49€ zur Verfügung.
 				</p>
 			</div>
 		</section>
-		<section data-id="lineChart06">
+		<section data-id="lineChart05">
 			<div class="col-medium">
 				<p style="text-align: center;">Generell sehen wir, dass alle Kurven ansteigen.</p>
 			</div>
@@ -356,17 +354,20 @@
 		<section data-id="lineChart06">
 			<div class="col-medium">
 				<p>
-					Der ÖPNV passt immer zum Jahreswechsel die Preise an. Die stärksten Anpassungen sind dabei
-					2016 und 2023.
+					Der <strong style="color: {themes.oepnv.primary};">ÖPNV</strong> passt immer zum Jahreswechsel
+					die Preise an. Die stärksten Anpassungen sind dabei 2016 und 2023.
 				</p>
 			</div>
 		</section>
-		<section data-id="lineChart06">
+		<section data-id="lineChart07">
 			<div class="col-medium">
-				<p style="text-align: center;">Hingegen bleibt der Fahrrad-Index weitestgehend konstant.</p>
+				<p style="text-align: center;">
+					Hingegen bleibt der <strong style="color: {themes.bike.primary};">Fahrrad-Index</strong> weitestgehend
+					konstant.
+				</p>
 			</div>
 		</section>
-		<section data-id="lineChart06">
+		<section data-id="lineChart08">
 			<div class="col-medium">
 				<p>
 					Das generelle Ansteigen aller Kurven kann anhand der wachsenden Inflation begründet
@@ -378,7 +379,7 @@
 			<!-- add marker -->
 		</section>
 
-		<section data-id="lineChart06">
+		<section data-id="lineChart09">
 			<div class="col-medium">
 				<p lang="de">
 					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7% im
@@ -387,6 +388,8 @@
 				</p>
 			</div>
 		</section>
+
+		<section data-id="lineChart10"></section>
 	</div>
 </Scroller>
 
@@ -504,7 +507,10 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
-						<p>In Hessen kommen 11 mal so viele Kilometer auf einen Einwohner wie im Saarland.</p>
+						<p>
+							In Hessen kommen <strong>11 mal</strong> so viele Kilometer auf einen Einwohner wie im
+							Saarland.
+						</p>
 					{/each}
 				</div>
 			</section>
