@@ -3,7 +3,6 @@ image: node:latest
 # Functions that should be executed before the build script is run
 before_script:
   - npm i
-  - npm run build-gitlab
 pages:
   script:
     - npm run build
