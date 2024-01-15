@@ -1,6 +1,8 @@
 # The Docker image that will be used to build your app
 image: node:latest
 
+stages:
+  - publish
 default:
     tags:
       - default
@@ -8,6 +10,7 @@ default:
 before_script:
   - npm i
 pages:
+  stage: publish
   script:
     - npm run build
   artifacts:
@@ -17,5 +20,6 @@ pages:
   rules:
     # This ensures that only pushes to the default branch will trigger
     # a pages deploy
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_REF_NAME == 'development'
+    - if: $CI_COMMIT_REF_NAME == 'main'
 
