@@ -1,5 +1,5 @@
 # The Docker image that will be used to build your app
-image: default
+image: node:latest
 
 default:
     tags:
