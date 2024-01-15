@@ -194,15 +194,5 @@
 	.iconSizer {
 		width: 50%;
 	}
-	.itemText {
-		bottom: -0.2ch;
-		left: 0;
-		right: 0;
-		position: absolute;
-		padding: 0;
-		font-size: 12ch;
-		font-weight: 700;
-		letter-spacing: -0.1ch;
-		line-height: 1;
-	}
+
 </style>

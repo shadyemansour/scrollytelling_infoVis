@@ -5,7 +5,6 @@
 	import About from './routes/About.svelte';
 
 	export let url = '/'; // Set starting Site
-	export let basepath = '/'; // Set starting Site
 
 	// SMOOTH SCROLLING
 	const lenis = new Lenis({

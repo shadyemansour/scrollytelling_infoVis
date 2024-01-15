@@ -89,9 +89,4 @@
 	.v-padded {
 		box-sizing: border-box;
 	}
-	.headingDeutschland {
-		font-family: 'Lobster';
-		font-size: 100px;
-		font-weight: 'regular';
-	}
 </style>
