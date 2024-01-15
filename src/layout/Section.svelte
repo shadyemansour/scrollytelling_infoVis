@@ -17,8 +17,8 @@
 		splitTypes = document.querySelectorAll('.animatingHeading')
 		splitTypes.forEach((char, i) => {
 			if (char.textContent.trim().length > 0) {
-				const text = new SplitType(char, {types: 'chars'})
-				gsap.from(text.chars, {
+				const text = new SplitType(char, {types: 'words'})
+				gsap.from(text.words, {
 					scrollTrigger: {
 						trigger: char, 
 						start: 'top 65%',
