@@ -1,11 +1,10 @@
-import {getData, getTopo, getColor } from '../utils.js';
+import {getData, getColor } from '../utils.js';
 import DataPaths from '../utils/constants.js';
 
 
-
-export async function getRegionData() {
-    let loadedData = await getData(DataPaths.REGION_DATA);
-    let regionData = new RegionData();
+export async function getUsageData() {
+    let loadedData = await getData(DataPaths.USAGE_DATA);
+    let usageData = new UsageData();
     // Process metadata
     let meta = loadedData.map((d) => ({
         code: d.code, // Bundesland Code
@@ -17,8 +16,8 @@ export async function getRegionData() {
     meta.forEach((d) => {
         lookup[d.code] = d;
     });
-    regionData.metadata.region.array = meta;
-    regionData.metadata.region.lookup = lookup;
+    usageData.metadata.region.array = meta;
+    usageData.metadata.region.lookup = lookup;
 
 
     // Process indicators
@@ -40,18 +39,18 @@ export async function getRegionData() {
         );
             
     });
-    console.log(indicators);    
-    regionData.data.region.indicators = indicators; // Save regions indictors to data
+    //console.log(indicators);    
+    usageData.data.region.indicators = indicators; // Save regions indictors to data
 
-    return regionData;
+    return usageData;
 }
 
-export class RegionData {
+export class UsageData {
     constructor() {
         this.data = { region: {} };
         this.metadata = { region: {} };
     }
 }
 
-export default getRegionData;
+export default getUsageData;
 

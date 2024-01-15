@@ -1,16 +1,16 @@
 class DataPaths {
-    static get REGION_DATA() {
-      return './data/data_region.csv';
+    static get USAGE_DATA() {
+      return './data/usage.csv';
     }
-    static get VERKEHR_DATA() {
-      return './data/data_verkehr_kosten.csv';
+    static get PRICE_TREND_DATA() {
+      return './data/price_trend.csv';
     }
-    static get BUSSGELD_DATA() {
-      return './data/data_bussgeld.csv';
+    static get FINE_DATA() {
+      return './data/fine.csv';
     }
   
-    static get TOPO_DATA() {
-      return './data/1_sehr_hoch_topo.json';
+    static get MAP_DATA() {
+      return './data/map_de.json';
     }
   
     // Add more paths as needed
