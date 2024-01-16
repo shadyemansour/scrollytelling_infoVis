@@ -1,9 +1,4 @@
-﻿"code", "name","Treibhausgase in g/ Pkm (CO2 CH4 und N2O angegeben in CO2 Äquivalenten)","Stickoxide","Partikel","Auslastung"
-"AUT","PkW",162,0.35,0.016,"1.4 Personen / PkW"
-"FZ","Flugzeug, Inland",271,1.15,0.014,"51%"
-"OEF","Eisenbahn, Fernverkehr",46,0.06,0.02,"31%"
-"OEF","Linienbus, Fernverkehr",37,0.04,0.003,"42%"
-"OEF","sonstiger Busverkehr",42,0.12,0.005,"49%"
-"OEF","Eisenbahn, Nahverkehr",93,0.32,0.009,"15%"
-"OEF","Linienbus, Nahverkehr",108,0.33,0.012,"14%"
-"OEF","Straßen-, Stadt- und U-Bahn",80,0.08,0.004,"11%"
+﻿"code","type","Nutzung (TTW)","Energie (WTT)","Fahrzeug","Infrastruktur","Gesamt"
+"FA","Fahrrad",0,0,8.68,0.48,9.16
+"OEF",ÖPNV",28.23,37.98,4.09,9.83,80.13
+"AUT","Pkw",130.69,22.17,36.54,5.01,194.41
