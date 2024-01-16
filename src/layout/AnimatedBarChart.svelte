@@ -13,10 +13,9 @@
 	export let xTicks = 5;
 	export let animationDuration = 500; // Duration of the animation in milliseconds
 
-	export let padding = { top: 30, right: 30, bottom: 60, left: 160 };
+	export let padding = { top: 30, right: 30, bottom: 5, left: 160 };
 	export let xSuffix = ''; // Suffix for the x-axis values
 	export let title = ''; // Title at the top of the chart
-	export let source = ''; // Source text at the bottom of the chart
 
 	let svg;
 	let chart;
@@ -160,22 +159,6 @@
 			.text(title);
 
 		titleText.exit().remove();
-
-		// Update or add source
-		let sourceText = chart.selectAll('.chart-source').data([source]);
-		sourceText
-			.enter()
-			.append('text')
-			.attr('class', 'chart-source')
-			.merge(sourceText)
-			.attr('x', 0)
-			.attr('y', innerHeight + padding.bottom - 20) // Adjust this for positioning
-			.attr('text-anchor', 'left')
-			.style('font-size', '12px')
-			.style('fill', themes.neutral['text-dark'].teritary)
-			.text(source);
-
-		sourceText.exit().remove();
 	}
 
 	function wrap(text, width) {
