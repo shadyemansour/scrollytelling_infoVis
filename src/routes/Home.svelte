@@ -244,8 +244,8 @@
 <Spacer size={spacings['xxxxl-96']} />
 <Section>
 	<div slot="animating">
-		<h2>This is Deutschland</h2>
-		<p class="mb">
+		<h3 class="mb-d">This is Deutschland</h3>
+		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
 			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
 			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
@@ -293,7 +293,7 @@
 					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
 						<Oepnv size="40" color={themes.oepnv.primary} />
 					</div>
-					<h2>Autos</h2>
+					<h3>Autos</h3>
 				</div>
 				<p>
 					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
@@ -388,7 +388,7 @@
 
 <Section>
 	<div slot="animating">
-		<h2>This is Deutschland</h2>
+		<h3 class="mb-d">This is Deutschland</h3>
 		<p class="mb">
 			Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
 			ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
@@ -583,15 +583,15 @@
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
-	<h3>Klimawirkung im Personenverkehr</h3>
-	<br />
-	<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
-	<br />
-	<p style="text-align: justify;">
-		Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
-		viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
-	</p>
-	<br />
+	<div slot="animating">
+
+		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
+		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
+		<p style="text-align: justify;">
+			Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
+			viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
+		</p>
+	</div>
 	<p style="font-size: 14px; font-style: italic ;">
 		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
 		unterschiedlicher Treibhausgase zu vergleichen

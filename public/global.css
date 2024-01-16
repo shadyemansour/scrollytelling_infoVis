@@ -247,6 +247,10 @@ small {
 	margin-bottom: 40px;
 }
 
+.mb-d{
+	margin-bottom: 16px;
+}
+
 .em {
 	padding: 1px 4px 1px 4px;
 /*	border-radius: 5px; */
