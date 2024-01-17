@@ -4,7 +4,6 @@
 	import bbox from '@turf/bbox';
 	import { getMotion } from '../utils.js';
 	import { themes, spacings } from '../config.js';
-	
 
 	// COMPONENTS IMPORT
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
@@ -68,7 +67,6 @@
 	onMount(() => {
 		idPrev = { ...id };
 	});
-
 
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
@@ -214,7 +212,6 @@
 			console.error('Error fetching UsageData:', error);
 		});
 
-
 	getPriceTrendData()
 		.then((loadedVerkehrData) => {
 			priceTrendData = loadedVerkehrData;
@@ -223,7 +220,6 @@
 			console.error('Error fetching verkehr data:', error);
 		});
 
-
 	getFineData()
 		.then((loadedFineData) => {
 			fineData = loadedFineData;
@@ -231,9 +227,7 @@
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
 		});
-
 </script>
-
 
 <Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 
@@ -244,7 +238,7 @@
 <Spacer size={spacings['xxxxl-96']} />
 <Section>
 	<div slot="animating">
-		<h3 class="mb-d">This is Deutschland</h3>
+		<h3 class="mb-d">Mobilität in Deutschland</h3>
 		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
 			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
@@ -253,12 +247,18 @@
 			Ereignisse diesen möglicherweise beeinflussen.
 		</p>
 	</div>
-	<div class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].teritary};">
+	<div class="erklaerungs-texte mb-d" style="color: {themes.neutral['text-dark'].secondary};">
 		<p>
 			* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen, die
 			private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
 			Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
 			Zeitpunkten beeinflusst wird.
+		</p>
+	</div>
+	<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+		<p>
+			Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt | Stand
+			2023
 		</p>
 	</div>
 </Section>
@@ -283,23 +283,23 @@
 		<section data-id="lineChart00"></section>
 		<section data-id="lineChart01">
 			<div class="col-medium">
-				<div class="icon-heading">
-					<div class="icon-background" style="background-color: {themes.bike.teritary};">
-						<Bike size="40" color={themes.bike.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.car.teritary};">
-						<Car size="40" color={themes.car.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-						<Oepnv size="40" color={themes.oepnv.primary} />
-					</div>
-					<h3>Autos</h3>
-				</div>
 				<p>
 					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
 					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
 					Jahr später am 02.01.2019 einen Preis von 25,31€.
 				</p>
+				<Spacer size={spacings['m-12']}></Spacer>
+				<div class="icon-heading">
+					<div class="icon-background" style="background-color: {themes.bike.teritary};">
+						<Bike size="30" color={themes.bike.primary} />
+					</div>
+					<div class="icon-background" style="background-color: {themes.car.teritary};">
+						<Car size="30" color={themes.car.primary} />
+					</div>
+					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
+						<Oepnv size="30" color={themes.oepnv.primary} />
+					</div>
+				</div>
 			</div>
 		</section>
 
@@ -311,15 +311,28 @@
 					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
 					noch schneller an Beliebtheit.
 				</p>
+				<div class="sources">
+					<p style="color: {themes.neutral['text-dark'].secondary};">
+						Quelle: Preisentwicklung für Emissionsberechtigungen (EUA) seit 2008, Umweltbundesamt |
+						Stand 2023 Werte für 2018 & 2019
+					</p>
+				</div>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
-					Fabriken, welche die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
+					Fabriken, welches die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.
 				</p>
+				<div class="sources">
+					<p style="color: {themes.neutral['text-dark'].secondary};">
+						Quelle: So wirkt sich die Corona-Krise auf die Automobilindustrie aus, Springer
+						Professional | Stand 2020 <br />
+						Quelle: Das müssen Sie zur Halbleiter-Krise wissen, Springer Professional | Stand 2022
+					</p>
+				</div>
 			</div>
 		</section>
 		<section data-id="lineChart03">
@@ -363,9 +376,15 @@
 				<p>
 					Das generelle Ansteigen aller Kurven kann anhand der wachsenden Inflation begründet
 					werden. Während diese sich normalerweise zwischen 0% und 2% bewegen, beobachten wir seit
-					2021 eine signifikante Preissteigerung. Im Vergleich zu den Vorjahren liegt die
-					Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
+					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
+					liegt die Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
 				</p>
+				<div class="sources">
+					<p style="color: {themes.neutral['text-dark'].secondary};">
+						Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt |
+						Stand 2023
+					</p>
+				</div>
 			</div>
 			<!-- add marker -->
 		</section>
@@ -377,24 +396,41 @@
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
 					-24,8%.
 				</p>
+				<div class="sources">
+					<p style="color: {themes.neutral['text-dark'].secondary};">
+						Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
+						%, destatis Statistisches Bundesamt | Stand 2024
+					</p>
+				</div>
 			</div>
 		</section>
 
 		<section data-id="lineChart10"></section>
 	</div>
 </Scroller>
+<Section>
+	<div class="sources">
+		<p style="color: {themes.neutral['text-dark'].secondary};">
+			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --&gt; KFZ: Kraftfahrer-Preisindex; ÖPNV:
+			Kombinierte Personenbeförderungsdienstleistung
+		</p>
+	</div>
+</Section>
 
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
 	<div slot="animating">
-		<h3 class="mb-d">This is Deutschland</h3>
-		<p class="mb">
-			Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
-			ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
-			Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
-			Erklärung hindeutet.
-		</p>
+		<h3 class="mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
+		<div>
+			<p class="mb">
+				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
+				ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
+				Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
+				Erklärung hindeutet.
+			</p>
+		</div>
+		<Spacer size={spacings['xxxxl-96']} />
 	</div>
 </Section>
 
@@ -435,7 +471,7 @@
 									content={hovered
 										? `${
 												usageData.metadata.region.lookup[hovered].name
-										  }<br/><strong>${usageData.data.region.indicators
+											}<br/><strong>${usageData.data.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} personenkilometer</strong>`
 										: ''}
@@ -512,10 +548,19 @@
 						Mecklenburg-Vorpommern ist mit 66,1% das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein
 					</p>
-					<p style="font-size: 13px; font-style: italic ;">
-						* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags min.
-						28 Abfahrten
-					</p>
+
+					<div class="erklaerungs-texte">
+						<p style="color: {themes.neutral['text-dark'].secondary};">
+							* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags
+							min. 28 Abfahrten
+						</p>
+					</div>
+					<div class="sources">
+						<p style="color: {themes.neutral['text-dark'].secondary};">
+							Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
+							%, destatis Statistisches Bundesamt | Stand 2024
+						</p>
+					</div>
 				</div>
 			</section>
 
@@ -569,33 +614,41 @@
 
 	<Spacer size={spacings['xxxxl-96']} />
 {/if}
-<!--  <Section>
-	<div class="erklaerungs-texte">
-		<p>
-			Quelle: Unternehmen, Beförderte Personen, Personenkilometer (Personenverkehr mit Bussen und
-			Bahnen): Bundesländer, Quartale, Verkehrsart, DESTATIS Statistisches Bundesamt | Stand: 2023
-			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
-			Stand: 2023 Werte für: 2020
-		</p>
-	</div>
-</Section> -->
+
+<Section>
+		<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+			<p>
+				Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
+				Statistisches Bundesamt | Stand: 2023
+			</p>
+			<p>
+				Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
+				Stand: 2023 Werte für: 2020
+			</p>
+			<p>
+				Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische
+				Ämter des Bundes und der Länder | Stand 2020
+			</p>
+			<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
+		</div>
+</Section>
 
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
-	<div slot="animating">
-
+	<div slot="animating" class="mb-d">
 		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
 		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
-		<p style="text-align: justify;">
+		<p>
 			Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
 			viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
 		</p>
 	</div>
-	<p style="font-size: 14px; font-style: italic ;">
+	<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
 		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
 		unterschiedlicher Treibhausgase zu vergleichen
 	</p>
+	<Spacer size={spacings['xxxxl-96']}></Spacer>
 </Section>
 
 {#if geoStates && usageData.data.region.indicators}
@@ -611,12 +664,19 @@
 								yKey="category"
 								xSuffix=" €"
 								title="CO2 Emissionen"
-								source="Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den Personen- 
-										und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021"
 								xTicks="0"
 							/>
 						{/if}
 					</div>
+					<Section>
+						<div class="sources">
+							<p style="color: {themes.neutral['text-dark'].secondary};">
+								Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den
+								Personen- und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021 Werte für:
+								2017
+							</p>
+						</div>
+					</Section>
 				</div>
 			</figure>
 		</div>
@@ -647,8 +707,9 @@
 					</p>
 				</div>
 			</section>
-		</div>
-	</Scroller>
+		</div></Scroller
+	>
+	<Spacer size={spacings['xxxxl-96']}></Spacer>
 {/if}
 
 <Footer />
@@ -679,13 +740,23 @@
 	.icon-background {
 		border-radius: 8px;
 		padding: 6px;
-		width: 40px;
-		height: 40px;
+		width: 30px;
+		height: 30px;
 	}
 
 	.erklaerungs-texte {
 		font-style: italic;
 		font-size: 13px;
 		hyphens: auto;
+		list-style: none;
+		padding-left: 0;
+		align-self: flex-start;
+	}
+	.sources {
+		font-style: normal;
+		font-size: 13px;
+		hyphens: auto;
+		list-style: none;
+		padding: 0;
 	}
 </style>
