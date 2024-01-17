@@ -4,7 +4,6 @@
 	import bbox from '@turf/bbox';
 	import { getMotion } from '../utils.js';
 	import { themes, spacings } from '../config.js';
-	
 
 	// COMPONENTS IMPORT
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
@@ -68,7 +67,6 @@
 	onMount(() => {
 		idPrev = { ...id };
 	});
-
 
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
@@ -214,7 +212,6 @@
 			console.error('Error fetching UsageData:', error);
 		});
 
-
 	getPriceTrendData()
 		.then((loadedVerkehrData) => {
 			priceTrendData = loadedVerkehrData;
@@ -223,7 +220,6 @@
 			console.error('Error fetching verkehr data:', error);
 		});
 
-
 	getFineData()
 		.then((loadedFineData) => {
 			fineData = loadedFineData;
@@ -231,9 +227,7 @@
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
 		});
-
 </script>
-
 
 <Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 
@@ -421,7 +415,7 @@
 <Section>
 	<div class="sources">
 		<p>
-			Statistisches Bundesamt | Stand 2023 | Daten --> KFZ: Kraftfahrer-Preisindex; ÖPNV:
+			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --> KFZ: Kraftfahrer-Preisindex; ÖPNV:
 			Kombinierte Personenbeförderungsdienstleistung
 		</p>
 	</div>
@@ -431,7 +425,7 @@
 
 <Section>
 	<div slot="animating">
-		<h3 class= "mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
+		<h3 class="mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
 		<div>
 			<p class="mb">
 				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
@@ -441,15 +435,6 @@
 			</p>
 		</div>
 		<Spacer size={spacings['xxxxl-96']} />
-	</div></Section
->
-		<h3 class="mb-d">This is Deutschland</h3>
-		<p class="mb">
-			Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
-			ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
-			Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
-			Erklärung hindeutet.
-		</p>
 	</div>
 </Section>
 
@@ -656,7 +641,6 @@
 
 <Section>
 	<div slot="animating">
-
 		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
 		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
 		<p style="text-align: justify;">
