@@ -1,12 +1,13 @@
 <script>
 	// CORE IMPORTS
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import bbox from '@turf/bbox';
 	import { getMotion } from '../utils.js';
 	import { themes, spacings } from '../config.js';
 
 	// COMPONENTS IMPORT
 	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+
 	import Header from '../layout/Header.svelte';
 	import Scroller from '../layout/Scroller.svelte';
 	import Footer from '../layout/Footer.svelte';
@@ -24,6 +25,7 @@
 	// DATA IMPORT
 	import { getMapJson } from '../helpers/getMapJson.js';
 	import { getUsageData } from '../helpers/getUsageData.js';
+	import { getCityBikeRating } from '../helpers/getCityBikeRating.js';
 	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
 	import { getFineData } from '../helpers/getFineData.js';
 
@@ -41,6 +43,7 @@
 
 	// Data
 	let usageData;
+	let cityBikeRatingData;
 	let geoStates;
 	let geoCities;
 	let priceTrendData;
@@ -49,12 +52,14 @@
 	// Map
 	let map = null; // Bound to mapbox 'map' instance once initialised
 	let hovered; // Hovered district (chart or map)
+	let cityHovered; // Hovered district (chart or map)
 	let selected; // Selected district (chart or map)
-	let showCities;
+	let showCities = false;
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = 'Car'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
+	let mapLoaded = false;
 
 	// Linechart
 	let lineChartTrigger = 0;
@@ -63,11 +68,32 @@
 	// Barchart
 	let currentBarChart = '';
 	let fineDataFiltered = [];
+	const layersToCheck = ['lad-line', 'lad-fill', 'lad-fill-city', 'city-points'];
 
 	// FUNCTIONS
-	onMount(() => {
+	$: onMount(() => {
 		idPrev = { ...id };
 	});
+
+	// Function to check if the layer's style is loaded
+	function areAllLayersLoaded() {
+		console.log('Checking if layers are loaded'); // Debugging
+
+		if (!map || !map.isStyleLoaded()) {
+			return false;
+		}
+
+		return layersToCheck.every((layer) => map.getLayer(layer) !== undefined);
+	}
+
+	// Reactive statement to update allLayersLoaded
+	$: if (id['map'] && map && !mapLoaded) mapLoaded = areAllLayersLoaded();
+
+	// Additional logic based on allLayersLoaded
+	$: if (mapLoaded) {
+		console.log('All specified layers are loaded');
+		// Additional actions when all layers are loaded
+	}
 
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
@@ -82,7 +108,11 @@
 	}
 	function doHover(e) {
 		hovered = e.detail.id;
-		//console.log(e.detail);
+		// console.log(e.detail);
+	}
+	function doHoverCity(e) {
+		cityHovered = e.detail.id;
+		// console.log(e.detail);
 	}
 
 	// Functions for map component
@@ -98,18 +128,59 @@
 			fitBounds(bounds);
 		}
 	}
+	function onMapLoad() {
+		mapLoaded = true;
+		console.log('Map is loaded!');
+		updateLayerVisibility();
+	}
 
-	function checkCities() {
-		if (showCities) {
-			showCities = false;
-			if (map.getLayer('city-points')) {
-				map.removeLayer('city-points');
-			}
-			if (map.getSource('cities')) {
-				map.removeSource('cities');
-			}
+	function updateLayerVisibility() {
+		if (!map || !mapLoaded) return;
+
+		const visibility = showCities ? 'none' : 'visible';
+		map.setLayoutProperty('lad-line', 'visibility', visibility);
+		map.setLayoutProperty('lad-fill', 'visibility', visibility);
+
+		const cityPointsVisibility = showCities ? 'visible' : 'none';
+		if (map.getLayer('city-points')) {
+			map.setLayoutProperty('lad-fill-city', 'visibility', cityPointsVisibility);
+			map.setLayoutProperty('city-points', 'visibility', cityPointsVisibility);
 		}
 	}
+
+	function setMapContext(mapContext) {
+		if (mapContext.fitId) {
+			fitById(mapContext.fitId);
+		} else {
+			fitBounds(mapbounds);
+		}
+		mapKey = mapContext.key;
+		mapHighlighted = mapContext.highlighted ? mapContext.highlighted : [];
+		explore = mapContext.explore ? mapContext.explore : false;
+		mapColor = mapContext.color;
+		showCities = mapContext.showCities;
+		updateLayerVisibility();
+	}
+
+	// Actions for Scroller components
+	const actions = {
+		map: {
+			map01: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
+			map02: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
+			map03: () => {
+				const hl = [...usageData.data.region.indicators].sort((a, b) => b['Oepnv'] - a['Oepnv'])[0];
+				setMapContext({
+					key: 'Oepnv',
+					color: 'interpolateOepnv',
+					showCities: false,
+					highlighted: [hl.code],
+					fitId: hl.code
+				});
+			},
+			map04: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
+			map05: () => setMapContext({ key: 'Bike', color: 'interpolateOepnv', showCities: true })
+		}
+	};
 
 	// Linechart
 	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
@@ -142,48 +213,8 @@
 		fineDataFiltered = fineDataFiltered.sort((a, b) => a.amount - b.amount);
 	}
 
-	// Actions for Scroller components
-	const actions = {
-		map: {
-			// Actions for <Scroller/> with id="map"
-			map01: () => {
-				// Action for <section/> with data-id="map01"
-				fitBounds(mapbounds);
-				mapKey = 'Car';
-				mapHighlighted = [];
-				explore = false;
-				mapColor = 'interpolateCar';
-				checkCities();
-			},
-			map02: () => {
-				// fitBounds(mapbounds);
-				mapKey = 'Oepnv';
-				mapHighlighted = [];
-				explore = false;
-				mapColor = 'interpolateOepnv';
-				checkCities();
-			},
-			map03: () => {
-				mapKey = 'Oepnv';
-				let hl = [...usageData.data.region.indicators].sort((a, b) => b[mapKey] - a[mapKey])[0];
-				fitById(hl.code);
-				mapHighlighted = [hl.code];
-				explore = false;
-				checkCities();
-			},
-			map04: () => {
-				fitBounds(mapbounds);
-				mapKey = 'Oepnv';
-				mapHighlighted = [];
-				explore = false;
-				mapColor = 'interpolateOepnv';
-				showCities = true;
-			}
-		}
-	};
-
 	// Code to run Scroller actions when new caption IDs come into view
-	$: id && runActions(Object.keys(actions)); // Run below code when 'id' object changes
+	$: id && mapLoaded && runActions(Object.keys(actions)); // Run below code when 'id' object changes
 	function runActions(codes = []) {
 		codes.forEach((code) => {
 			if (id[code] != idPrev[code]) {
@@ -211,6 +242,14 @@
 		})
 		.catch((error) => {
 			console.error('Error fetching UsageData:', error);
+		});
+
+	getCityBikeRating()
+		.then((loadedCityBikeRatingData) => {
+			cityBikeRatingData = loadedCityBikeRatingData;
+		})
+		.catch((error) => {
+			console.error('Error fetching CityBikeRatingData:', error);
 		});
 
 	getPriceTrendData()
@@ -266,7 +305,11 @@
 
 <Scroller {threshold} bind:id={id['lineChart']}>
 	<div slot="background">
-		<LegendText text1={'ÖPNV'} text2={'Fahrrad: Anschaffung'} text3={'Auto: Anschaffung & Unterhalt'}></LegendText>
+		<LegendText
+			text1={'ÖPNV'}
+			text2={'Fahrrad: Anschaffung'}
+			text3={'Auto: Anschaffung & Unterhalt'}
+		></LegendText>
 		<figure>
 			<div class="col-wide height-full">
 				{#if priceTrendData}
@@ -436,10 +479,11 @@
 	</div>
 </Section>
 
-{#if geoStates && geoCities && usageData.data.region.indicators}
+{#if geoStates && geoCities && usageData.data.region.indicators && cityBikeRatingData.data.city.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
-			<LegendGradient indicators={usageData.data.region.indicators} {mapKey}></LegendGradient>
+			<LegendGradient indicators={usageData.data.region.indicators} {mapKey} hide={showCities}
+			></LegendGradient>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>
@@ -470,7 +514,7 @@
 								}}
 							>
 								<MapTooltip
-									content={hovered
+									content={hovered && !showCities
 										? `${
 												usageData.metadata.region.lookup[hovered].name
 											}<br/><strong>${usageData.data.region.indicators
@@ -479,6 +523,7 @@
 										: ''}
 								/>
 							</MapLayer>
+
 							<MapLayer
 								id="lad-line"
 								type="line"
@@ -496,19 +541,47 @@
 									'line-width': 2
 								}}
 							/>
+							<MapLayer
+								id="lad-fill-city"
+								idKey="code"
+								colorKey={mapKey + '_color'}
+								data={usageData.data.region.indicators}
+								type="fill"
+								paint={{
+									'fill-color': [
+										'case',
+										['!=', ['feature-state', 'color'], null],
+										['feature-state', 'color'],
+										'rgba(255, 255, 255, 0)'
+									],
+									'fill-opacity': 0.7
+								}}
+							></MapLayer>
 						</MapSource>
-						{#if showCities}
-							<MapSource id="cities" type="geojson" data={geoCities} promoteId="AREANM">
-								<MapLayer
-									id="city-points"
-									type="circle"
-									paint={{
-										'circle-radius': 5,
-										'circle-color': '#007cbf'
-									}}
+						<MapSource id="cities" type="geojson" data={geoCities} promoteId="AREANM">
+							<MapLayer
+								id="city-points"
+								type="circle"
+								hover
+								hovered={cityHovered}
+								on:hover={doHoverCity}
+								paint={{
+									'circle-radius': 7,
+									'circle-color': '#007cbf'
+								}}
+							>
+								<MapTooltip
+									content={showCities && cityHovered
+										? `${cityHovered}<br/><strong>${cityBikeRatingData.data.city.indicators
+												.find((d) => d.name == cityHovered)
+												[mapKey].toLocaleString()} something</strong>`
+										: ''}
 								/>
-							</MapSource>
-						{/if}
+							</MapLayer>
+							<!--<br/><strong>${cityBikeRatingData.data.city.indicators
+													.find((d) => d.name == hovered)
+													[mapKey].toLocaleString()} something</strong>-->
+						</MapSource>
 					</Map>
 				</div>
 			</figure>
@@ -565,6 +638,11 @@
 					</div>
 				</div>
 			</section>
+			<section data-id="map05">
+				<div class="col-medium">
+					<p>Test</p>
+				</div>
+			</section>
 
 			<!-- <section data-id="map05">
 				<div class="col-medium">
@@ -618,21 +696,21 @@
 {/if}
 
 <Section>
-		<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
-			<p>
-				Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
-				Statistisches Bundesamt | Stand: 2023
-			</p>
-			<p>
-				Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
-				Stand: 2023 Werte für: 2020
-			</p>
-			<p>
-				Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische
-				Ämter des Bundes und der Länder | Stand 2020
-			</p>
-			<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
-		</div>
+	<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+		<p>
+			Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
+			Statistisches Bundesamt | Stand: 2023
+		</p>
+		<p>
+			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
+			Stand: 2023 Werte für: 2020
+		</p>
+		<p>
+			Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische Ämter
+			des Bundes und der Länder | Stand 2020
+		</p>
+		<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
+	</div>
 </Section>
 
 <Spacer size={spacings['xxxxl-96']} />
@@ -656,7 +734,12 @@
 {#if geoStates && usageData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
-			<LegendText text1={'Nutzung TTW'} text2={'Energie WTT'} text3={'Fahrzeug'} text4={'Infrastruktur'}></LegendText>
+			<LegendText
+				text1={'Nutzung TTW'}
+				text2={'Energie WTT'}
+				text3={'Fahrzeug'}
+				text4={'Infrastruktur'}
+			></LegendText>
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">

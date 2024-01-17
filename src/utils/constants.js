@@ -12,6 +12,10 @@ class DataPaths {
     static get MAP_DATA() {
       return './data/map_de.json';
     }
+
+    static get CITY_BIKE_RATING() {
+      return './data/city_bike_rating.CSV';
+    }
   
     // Add more paths as needed
   

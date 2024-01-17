@@ -251,13 +251,13 @@
 		svgAxis = d3
 			.select('#linechartrace')
 			.append('g')
-			.attr('transform', `translate(${margin.left},${margin.top})`)
+			.attr('transform', `translate(${margin.left},${margin.top})`);
 
 		// Add xAxis
 		svgAxis
 			.append('g')
 			.attr('transform', `translate(0,${height})`) // Puts down x axis
-			.call(xAxis)
+			.call(xAxis);
 
 		svgAxis.selectAll('g line').style('stroke', themes.neutral.chartLines);
 
@@ -266,10 +266,11 @@
 		// Add yAxis
 		svgAxis.append('g').call(yAxis).selectAll('g line').style('stroke', themes.neutral.chartLines);
 
-		svgAxis.select('.domain').attr('d', '0'); // Vanishes top line on chart
-		svgAxis.selectAll('g text')
+		svgAxis.select('.domain').attr('d', ''); // Vanishes top line on chart
+		svgAxis
+			.selectAll('g text')
 			.style('fill', themes.neutral['text-dark'].secondary)
-			.style('font-size', 8)
+			.style('font-size', 8);
 
 		const inVisibleData = data.map((series) => ({
 			...series,

@@ -1,10 +1,10 @@
 <script>
 	import { themes } from '../config.js';
 
-	export let text1;
-	export let text2;
-	export let text3;
-	export let text4;
+	export let text1 = null;
+	export let text2 = null;
+	export let text3 = null;
+	export let text4 = null;
 	export let color1 = themes.oepnv.primary;
 	export let color2 = themes.bike.primary;
 	export let color3 = themes.car.primary;
