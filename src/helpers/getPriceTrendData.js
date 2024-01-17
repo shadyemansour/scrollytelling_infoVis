@@ -3,8 +3,8 @@ import DataPaths from '../utils/constants.js';
 
 
 
-export async function getVerkehrData() {
-    let loadedData = await getData(DataPaths.VERKEHR_DATA);
+export async function getPriceTrendData() {
+    let loadedData = await getData(DataPaths.PRICE_TREND_DATA);
     let verkehrData = new VerkehrData();
     // Process metadata
     let meta = loadedData.map((d) => ({
@@ -57,5 +57,5 @@ export class VerkehrData {
     }
 }
 
-export default getVerkehrData;
+export default getPriceTrendData;
 

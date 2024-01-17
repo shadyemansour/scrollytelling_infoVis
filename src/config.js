@@ -1,4 +1,4 @@
-import { trspWhite, trspBlack, brand, car, bike, oepnv} from "./styles.js";
+import { trspWhite, trspBlack, brand, car, bike, oepnv, greys} from "./styles.js";
 // CORE CONFIG
 
 export const themes = {
@@ -16,7 +16,7 @@ export const themes = {
     'muted': '#777',
     'pale': '#f0f0f0',
     'background': '#fff',
-    'chartLines': trspBlack[50],
+    'chartLines': greys[50],
 
   },
   'brand': {

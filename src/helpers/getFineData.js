@@ -3,9 +3,8 @@ import DataPaths from '../utils/constants.js';
 import { themes } from '../config.js';
 
 
-export async function getBussGeldData() {
-    let loadedData = await getData(DataPaths.BUSSGELD_DATA);
-    let bussGeldData = new BussGeldData();
+export async function getFineData() {
+    let loadedData = await getData(DataPaths.FINE_DATA);
 
     let series = [];
     loadedData.forEach((d) => {
@@ -17,9 +16,7 @@ export async function getBussGeldData() {
                 color: getColor(d.code),
             });
     });
-    
-    bussGeldData.data = series; // Save timeseries indictors to data
-    return bussGeldData;
+    return series;
 }
 
 function getColor(code) {
@@ -32,11 +29,6 @@ function getColor(code) {
     return color;
 }
 
-export class BussGeldData {
-    constructor() {
-        this.data = {};
-    }
-}
 
-export default getBussGeldData;
+export default getFineData;
 

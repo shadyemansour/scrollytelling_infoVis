@@ -1,78 +1,74 @@
 <script>
 	// CORE IMPORTS
-	import { setContext, onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import bbox from '@turf/bbox';
-	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
 	import { getMotion } from '../utils.js';
 	import { themes, spacings } from '../config.js';
-	import LogoHeader from '../layout/LogoHeader.svelte';
-	import Footer from '../layout/Footer.svelte';
-	import Header from '../layout/Header.svelte';
-	import Section from '../layout/Section.svelte';
-	import Scroller from '../layout/Scroller.svelte';
-	import Divider from '../layout/Divider.svelte';
-	import Arrow from '../ui/Arrow.svelte';
-	import Em from '../ui/Em.svelte';
-	import { getRegionData } from '../helpers/getRegionData.js';
-	import { getVerkehrData } from '../helpers/getVerkehrData.js';
-	import { getBussGeldData } from '../helpers/getBussGeldData.js';
-	import Hyphenopoly from 'hyphenopoly';
+	
 
-	import DataPaths from '../utils/constants.js';
-	// DEMO-SPECIFIC IMPORTS
-	import { getTopo, getColor } from '../utils.js';
-	import { units } from '../config.js';
+	// COMPONENTS IMPORT
+	import { Map, MapSource, MapLayer, MapTooltip } from '@onsvisual/svelte-maps';
+	import Header from '../layout/Header.svelte';
+	import Scroller from '../layout/Scroller.svelte';
+	import Footer from '../layout/Footer.svelte';
+	import Section from '../layout/Section.svelte';
+	import NavIndicator from '../layout/NavIndicator.svelte';
+	import Spacer from '../layout/Spacer.svelte';
+	import Legend from '../ui/Legend.svelte';
 	import Barcharts from '../layout/AnimatedBarChart.svelte';
 	import LineChartRace from '../layout/LineChartRace.svelte';
 	import Bike from '../ui/Bike.svelte';
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
-	import NavIndicator from '../layout/NavIndicator.svelte';
-	import Filler from '../layout/Filler.svelte';
-	import Spacer from '../layout/Spacer.svelte';
-	import Legend from '../ui/Legend.svelte';
+
+	// DATA IMPORT
+	import { getMapJson } from '../helpers/getMapJson.js';
+	import { getUsageData } from '../helpers/getUsageData.js';
+	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
+	import { getFineData } from '../helpers/getFineData.js';
 
 	// Config
 	const threshold = 0.8;
-	// State
-	let animation = getMotion(); // Set animation preference depending on browser preference true/false
-	let id = {}; // Object to hold visible section IDs of Scroller components
-	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
-	onMount(() => {
-		idPrev = { ...id };
-	});
-
-	onDestroy(() => {
-		window.removeEventListener('resize', onResize);
-	});
-
-	// Data
-	let regionData;
-	let geojson;
-	let cityGeojson;
 	const mapbounds = [
 		[5, 47.3],
 		[15, 55.2]
 	];
-	let verkehrData;
-	let bussGeldData;
-	let showCities;
-
-	// Element bindings
-	let map = null; // Bound to mapbox 'map' instance once initialised
 
 	// State
+	let animation = getMotion(); // Set animation preference depending on browser preference true/false
+	let id = {}; // Object to hold visible section IDs of Scroller components
+	let idPrev = {}; // Object to keep track of previous IDs, to compare for changes
+
+	// Data
+	let usageData;
+	let geoStates;
+	let geoCities;
+	let priceTrendData;
+	let fineData;
+
+	// Map
+	let map = null; // Bound to mapbox 'map' instance once initialised
 	let hovered; // Hovered district (chart or map)
 	let selected; // Selected district (chart or map)
+	let showCities;
 	let mapHighlighted = []; // Highlighted district (map only)
 	let mapKey = 'Car'; // Key for data to be displayed on map
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
-	let currentBarChart = '';
+
+	// Linechart
 	let lineChartTrigger = 0;
 	let currentLineChart = '';
 
-	// FUNCTIONS (INCL. SCROLLER ACTIONS)
+	// Barchart
+	let currentBarChart = '';
+	let fineDataFiltered = [];
+
+	// FUNCTIONS
+	onMount(() => {
+		idPrev = { ...id };
+	});
+
 
 	// Functions for chart and map on:select and on:hover events
 	function doSelect(e) {
@@ -97,8 +93,8 @@
 		}
 	}
 	function fitById(id) {
-		if (geojson && id) {
-			let feature = geojson.features.find((d) => d.properties.AREACD == id);
+		if (geoStates && id) {
+			let feature = geoStates.features.find((d) => d.properties.AREACD == id);
 			let bounds = bbox(feature.geometry);
 			fitBounds(bounds);
 		}
@@ -114,6 +110,37 @@
 				map.removeSource('cities');
 			}
 		}
+	}
+
+	// Linechart
+	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
+		currentLineChart = id['lineChart'];
+		lineChartTrigger = parseInt(id['lineChart'].slice(-2), 10);
+	}
+
+	// Barchart
+	$: if (fineData && id['barChart'] && currentBarChart !== id['barChart']) {
+		currentBarChart = id['barChart'];
+		updateBarChartData(id['barChart']);
+	}
+
+	function updateBarChartData(chartId) {
+		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
+		switch (trigger) {
+			case 1:
+				fineDataFiltered = fineData.filter((d) => d.type === 'fahrrad');
+				break;
+			case 2:
+				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
+				break;
+			case 3:
+				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto', 'oepnv'].includes(d.type));
+				break;
+			default:
+				fineDataFiltered = [];
+				break;
+		}
+		fineDataFiltered = fineDataFiltered.sort((a, b) => a.amount - b.amount);
 	}
 
 	// Actions for Scroller components
@@ -139,7 +166,7 @@
 			},
 			map03: () => {
 				mapKey = 'Oepnv';
-				let hl = [...regionData.data.region.indicators].sort((a, b) => b[mapKey] - a[mapKey])[0];
+				let hl = [...usageData.data.region.indicators].sort((a, b) => b[mapKey] - a[mapKey])[0];
 				fitById(hl.code);
 				mapHighlighted = [hl.code];
 				explore = false;
@@ -157,6 +184,7 @@
 	};
 
 	// Code to run Scroller actions when new caption IDs come into view
+	$: id && runActions(Object.keys(actions)); // Run below code when 'id' object changes
 	function runActions(codes = []) {
 		codes.forEach((code) => {
 			if (id[code] != idPrev[code]) {
@@ -167,85 +195,45 @@
 			}
 		});
 	}
-	$: id && runActions(Object.keys(actions)); // Run above code when 'id' object changes
 
 	// INITIALISATION CODE - Load and Preprocess Data
-	getRegionData()
-		.then((loadedRegionData) => {
-			regionData = loadedRegionData;
+	getMapJson()
+		.then((geo) => {
+			geoStates = geo.states;
+			geoCities = geo.cities;
 		})
 		.catch((error) => {
-			console.error('Error fetching region data:', error);
+			console.error('Error fetching MapJson:', error);
 		});
 
-	getTopo(DataPaths.TOPO_DATA, 'states', 'cities').then((geo) => {
-		geo.states.features.sort((a, b) => a.properties.AREANM.localeCompare(b.properties.AREANM));
-		geojson = geo.states;
-		cityGeojson = geo.cities;
-	});
+	getUsageData()
+		.then((loadedUsageData) => {
+			usageData = loadedUsageData;
+		})
+		.catch((error) => {
+			console.error('Error fetching UsageData:', error);
+		});
 
-	getVerkehrData()
+
+	getPriceTrendData()
 		.then((loadedVerkehrData) => {
-			verkehrData = loadedVerkehrData;
+			priceTrendData = loadedVerkehrData;
 		})
 		.catch((error) => {
 			console.error('Error fetching verkehr data:', error);
 		});
 
-	getBussGeldData()
-		.then((loadedBussGeldData) => {
-			bussGeldData = loadedBussGeldData.data;
+
+	getFineData()
+		.then((loadedFineData) => {
+			fineData = loadedFineData;
 		})
 		.catch((error) => {
-			console.error('Error fetching BussGeld data:', error);
+			console.error('Error fetching FineData:', error);
 		});
 
-	let bussDatafiltered = [];
-
-	$: if (bussGeldData && id['barChart'] && currentBarChart !== id['barChart']) {
-		currentBarChart = id['barChart'];
-		updateBarChartData(id['barChart']);
-	}
-
-	function updateBarChartData(chartId) {
-		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
-		switch (trigger) {
-			case 1:
-				bussDatafiltered = bussGeldData.filter((d) => d.type === 'fahrrad');
-				break;
-			case 2:
-				bussDatafiltered = bussGeldData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
-				break;
-			case 3:
-				bussDatafiltered = bussGeldData.filter((d) =>
-					['fahrrad', 'auto', 'oepnv'].includes(d.type)
-				);
-				break;
-			default:
-				bussDatafiltered = [];
-				break;
-		}
-		bussDatafiltered = bussDatafiltered.sort((a, b) => a.amount - b.amount);
-	}
-
-	//linechart
-	$: if (id['lineChart'] && currentLineChart !== id['lineChart']) {
-		currentLineChart = id['lineChart'];
-		lineChartTrigger = parseInt(id['lineChart'].slice(-2), 10);
-	}
-
-	// Initialize Hyphenopoly
-	const hyphenateText = async () => {
-		const hyphenopoly = await Hyphenopoly.config({
-			displayToggleBox: true,
-			intermediateState: 'visible'
-		});
-
-		hyphenopoly.run();
-	};
-
-	hyphenateText();
 </script>
+
 
 <Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 
@@ -256,8 +244,8 @@
 <Spacer size={spacings['xxxxl-96']} />
 <Section>
 	<div slot="animating">
-		<h2>Mobilität in Deutschland</h2>
-		<p class="mb">
+		<h3 class="mb-d">Mobilität in Deutschland</h3>
+		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
 			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
 			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
@@ -285,9 +273,12 @@
 	<div slot="background">
 		<figure>
 			<div class="col-wide height-full">
-				{#if verkehrData}
+				{#if priceTrendData}
 					<div class="chart">
-						<LineChartRace rawData={verkehrData.data.timeseries} animationStep={lineChartTrigger} />
+						<LineChartRace
+							rawData={priceTrendData.data.timeseries}
+							animationStep={lineChartTrigger}
+						/>
 					</div>
 				{/if}
 			</div>
@@ -440,7 +431,7 @@
 
 <Section>
 	<div slot="animating">
-		<h3 style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
+		<h3 class= "mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
 		<div>
 			<p class="mb">
 				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
@@ -452,20 +443,29 @@
 		<Spacer size={spacings['xxxxl-96']} />
 	</div></Section
 >
+		<h3 class="mb-d">This is Deutschland</h3>
+		<p class="mb">
+			Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
+			ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
+			Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
+			Erklärung hindeutet.
+		</p>
+	</div>
+</Section>
 
-{#if geojson && cityGeojson && regionData.data.region.indicators}
+{#if geoStates && geoCities && usageData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
-			<Legend indicators={regionData.data.region.indicators} {mapKey}></Legend>
+			<Legend indicators={usageData.data.region.indicators} {mapKey}></Legend>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>
-						<MapSource id="lad" type="geojson" data={geojson} promoteId="AREACD" maxzoom={13}>
+						<MapSource id="lad" type="geojson" data={geoStates} promoteId="AREACD" maxzoom={13}>
 							<MapLayer
 								id="lad-fill"
 								idKey="code"
 								colorKey={mapKey + '_color'}
-								data={regionData.data.region.indicators}
+								data={usageData.data.region.indicators}
 								type="fill"
 								select
 								{selected}
@@ -489,8 +489,8 @@
 								<MapTooltip
 									content={hovered
 										? `${
-												regionData.metadata.region.lookup[hovered].name
-											}<br/><strong>${regionData.data.region.indicators
+												usageData.metadata.region.lookup[hovered].name
+											}<br/><strong>${usageData.data.region.indicators
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString()} personenkilometer</strong>`
 										: ''}
@@ -515,7 +515,7 @@
 							/>
 						</MapSource>
 						{#if showCities}
-							<MapSource id="cities" type="geojson" data={cityGeojson} promoteId="AREANM">
+							<MapSource id="cities" type="geojson" data={geoCities} promoteId="AREANM">
 								<MapLayer
 									id="city-points"
 									type="circle"
@@ -552,7 +552,7 @@
 			</section>
 			<section data-id="map03">
 				<div class="col-medium">
-					{#each [[...regionData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
+					{#each [[...usageData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
 							In Hessen kommen <strong>11 mal</strong> so viele Kilometer auf einen Einwohner wie im
 							Saarland.
@@ -655,30 +655,30 @@
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
-	<h3>Klimawirkung im Personenverkehr</h3>
-	<br />
-	<p>
-		Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer. Autos haben
-		besonders hohe Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so viel wie der ÖPNV
-		und 21-mal so viel wie Fahrräder in 2017.
-	</p>
+	<div slot="animating">
 
-	<br />
+		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
+		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
+		<p style="text-align: justify;">
+			Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
+			viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
+		</p>
+	</div>
 	<p style="font-size: 14px; font-style: italic ;">
 		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
 		unterschiedlicher Treibhausgase zu vergleichen
 	</p>
 </Section>
 
-{#if geojson && regionData.data.region.indicators}
+{#if geoStates && usageData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
 			<figure>
 				<div class="col-wide height-full">
-					<div class="chart" style="width: 100%; height: 90%;">
-						{#if bussGeldData}
+					<div class="chart" style="width: 100%; height: 100%;">
+						{#if fineData}
 							<Barcharts
-								data={bussDatafiltered}
+								data={fineDataFiltered}
 								xKey="amount"
 								yKey="category"
 								xSuffix=" €"
@@ -741,10 +741,6 @@
 		pointer-events: all !important;
 	}
 
-	select {
-		max-width: 350px;
-	}
-
 	.chart {
 		height: 100%;
 	}
@@ -779,11 +775,5 @@
 		hyphens: auto;
 		list-style: none;
 		padding-left: 0;
-	}
-	.hypens {
-		-webkit-hyphens: auto;
-		-moz-hyphens: auto;
-		-ms-hyphens: auto;
-		hyphens: auto;
 	}
 </style>

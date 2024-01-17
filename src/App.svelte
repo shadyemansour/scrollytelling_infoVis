@@ -1,14 +1,15 @@
 <script>
-	import { Router, Route, Link } from 'svelte-routing';
-	import Lenis from '@studio-freight/lenis'
+	import { Router, Route, Link, navigate } from 'svelte-routing';
+	import Lenis from '@studio-freight/lenis';
 	import Home from './routes/Home.svelte';
 	import About from './routes/About.svelte';
 
-	var startingSite = Home; // Set starting Site
+	export let url = '/'; // Set starting Site
+	export let basepath = '/'; // Set starting Site
 
 	// SMOOTH SCROLLING
 	const lenis = new Lenis({
-		lerp: .1
+		lerp: 0.1
 	});
 	lenis.on('scroll', (e) => {
 		//console.log(e);
@@ -20,7 +21,16 @@
 	requestAnimationFrame(raf);
 </script>
 
-<Router>
-	<Route path="/" component={startingSite} />
+<!-- <Router>
+    <Route path="/" component={Home} />
+    <Route path="/aboutus" component={About} />
+    <nav>
+        <Link to="/">Home</Link>
+        <Link to="/aboutus">About Us</Link>
+    </nav>
+</Router> -->
+
+<Router {url}>
+	<Route path="/" component={Home} />
 	<Route path="/aboutus" component={About} />
 </Router>
