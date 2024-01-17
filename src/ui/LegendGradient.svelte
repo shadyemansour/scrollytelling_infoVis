@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import * as d3 from 'd3';
 	import { themes } from '../config.js';
 	import { getColor, numberWithPoints } from '../utils.js';
 
