@@ -13,7 +13,8 @@
 	import Section from '../layout/Section.svelte';
 	import NavIndicator from '../layout/NavIndicator.svelte';
 	import Spacer from '../layout/Spacer.svelte';
-	import Legend from '../ui/Legend.svelte';
+	import LegendGradient from '../ui/LegendGradient.svelte';
+	import LegendText from '../ui/LegendText.svelte';
 	import Barcharts from '../layout/AnimatedBarChart.svelte';
 	import LineChartRace from '../layout/LineChartRace.svelte';
 	import Bike from '../ui/Bike.svelte';
@@ -265,6 +266,7 @@
 
 <Scroller {threshold} bind:id={id['lineChart']}>
 	<div slot="background">
+		<LegendText text1={'ÖPNV'} text2={'Fahrrad: Anschaffung'} text3={'Auto: Anschaffung & Unterhalt'}></LegendText>
 		<figure>
 			<div class="col-wide height-full">
 				{#if priceTrendData}
@@ -437,7 +439,7 @@
 {#if geoStates && geoCities && usageData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
-			<Legend indicators={usageData.data.region.indicators} {mapKey}></Legend>
+			<LegendGradient indicators={usageData.data.region.indicators} {mapKey}></LegendGradient>
 			<figure>
 				<div class="col-full height-full">
 					<Map bind:map interactive={false} location={{ bounds: mapbounds }}>
@@ -654,6 +656,7 @@
 {#if geoStates && usageData.data.region.indicators}
 	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
+			<LegendText text1={'Nutzung TTW'} text2={'Energie WTT'} text3={'Fahrzeug'} text4={'Infrastruktur'}></LegendText>
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
