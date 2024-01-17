@@ -246,20 +246,20 @@
 			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
 			Ereignisse diesen möglicherweise beeinflussen.
 		</p>
-		<div class="erklaerungs-texte">
-			<p>
-				* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen,
-				die private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
-				Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
-				Zeitpunkten beeinflusst wird.
-			</p>
-		</div>
-		<div class="sources">
-			<p>
-				Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt | Stand
-				2023
-			</p>
-		</div>
+	</div>
+	<div class="erklaerungs-texte mb-d" style="color: {themes.neutral['text-dark'].secondary};">
+		<p>
+			* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen, die
+			private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
+			Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
+			Zeitpunkten beeinflusst wird.
+		</p>
+	</div>
+	<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+		<p>
+			Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt | Stand
+			2023
+		</p>
 	</div>
 </Section>
 
@@ -288,6 +288,7 @@
 					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
 					Jahr später am 02.01.2019 einen Preis von 25,31€.
 				</p>
+				<Spacer size={spacings['m-12']}></Spacer>
 				<div class="icon-heading">
 					<div class="icon-background" style="background-color: {themes.bike.teritary};">
 						<Bike size="30" color={themes.bike.primary} />
@@ -298,7 +299,6 @@
 					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
 						<Oepnv size="30" color={themes.oepnv.primary} />
 					</div>
-					<!--<h2>Autos</h2>-->
 				</div>
 			</div>
 		</section>
@@ -311,9 +311,8 @@
 					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
 					noch schneller an Beliebtheit.
 				</p>
-				<br />
 				<div class="sources">
-					<p>
+					<p style="color: {themes.neutral['text-dark'].secondary};">
 						Quelle: Preisentwicklung für Emissionsberechtigungen (EUA) seit 2008, Umweltbundesamt |
 						Stand 2023 Werte für 2018 & 2019
 					</p>
@@ -327,9 +326,8 @@
 					Fabriken, welches die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.
 				</p>
-				<br />
 				<div class="sources">
-					<p>
+					<p style="color: {themes.neutral['text-dark'].secondary};">
 						Quelle: So wirkt sich die Corona-Krise auf die Automobilindustrie aus, Springer
 						Professional | Stand 2020 <br />
 						Quelle: Das müssen Sie zur Halbleiter-Krise wissen, Springer Professional | Stand 2022
@@ -381,9 +379,8 @@
 					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
 					liegt die Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
 				</p>
-				<br />
 				<div class="sources">
-					<p>
+					<p style="color: {themes.neutral['text-dark'].secondary};">
 						Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt |
 						Stand 2023
 					</p>
@@ -399,9 +396,8 @@
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
 					-24,8%.
 				</p>
-				<br />
 				<div class="sources">
-					<p>
+					<p style="color: {themes.neutral['text-dark'].secondary};">
 						Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
 						%, destatis Statistisches Bundesamt | Stand 2024
 					</p>
@@ -414,8 +410,8 @@
 </Scroller>
 <Section>
 	<div class="sources">
-		<p>
-			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --> KFZ: Kraftfahrer-Preisindex; ÖPNV:
+		<p style="color: {themes.neutral['text-dark'].secondary};">
+			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --&gt; KFZ: Kraftfahrer-Preisindex; ÖPNV:
 			Kombinierte Personenbeförderungsdienstleistung
 		</p>
 	</div>
@@ -554,13 +550,13 @@
 					</p>
 
 					<div class="erklaerungs-texte">
-						<p>
+						<p style="color: {themes.neutral['text-dark'].secondary};">
 							* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags
 							min. 28 Abfahrten
 						</p>
 					</div>
 					<div class="sources">
-						<p>
+						<p style="color: {themes.neutral['text-dark'].secondary};">
 							Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
 							%, destatis Statistisches Bundesamt | Stand 2024
 						</p>
@@ -618,49 +614,41 @@
 
 	<Spacer size={spacings['xxxxl-96']} />
 {/if}
-<!--  <Section>
-	<div class="erklaerungs-texte">
-		<p>
-			Quelle: Unternehmen, Beförderte Personen, Personenkilometer (Personenverkehr mit Bussen und
-			Bahnen): Bundesländer, Quartale, Verkehrsart, DESTATIS Statistisches Bundesamt | Stand: 2023
-			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
-			Stand: 2023 Werte für: 2020
-		</p>
-	</div>
-</Section> -->
+
 <Section>
-	<div class="sources">
-		<p>
-			Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
-			Statistisches Bundesamt | Stand: 2023 <br />
-			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt | Stand:
-			2023 Werte für: 2020
-		</p>
-		<br />
-		<p>
-			Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische Ämter
-			des Bundes und der Länder | Stand 2020
-		</p>
-		<br />
-		<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
-	</div>
+		<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+			<p>
+				Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
+				Statistisches Bundesamt | Stand: 2023
+			</p>
+			<p>
+				Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
+				Stand: 2023 Werte für: 2020
+			</p>
+			<p>
+				Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische
+				Ämter des Bundes und der Länder | Stand 2020
+			</p>
+			<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
+		</div>
 </Section>
 
 <Spacer size={spacings['xxxxl-96']} />
 
 <Section>
-	<div slot="animating">
+	<div slot="animating" class="mb-d">
 		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
 		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
-		<p style="text-align: justify;">
+		<p>
 			Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
 			viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
 		</p>
 	</div>
-	<p style="font-size: 14px; font-style: italic ;">
+	<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
 		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
 		unterschiedlicher Treibhausgase zu vergleichen
 	</p>
+	<Spacer size={spacings['xxxxl-96']}></Spacer>
 </Section>
 
 {#if geoStates && usageData.data.region.indicators}
@@ -682,7 +670,7 @@
 					</div>
 					<Section>
 						<div class="sources">
-							<p>
+							<p style="color: {themes.neutral['text-dark'].secondary};">
 								Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den
 								Personen- und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021 Werte für:
 								2017
@@ -721,6 +709,7 @@
 			</section>
 		</div></Scroller
 	>
+	<Spacer size={spacings['xxxxl-96']}></Spacer>
 {/if}
 
 <Footer />
@@ -761,12 +750,13 @@
 		hyphens: auto;
 		list-style: none;
 		padding-left: 0;
+		align-self: flex-start;
 	}
 	.sources {
 		font-style: normal;
 		font-size: 13px;
 		hyphens: auto;
 		list-style: none;
-		padding-left: 0;
+		padding: 0;
 	}
 </style>
