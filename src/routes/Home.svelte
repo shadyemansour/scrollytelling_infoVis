@@ -552,10 +552,19 @@
 						Mecklenburg-Vorpommern ist mit 66,1% das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein
 					</p>
-					<p style="font-size: 13px; font-style: italic ;">
-						* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags min.
-						28 Abfahrten
-					</p>
+
+					<div class="erklaerungs-texte">
+						<p>
+							* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags
+							min. 28 Abfahrten
+						</p>
+					</div>
+					<div class="sources">
+						<p>
+							Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
+							%, destatis Statistisches Bundesamt | Stand 2024
+						</p>
+					</div>
 				</div>
 			</section>
 
