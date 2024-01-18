@@ -83,15 +83,15 @@
 			.range([0, innerHeight])
 			.padding(0.1);
 		//.attr('class', 'testi')
-
+		
 		// Bind data to groups (bars and labels)
 		const barGroups = chart
-			.selectAll('.bar-group')
-			.data(data, (d) => d[yKey])
-			.join('g')
-			.attr('class', 'bar-group')
-			.attr('transform', (d) => `translate(0, ${yScale(d[yKey])})`);
-
+		.selectAll('.bar-group')
+		.data(data, (d) => d[yKey])
+		.join('g')
+		.attr('class', 'bar-group')
+		.attr('transform', (d) => `translate(0, ${yScale(d[yKey])})`);
+		
 		// Update bars
 		barGroups
 			.selectAll('.bar')
@@ -127,6 +127,8 @@
 			.axisBottom(xScale)
 			.ticks(xTicks)
 			.tickFormat((d) => d + xSuffix);
+
+			chart.select('.domain').remove();
 
 		chart
 			.select('.x-axis')

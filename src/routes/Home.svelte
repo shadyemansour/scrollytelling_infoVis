@@ -16,8 +16,8 @@
 	import Spacer from '../layout/Spacer.svelte';
 	import LegendGradient from '../ui/LegendGradient.svelte';
 	import LegendText from '../ui/LegendText.svelte';
-	import Barcharts from '../layout/AnimatedBarChart.svelte';
-	import LineChartRace from '../layout/LineChartRace.svelte';
+	import Barcharts from '../charts/AnimatedBarChart.svelte';
+	import LineChartRace from '../charts/LineChartRace.svelte';
 	import Bike from '../ui/Bike.svelte';
 	import Car from '../ui/Car.svelte';
 	import Oepnv from '../ui/Oepnv.svelte';
@@ -295,7 +295,7 @@
 			Zeitpunkten beeinflusst wird.
 		</p>
 	</div>
-	<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+	<div class="sources" style="color: {themes.neutral['text-dark'].teritary};">
 		<p>
 			Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt | Stand
 			2023
@@ -357,7 +357,7 @@
 					noch schneller an Beliebtheit.
 				</p>
 				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].secondary};">
+					<p style="color: {themes.neutral['text-dark'].teritary};">
 						Quelle: Preisentwicklung für Emissionsberechtigungen (EUA) seit 2008, Umweltbundesamt |
 						Stand 2023 Werte für 2018 & 2019
 					</p>
@@ -372,7 +372,7 @@
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.
 				</p>
 				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].secondary};">
+					<p style="color: {themes.neutral['text-dark'].teritary};">
 						Quelle: So wirkt sich die Corona-Krise auf die Automobilindustrie aus, Springer
 						Professional | Stand 2020 <br />
 						Quelle: Das müssen Sie zur Halbleiter-Krise wissen, Springer Professional | Stand 2022
@@ -425,7 +425,7 @@
 					liegt die Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
 				</p>
 				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].secondary};">
+					<p style="color: {themes.neutral['text-dark'].teritary};">
 						Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt |
 						Stand 2023
 					</p>
@@ -442,7 +442,7 @@
 					-24,8%.
 				</p>
 				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].secondary};">
+					<p style="color: {themes.neutral['text-dark'].teritary};">
 						Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
 						%, destatis Statistisches Bundesamt | Stand 2024
 					</p>
@@ -455,7 +455,7 @@
 </Scroller>
 <Section>
 	<div class="sources">
-		<p style="color: {themes.neutral['text-dark'].secondary};">
+		<p style="color: {themes.neutral['text-dark'].teritary};">
 			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --&gt; KFZ: Kraftfahrer-Preisindex; ÖPNV:
 			Kombinierte Personenbeförderungsdienstleistung
 		</p>
@@ -519,7 +519,7 @@
 												usageData.metadata.region.lookup[hovered].name
 											}<br/><strong>${usageData.data.region.indicators
 												.find((d) => d.code == hovered)
-												[mapKey].toLocaleString()} personenkilometer</strong>`
+												[mapKey].toLocaleString()} Personenkilometer</strong>`
 										: ''}
 								/>
 							</MapLayer>
@@ -631,7 +631,7 @@
 						</p>
 					</div>
 					<div class="sources">
-						<p style="color: {themes.neutral['text-dark'].secondary};">
+						<p style="color: {themes.neutral['text-dark'].teritary};">
 							Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
 							%, destatis Statistisches Bundesamt | Stand 2024
 						</p>
@@ -696,7 +696,7 @@
 {/if}
 
 <Section>
-	<div class="sources" style="color: {themes.neutral['text-dark'].secondary};">
+	<div class="sources" style="color: {themes.neutral['text-dark'].teritary};">
 		<p>
 			Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
 			Statistisches Bundesamt | Stand: 2023
@@ -756,7 +756,7 @@
 					</div>
 					<Section>
 						<div class="sources">
-							<p style="color: {themes.neutral['text-dark'].secondary};">
+							<p style="color: {themes.neutral['text-dark'].teritary};">
 								Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den
 								Personen- und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021 Werte für:
 								2017
@@ -840,7 +840,7 @@
 	}
 	.sources {
 		font-style: normal;
-		font-size: 13px;
+		font-size: 11px;
 		hyphens: auto;
 		list-style: none;
 		padding: 0;
