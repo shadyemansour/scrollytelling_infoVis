@@ -3,7 +3,7 @@ import DataPaths from '../utils/constants.js';
 
 
 export async function getCityBikeRating() {
-    let loadedData = await getData(DataPaths.CITY_BIKE_RATING);
+    let loadedData = await getData(DataPaths.CITY_BIKE_RATING_DATA);
     let cityBikeRatingData = new CityBikeRatingData();
     // Process metadata
     let meta = loadedData.map((d) => ({

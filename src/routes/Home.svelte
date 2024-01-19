@@ -28,6 +28,7 @@
 	import { getCityBikeRating } from '../helpers/getCityBikeRating.js';
 	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
 	import { getFineData } from '../helpers/getFineData.js';
+	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
 
 	// Config
 	const threshold = 0.8;
@@ -48,6 +49,7 @@
 	let geoCities;
 	let priceTrendData;
 	let fineData;
+	let emissionsData;
 
 	// Map
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -60,6 +62,7 @@
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let mapLoaded = false;
+	const layersToCheck = ['lad-line', 'lad-fill', 'lad-fill-city', 'city-points'];
 
 	// Linechart
 	let lineChartTrigger = 0;
@@ -68,7 +71,7 @@
 	// Barchart
 	let currentBarChart = '';
 	let fineDataFiltered = [];
-	const layersToCheck = ['lad-line', 'lad-fill', 'lad-fill-city', 'city-points'];
+	let emissionsDataFiltered = [];
 
 	// FUNCTIONS
 	$: onMount(() => {
@@ -189,7 +192,7 @@
 	}
 
 	// Barchart
-	$: if (fineData && id['barChart'] && currentBarChart !== id['barChart']) {
+	$: if (emissionsData && id['barChart'] && currentBarChart !== id['barChart']) {
 		currentBarChart = id['barChart'];
 		updateBarChartData(id['barChart']);
 	}
@@ -198,18 +201,25 @@
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
 		switch (trigger) {
 			case 1:
+				emissionsDataFiltered = emissionsData.filter((d) => d.type === 'fahrrad');
 				fineDataFiltered = fineData.filter((d) => d.type === 'fahrrad');
 				break;
 			case 2:
+				emissionsDataFiltered = emissionsData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
 				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
 				break;
 			case 3:
+				emissionsDataFiltered = emissionsData.filter((d) =>
+					['fahrrad', 'auto', 'oepnv'].includes(d.type)
+				);
 				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto', 'oepnv'].includes(d.type));
 				break;
 			default:
+				emissionsDataFiltered = [];
 				fineDataFiltered = [];
 				break;
 		}
+		emissionsDataFiltered = emissionsDataFiltered.sort((a, b) => a.amount - b.amount);
 		fineDataFiltered = fineDataFiltered.sort((a, b) => a.amount - b.amount);
 	}
 
@@ -266,6 +276,14 @@
 		})
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
+		});
+
+	getCo2EmissionsData()
+		.then((loadedEmissionsData) => {
+			emissionsData = loadedEmissionsData;
+		})
+		.catch((error) => {
+			console.error('Error fetching Co2EmissionData:', error);
 		});
 </script>
 
@@ -745,7 +763,7 @@
 					<div class="chart" style="width: 100%; height: 100%;">
 						{#if fineData}
 							<Barcharts
-								data={fineDataFiltered}
+								data={emissionsDataFiltered}
 								xKey="amount"
 								yKey="category"
 								xSuffix=" €"
@@ -785,6 +803,24 @@
 				</div>
 			</section>
 			<section data-id="barChart03">
+				<div class="col-medium">
+					<p style="text-align: center;">
+						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"
+							>Oepnv</strong
+						>!
+					</p>
+				</div>
+			</section>
+			<section data-id="barChart04">
+				<div class="col-medium">
+					<p style="text-align: center;">
+						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"
+							>Oepnv</strong
+						>!
+					</p>
+				</div>
+			</section>
+			<section data-id="barChart04">
 				<div class="col-medium">
 					<p style="text-align: center;">
 						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"

@@ -13,8 +13,12 @@ class DataPaths {
       return './data/map_de.json';
     }
 
-    static get CITY_BIKE_RATING() {
-      return './data/city_bike_rating.CSV';
+    static get CITY_BIKE_RATING_DATA() {
+      return './data/CITY_BIKE_RATING_DATA.CSV';
+    }
+
+    static get CO2_EMISSIONS_DATA() {
+      return './data/co2_emissions.CSV';
     }
   
     // Add more paths as needed

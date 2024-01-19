@@ -7,7 +7,7 @@
 
 	export let data;
 	export let height = 300;
-	export let width = 500;
+	export let width = 800;
 	export let xKey = 'x';
 	export let yKey = 'y';
 	export let xTicks = 5;
@@ -47,7 +47,7 @@
 	}
 
 	function initializeChart() {
-		d3.select(svg).attr('viewBox', `0 0 500 300`);
+		d3.select(svg).attr('viewBox', `0 0 800 300`);
 		// Create SVG container
 		chart = d3
 			.select(svg)
@@ -83,15 +83,15 @@
 			.range([0, innerHeight])
 			.padding(0.1);
 		//.attr('class', 'testi')
-		
+
 		// Bind data to groups (bars and labels)
 		const barGroups = chart
-		.selectAll('.bar-group')
-		.data(data, (d) => d[yKey])
-		.join('g')
-		.attr('class', 'bar-group')
-		.attr('transform', (d) => `translate(0, ${yScale(d[yKey])})`);
-		
+			.selectAll('.bar-group')
+			.data(data, (d) => d[yKey])
+			.join('g')
+			.attr('class', 'bar-group')
+			.attr('transform', (d) => `translate(0, ${yScale(d[yKey])})`);
+
 		// Update bars
 		barGroups
 			.selectAll('.bar')
@@ -128,7 +128,7 @@
 			.ticks(xTicks)
 			.tickFormat((d) => d + xSuffix);
 
-			chart.select('.domain').remove();
+		chart.select('.domain').remove();
 
 		chart
 			.select('.x-axis')
