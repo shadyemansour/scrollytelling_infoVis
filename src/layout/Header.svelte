@@ -43,7 +43,7 @@
 				ease: 'power3.out'
 			});
 			tl.from('.short', {
-				height: '100vh',
+				height: '100dvh',
 				delay: 0.5,
 				duration: 0.6,
 				ease: 'power3.out'
@@ -84,14 +84,9 @@
 
 <style>
 	.short {
-		height: calc(100vh - 32px);
+		height: calc(100dvh - 32px);
 	}
 	.v-padded {
 		box-sizing: border-box;
-	}
-	.headingDeutschland {
-		font-family: 'Lobster';
-		font-size: 100px;
-		font-weight: 'regular';
 	}
 </style>

@@ -26,6 +26,7 @@ export const themes = {
       'teritary': brand[600],
     },
     'background': brand[500],
+    'muted': brand[100],
   },
   'car': {
 

@@ -1,7 +1,6 @@
 <script>
 	import { themes } from '../config.js';
 	import { link } from 'svelte-routing';
-	import About from '../routes/About.svelte';
 </script>
 
 <footer id="footer"
@@ -48,7 +47,6 @@
 	footer {
 		padding-bottom: 72px;
 		padding-top: 36px;
-		font-size: 18px;
 	}
 
 	ul {
