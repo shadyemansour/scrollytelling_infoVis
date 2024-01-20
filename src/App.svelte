@@ -3,9 +3,7 @@
 	import Lenis from '@studio-freight/lenis';
 	import Home from './routes/Home.svelte';
 	import About from './routes/About.svelte';
-
-	export let url = '/'; // Set starting Site
-	export let basepath = '/'; // Set starting Site
+	import Empty from './routes/Empty.svelte';
 
 	// SMOOTH SCROLLING
 	const lenis = new Lenis({
@@ -21,16 +19,13 @@
 	requestAnimationFrame(raf);
 </script>
 
-<!-- <Router>
-    <Route path="/" component={Home} />
-    <Route path="/aboutus" component={About} />
-    <nav>
-        <Link to="/">Home</Link>
-        <Link to="/aboutus">About Us</Link>
-    </nav>
-</Router> -->
+<svelte:head>
+	<title>Team 7</title>
+	<html lang="de"/>
+</svelte:head>
 
-<Router {url}>
+<Router>
 	<Route path="/" component={Home} />
 	<Route path="/aboutus" component={About} />
+	<Route path="/empty" component={Empty} />
 </Router>

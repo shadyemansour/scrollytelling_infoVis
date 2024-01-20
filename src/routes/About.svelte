@@ -1,53 +1,72 @@
-<!-- App.svelte -->
-
 <script>
+	import { onMount } from 'svelte';
+	import { themes } from '../config.js';
+	import Spacer from '../layout/Spacer.svelte';
 	import AboutCard from '../layout/AboutCard.svelte';
+	import IconWrapper from '../ui/IconWrapper.svelte';
+	import Footer from '../layout/Footer.svelte';
+	import { cards } from '../helpers/creator';
+	import { gsap } from 'gsap';
 
-	const cards = [
-		{
-			imageUrl: './img/avatar/1.png',
-			name: 'Shady Mansour',
-			description:
-				'As a passionate software engineer, I thrive on crafting robust code and designing the overarching architecture of our projects. My focus is on turning ideas into functional and efficient solutions, ensuring the success of our data visualization endeavors.'
-		},
-		{
-			imageUrl: './img/avatar/12.png',
-			name: 'Raphael Wennmacher',
-			description:
-				'Being a creative designer is more than a profession—it’s a way of life. I have a profound love for visual aesthetics and a keen ability to implement elegant design solutions. My goal is to seamlessly blend functionality with modern and sleek design, creating a visual experience that resonates.'
-		},
-		{
-			imageUrl: './img/avatar/82.png',
-			name: 'Fiona Lau',
-			description:
-				'As an innovative thinker, my primary focus lies in ideation and the creation of compelling infographics. I excel in translating complex ideas into visually appealing and informative graphics that tell a story. With a passion for data visualization, I bring a unique perspective to our projects.'
-		},
-		{
-			imageUrl: './img/avatar/85.png',
-			name: 'Elena Herzog',
-			description:
-				'Storytelling is my craft, and data visualization is my canvas. I am a multifaceted storyteller and ideator, weaving narratives that engage and captivate audiences. By combining creative storytelling with impactful data visualization, I strive to convey meaningful insights that resonate with our audience.'
-		},
-		{
-			imageUrl: './img/avatar/44.png',
-			name: 'Paul Walter',
-			description:
-				'Versatility is my strength. As an engineer, I am passionate about coding, implementing solutions, and exploring new possibilities. I enjoy the challenge of engineering and implementation while contributing to the exploration and ideation process. Embracing every facet of our projects with enthusiasm.'
-		}
-	];
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	onMount(() => {
+		const cardContainer = document.querySelectorAll('.card');
+
+		const timeline = gsap.timeline();
+
+		// Add animations to the timeline
+		timeline.from(cardContainer, {
+			opacity: 0,
+			y: 20,
+			duration: 0.8,
+			stagger: 0.1,
+			ease: 'power4.out',
+			delay: 0.5,
+		});
+	});
 </script>
-
-<h1>About Us</h1>
-
-<div class="card-container">
-	{#each cards as { imageUrl, name, description, index }}
-		<AboutCard {imageUrl} {name} {description} key={index} />
-	{/each}
-</div>
+<Spacer/>
+<section>
+	<div class="col-wide">
+		<div class="backButtonWrapper" style="background-color: {themes.brand.muted}">
+			<a href="/">
+				<IconWrapper name={'ArrowLeft'}/>
+			</a>
+		</div>
+		<h1>Team 7</h1>
+		<h3>Über unser großartiges Team</h3>
+		<p style="color: {themes.neutral['text-dark'].secondary};">Im Rahmen vom Kurs Informationsvisualisierung an der LMU München</p>
+		<Spacer/>
+		<div class="card-container">
+			{#each cards as { imageUrl, name, description, links }}
+				<AboutCard {imageUrl} {name} {description} {links} />
+			{/each}
+		</div>
+	</div>
+</section>
+<Footer></Footer>
 
 <style>
 	.card-container {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		grid-template-rows: repeat(auto-fit, minmax(250px, 1fr));
+		grid-gap: 24px;
+	}
+
+	.backButtonWrapper {
+		display: inline-flex;
+		justify-content: center;
+		padding: 4px;
+		align-items: center;
+		border-radius: 20px;
+		height: 32px;
+		aspect-ratio: 1;
+	}
+	a{
+		line-height: 0;
 	}
 </style>

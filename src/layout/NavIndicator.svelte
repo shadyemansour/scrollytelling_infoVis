@@ -4,9 +4,9 @@
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { subscribeResize } from '../helpers/resizeService.js';
-	import Car from '../ui/Car.svelte';
-	import Oepnv from '../ui/Oepnv.svelte';
-	import Bike from '../ui/Bike.svelte';
+	import Car from '../ui/icons/Car.svelte';
+	import Oepnv from '../ui/icons/Oepnv.svelte';
+	import Bike from '../ui/icons/Bike.svelte';
 
 	let enableHover = false;
 	let navContainer;

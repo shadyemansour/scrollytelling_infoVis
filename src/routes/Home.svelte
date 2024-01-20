@@ -18,9 +18,9 @@
 	import LegendText from '../ui/LegendText.svelte';
 	import Barcharts from '../charts/AnimatedBarChart.svelte';
 	import LineChartRace from '../charts/LineChartRace.svelte';
-	import Bike from '../ui/Bike.svelte';
-	import Car from '../ui/Car.svelte';
-	import Oepnv from '../ui/Oepnv.svelte';
+	import Bike from '../ui/icons/Bike.svelte';
+	import Car from '../ui/icons/Car.svelte';
+	import Oepnv from '../ui/icons/Oepnv.svelte';
 
 	// DATA IMPORT
 	import { getMapJson } from '../helpers/getMapJson.js';
@@ -268,6 +268,10 @@
 			console.error('Error fetching FineData:', error);
 		});
 </script>
+
+<svelte:head>
+	<title>Was Deutschland bewegt</title>
+</svelte:head>
 
 <Header bgcolor={themes.neutral.background} center={false} short={true}></Header>
 

@@ -51,7 +51,7 @@
 		left: auto;
 		right: 0;
 		bottom: 0;
-		gap: 12px;
+		gap: 20px;
 		margin: 8px 16px;
 		font-size: small;
 	}
@@ -64,6 +64,6 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 4px;
+		gap: 6px;
 	}
 </style>
