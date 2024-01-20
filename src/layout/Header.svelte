@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { themes } from '../config.js';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import SplitType from 'split-type';
 
 	export let bgcolor = null;
@@ -36,18 +35,19 @@
 				});
 			}
 
-			tl.from('#gsap-subheading', {
-				y: 40,
-				opacity: 0,
-				duration: 0.8,
-				ease: 'power3.out'
-			});
-			tl.from('.short', {
-				height: '100dvh',
-				delay: 0.5,
-				duration: 0.6,
-				ease: 'power3.out'
-			});
+		});
+
+		tl.from('#gsap-subheading', {
+			y: 40,
+			opacity: 0,
+			duration: 0.8,
+			ease: 'power3.out'
+		});
+		tl.from('.short', {
+			height: '100dvh',
+			delay: 0.5,
+			duration: 0.6,
+			ease: 'power3.out'
 		});
 	}
 </script>
@@ -64,6 +64,7 @@
 		class:short
 		class:height-full={!short}
 	>
+	<img src="img/favicon.png" alt="logo icon" style="width: 64px;">
 		<div class:center>
 			<h1 id="gsap-heading">Was <br /> Deutschland <br /> bewegt</h1>
 			<p
