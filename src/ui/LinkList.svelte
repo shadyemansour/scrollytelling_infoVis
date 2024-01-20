@@ -1,7 +1,6 @@
 <script>
     import IconWrapper from "./IconWrapper.svelte";
 	export let links;
-	console.log(links);
 </script>
 
 <div class="links">
