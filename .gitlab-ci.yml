@@ -15,5 +15,7 @@ push_to_github:
     - chmod 644 ~/.ssh/known_hosts
     - git remote | grep -q github || git remote add github git@github.com:shadyemansour/infoVis.git
     - git fsck --full
+    - git reflog expire --expire=now --all
+    - git gc --prune=now
     - git fetch --all
     - git push github HEAD:main --force
