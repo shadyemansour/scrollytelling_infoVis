@@ -36,8 +36,6 @@
 
 
 	};
-
-	export let theme = getContext('theme');
 </script>
 
 <section

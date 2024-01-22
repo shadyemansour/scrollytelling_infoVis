@@ -59,17 +59,6 @@
 	}
 	.logo-img {
 		margin-bottom: 27px;
-	}
-	.ogl-img {
-		margin: 0 0.5rem 0.2rem 0;
-		width: 59px;
-		height: 24px;
-		vertical-align: middle;
-	}
-	.license {
-		vertical-align: top;
-	}
-	a img:hover {
-		cursor: pointer;
+		width: 48px;
 	}
 </style>

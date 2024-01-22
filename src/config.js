@@ -2,12 +2,16 @@ import { trspWhite, trspBlack, brand, car, bike, oepnv, greys} from "./styles.js
 // CORE CONFIG
 
 export const themes = {
-  'light': {
-    'text': '#222',
+  'neutral': {
     'text': { 
       'primary': trspWhite[1000], 
       'secondary': trspWhite[600], 
       'teritary': trspWhite[400], 
+    },
+    'text-dark': { 
+      'primary': trspBlack[1000], 
+      'secondary': trspBlack[600], 
+      'teritary': trspBlack[400], 
     },
     'muted': '#777',
     'pale': '#f0f0f0',
