@@ -13,5 +13,5 @@ push_to_github:
     - chmod 700 ~/.ssh
     - ssh-keyscan github.com >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - git remote add github git@github.com:shadyemansour/infoVis.git
+    - git remote | grep -q github || git remote add github git@github.com:shadyemansour/infoVis.git
     - git push github HEAD:main --force
