@@ -1,5 +1,10 @@
 stages:
   - push
+  
+print_git_version:
+  script:
+    - echo "Checking Git version..."
+    - git --version
 
 push_to_github:
   stage: push
