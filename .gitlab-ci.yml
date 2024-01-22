@@ -1,7 +1,9 @@
 stages:
-  - push
-  
+  - setup
+  - push  
+
 print_git_version:
+  stage: setup
   script:
     - echo "Checking Git version..."
     - git --version
