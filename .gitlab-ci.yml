@@ -14,4 +14,4 @@ push_to_github:
     - ssh-keyscan github.com >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - git remote add github git@github.com:shadyemansour/infoVis.git
-    - git push github HEAD:main  
+    - git push github HEAD:main --force
