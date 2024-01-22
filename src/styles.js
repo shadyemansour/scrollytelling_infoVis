@@ -1,6 +1,3 @@
-//Do not use those directly.
-// Only use over config.js - themes (Semantic layer)
-
 export const brand = 
 {
   '100': '#e9f3ee',

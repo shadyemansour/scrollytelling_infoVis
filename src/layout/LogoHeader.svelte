@@ -3,6 +3,7 @@
 	import { getContext } from 'svelte';
 	import { link } from 'svelte-routing';
 
+	export let theme = getContext('theme');
 	export let filled = false;
 	export let center = true;
 </script>
