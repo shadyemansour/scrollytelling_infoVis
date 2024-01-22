@@ -73,7 +73,7 @@
 	// config
 	export let top = 0;
 	export let bottom = 1;
-	export let threshold = 0.5;
+	export let threshold = 0.5; // Defines the % where the Map changes
 	export let query = 'section';
 	export let parallax = false;
 
@@ -92,7 +92,7 @@
 	let background;
 	let left;
 	let sections;
-	let wh = 0;
+	let wh = 0; // window height
 	let fixed;
 	let offset_top;
 	let width = 1;
@@ -141,10 +141,11 @@
 		const fg = foreground.getBoundingClientRect();
 		const bg = background.getBoundingClientRect();
 
+		// only visible when inside scroller
 		visible = fg.top < wh && fg.bottom > 0;
 
-		const foreground_height = fg.bottom - fg.top;
-		const background_height = bg.bottom - bg.top;
+		const foreground_height = fg.bottom - fg.top; //4302
+		const background_height = bg.bottom - bg.top; //
 
 		const available_space = bottom_px - top_px;
 		progress = (top_px - fg.top) / (foreground_height - available_space);

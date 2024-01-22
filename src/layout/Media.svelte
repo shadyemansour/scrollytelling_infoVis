@@ -83,7 +83,7 @@
 </script>
 
 {#if nogrid}
-	<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+	<figure style="color: {themes.brand.text}; background-color: {themes.neutral.background};">
 		<div class="col-{col}">
 			<div bind:this={el} bind:clientWidth={gridWidth} class="grid-ms">
 				<slot />
@@ -91,7 +91,7 @@
 		</div>
 	</figure>
 {:else}
-	<figure style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+	<figure style="color: {themes.brand.text}; background-color: {themes.neutral.background};">
 		<div class="col-{col}">
 			<div class="grid{gridClass}" style="grid-gap: {gridGap}; min-height: {rowHeight}">
 				<slot />
@@ -100,7 +100,7 @@
 	</figure>
 {/if}
 {#if caption}
-	<caption style="color: {themes[theme]['text']}; background-color: {themes[theme]['background']};">
+	<caption style="color: {themes.brand.text}; background-color: {themes.neutral.background};">
 		<div class="col-medium">
 			<div class="caption">{@html caption}</div>
 		</div>

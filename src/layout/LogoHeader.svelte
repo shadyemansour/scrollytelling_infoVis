@@ -8,11 +8,11 @@
 	export let center = true;
 </script>
 
-<nav style="background-color: {themes.light.brand}">
+<nav style="background-color: {themes.neutral.background}">
 	<div class="col-wide middle" class:center>
 		<a href="/" use:link>
 			<picture>
-				<img src="/img/favicon.png" alt="Team 7" />
+				<!-- <img src="/img/favicon.png" alt="Team 7" /> -->
 			</picture>
 		</a>
 	</div>

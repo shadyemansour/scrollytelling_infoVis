@@ -24,8 +24,9 @@
 
 <style>
 	.em {
-		padding: 1px 4px 1px 4px;
+		padding: 2px 3px 3px 4px;
 		font-weight: bold;
+		border-radius: 2px;
 	}
 	.nowrap {
 		white-space: nowrap;

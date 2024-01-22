@@ -1,12 +1,16 @@
 import { csvParse, autoType } from 'd3-dsv';
 import { feature } from 'topojson-client';
-import { extent } from 'geojson-bounds';
+import { themes } from "./config.js";
 import * as d3 from 'd3';
 // CORE FUNCTIONS
 export function setColors(themes, theme) {
   for (let color in themes[theme]) {
     document.documentElement.style.setProperty('--' + color, themes[theme][color]);
   }
+}
+
+export function numberWithPoints(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 export function getMotion() {
@@ -22,12 +26,6 @@ export async function getData(url) {
   return data;
 }
 
-export async function getTopo(url, layer) {
-  let response = await fetch(url);
-  let json = await response.json();
-  let geojson = await feature(json, layer);
-  return geojson;
-}
 
 
 export function getColor(min, max, colors= "") {
@@ -53,11 +51,26 @@ export function getColor(min, max, colors= "") {
             .domain([min, max])
             .interpolator(d3.interpolateViridis);
             break;
-            
+    case "interpolateGreens":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateGreens);
+            break;
+    case "interpolateCar":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateOranges);
+            break;
+    case "interpolateOepnv":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateRgb(themes.oepnv.bright, themes.oepnv.dark));
+            break;
+    
     default:
       colorScale = d3.scaleSequential()
             .domain([min, max])
-            .interpolator(d3.interpolateMagma);
+            .interpolator(d3.interpolateViridis);
       break;
   }
   return colorScale;
@@ -75,17 +88,4 @@ export function getInfernoColor(value, breaks) {
     }
   }
   return color ? color : 'lightgrey';
-}
-
-export function getBreaks(vals) {
-	let len = vals.length;
-	let breaks = [
-		vals[0],
-		vals[Math.floor(len * 0.2)],
-		vals[Math.floor(len * 0.4)],
-		vals[Math.floor(len * 0.6)],
-		vals[Math.floor(len * 0.8)],
-		vals[len - 1]
-	];
-	return breaks;
 }

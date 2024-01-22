@@ -1,4 +1,4 @@
-import { trspWhite, brand } from "./styles.js";
+import { trspWhite, trspBlack, brand, car, bike, oepnv, greys} from "./styles.js";
 // CORE CONFIG
 
 export const themes = {
@@ -11,24 +11,58 @@ export const themes = {
     },
     'muted': '#777',
     'pale': '#f0f0f0',
-    'brand': brand[500],
-    'background': '#fff'
+    'background': '#fff',
+    'chartLines': greys[50],
+
   },
-  'dark': {
-    'text': '#fff',
-    'muted': '#bbb',
-    'pale': '#333',
-    'background': '#222'
+  'brand': {
+    'text': {
+      'primary': brand[600],
+      'secondary': brand[600],
+      'teritary': brand[600],
+    },
+    'background': brand[500],
+    'muted': brand[100],
   },
-  'lightblue': {
-    'text': '#206095',
-    'muted': '#707070',
-    'pale': '#f0f0f0',
-    'background': 'rgb(188, 207, 222)'
+  'car': {
+
+    'primary': car[1000],
+    'secondary': car[600],
+    'teritary': car[200],
+    'dark': '#2E1E05',
+    'bright': '#FF9D00',
+  },
+  
+  'bike': {
+    
+    'primary': bike[1000],
+    'secondary': bike[600],
+    'teritary': bike[200],
+  },
+  
+  'oepnv': {
+    
+    'primary': oepnv[1000],
+    'secondary': oepnv[600],
+    'teritary': oepnv[200],
+    'dark': '#0E253E',
+    'bright': '#99C1EB',
   }
 }
 
 // DEMO-SPECIFIC CONFIG
+
+export const spacings = {
+  'xs-4': 4, 
+  'x-8': 8, 
+  'm-12': 12, 
+  'd-16': 16, 
+  'l-24': 24, 
+  'xl-32': 32, 
+  'xxl-48': 48, 
+  'xxxl-64': 64, 
+  'xxxxl-96': 96, 
+}
 
 export const colors = {
   seq: ['rgb(234, 236, 177)', 'rgb(169, 216, 145)', 'rgb(0, 167, 186)', 'rgb(0, 78, 166)', 'rgb(0, 13, 84)'],
