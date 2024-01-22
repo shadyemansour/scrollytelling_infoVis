@@ -28,5 +28,5 @@ push_to_github:
       ITERATIONS=$((TOTAL_COMMITS / BATCH_SIZE + (TOTAL_COMMITS % BATCH_SIZE > 0)))
       for i in $(seq 1 $ITERATIONS); do
         LAST_COMMIT=$(git rev-parse HEAD~$(($BATCH_SIZE * $i)))
-        git push github $LAST_COMMIT:refs/heads/main
+        git push github $LAST_COMMIT:refs/heads/main --force
       done
