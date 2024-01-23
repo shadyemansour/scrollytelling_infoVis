@@ -33,8 +33,8 @@ export async function getCityBikeRating() {
         }
     );
 
-    console.log(indicators)
-    console.log(lookup)
+    //console.log(indicators)
+    //console.log(lookup)
             
     
     //console.log(indicators);    

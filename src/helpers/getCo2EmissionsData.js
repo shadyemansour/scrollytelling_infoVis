@@ -16,20 +16,14 @@ export async function getCo2EmissionsData() {
                 vehicle: d.vehicle,
                 infrastructure: d.infrastructure,
                 total: d.total,
-                color: getColor(d.code),
+                color: getColor(),
             });
     });
     return series;
 }
 
-function getColor(code) {
-    let color;
-    switch(code){
-        case "FA" : color = themes.bike.primary; break;
-        case "OEF" : color = themes.oepnv.primary; break;
-        case "AUT" : color = themes.car.primary; break;
-    }
-    return color;
+function getColor() {
+    return ["orange", "green", "blue", "red", "purple", "yellow"];
 }
 
 

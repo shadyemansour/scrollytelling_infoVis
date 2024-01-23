@@ -14,11 +14,11 @@ class DataPaths {
     }
 
     static get CITY_BIKE_RATING_DATA() {
-      return './data/CITY_BIKE_RATING_DATA.CSV';
+      return './data/city_bike_rating.csv';
     }
 
     static get CO2_EMISSIONS_DATA() {
-      return './data/co2_emissions.CSV';
+      return './data/co2_emissions.csv';
     }
   
     // Add more paths as needed

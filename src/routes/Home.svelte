@@ -201,26 +201,55 @@
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
 		switch (trigger) {
 			case 1:
-				emissionsDataFiltered = emissionsData.filter((d) => d.type === 'fahrrad');
-				fineDataFiltered = fineData.filter((d) => d.type === 'fahrrad');
+				emissionsDataFiltered = emissionsData.map(({ code, type, color, vehicle }) => ({
+					code,
+					type,
+					color,
+					vehicle
+				}));
+
 				break;
 			case 2:
-				emissionsDataFiltered = emissionsData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
-				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
+				emissionsDataFiltered = emissionsData.map(
+					({ code, type, color, vehicle, infrastructure }) => ({
+						code,
+						type,
+						color,
+						vehicle,
+						infrastructure
+					})
+				);
 				break;
 			case 3:
-				emissionsDataFiltered = emissionsData.filter((d) =>
-					['fahrrad', 'auto', 'oepnv'].includes(d.type)
+				emissionsDataFiltered = emissionsData.map(
+					({ code, type, color, vehicle, infrastructure, usage }) => ({
+						code,
+						type,
+						color,
+						vehicle,
+						infrastructure,
+						usage
+					})
 				);
-				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto', 'oepnv'].includes(d.type));
+				break;
+			case 4:
+				emissionsDataFiltered = emissionsData.map(
+					({ code, type, color, vehicle, infrastructure, usage, energies }) => ({
+						code,
+						type,
+						color,
+						vehicle,
+						infrastructure,
+						usage,
+						energies
+					})
+				);
 				break;
 			default:
 				emissionsDataFiltered = [];
-				fineDataFiltered = [];
 				break;
 		}
 		emissionsDataFiltered = emissionsDataFiltered.sort((a, b) => a.amount - b.amount);
-		fineDataFiltered = fineDataFiltered.sort((a, b) => a.amount - b.amount);
 	}
 
 	// Code to run Scroller actions when new caption IDs come into view
@@ -761,7 +790,7 @@
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
-						{#if fineData}
+						{#if emissionsData}
 							<Barcharts
 								data={emissionsDataFiltered}
 								xKey="amount"
@@ -820,7 +849,7 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="barChart04">
+			<section data-id="barChart05">
 				<div class="col-medium">
 					<p style="text-align: center;">
 						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"

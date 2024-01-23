@@ -17,6 +17,8 @@
 	export let xSuffix = ''; // Suffix for the x-axis values
 	export let title = ''; // Title at the top of the chart
 
+	const colors = ['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00'];
+
 	let svg;
 	let chart;
 	let resizeObserver;
@@ -70,40 +72,62 @@
 	}
 
 	function updateChart() {
+		if (!data[0]) {
+			return;
+		}
+		const stackKeys = Object.keys(data[0]).filter(
+			(k) => k !== 'code' && k !== 'type' && k !== 'color'
+		);
+		const stack = d3.stack().keys(stackKeys);
+		const stackedData = stack(data);
+
+		console.log(stackedData);
+
 		// Set up dimensions and scales
 		const innerWidth = width - padding.left - padding.right;
 		const innerHeight = height - padding.top - padding.bottom;
-
-		const xMaxValue = d3.max(data, (d) => d[xKey]) + 20;
+		// Update scales
+		const xMaxValue = d3.max(stackedData, (d) => d3.max(d, (d) => d[1]));
 		const xScale = d3.scaleLinear().domain([0, xMaxValue]).range([0, innerWidth]);
-
 		const yScale = d3
 			.scaleBand()
-			.domain(data.map((d) => d[yKey]))
+			.domain(data.map((d) => d.type))
 			.range([0, innerHeight])
 			.padding(0.1);
-		//.attr('class', 'testi')
 
-		// Bind data to groups (bars and labels)
+		// Bind data to bar groups
 		const barGroups = chart
 			.selectAll('.bar-group')
-			.data(data, (d) => d[yKey])
+			.data(stackedData)
 			.join('g')
-			.attr('class', 'bar-group')
-			.attr('transform', (d) => `translate(0, ${yScale(d[yKey])})`);
+			.attr('class', 'bar-group');
 
-		// Update bars
+		// Draw stacked bars
 		barGroups
 			.selectAll('.bar')
-			.data((d) => [d]) // Pass parent data to children
+			.data((d) => d)
 			.join('rect')
 			.attr('class', 'bar')
 			.transition()
 			.duration(animationDuration)
-			.attr('x', 0)
-			.attr('width', (d) => xScale(d[xKey]))
+			.attr('x', (d) => xScale(d[0]))
+			.attr('width', (d) => xScale(d[1]) - xScale(d[0]))
+			.attr('y', (d) => yScale(d.data.type))
 			.attr('height', yScale.bandwidth())
-			.attr('fill', (d) => d.color);
+			.attr('fill', (d, i) => d.data.color[stackedData.length]); // Define your color scheme
+
+		// Update bars
+		// barGroups
+		// 	.selectAll('.bar')
+		// 	.data((d) => [d]) // Pass parent data to children
+		// 	.join('rect')
+		// 	.attr('class', 'bar')
+		// 	.transition()
+		// 	.duration(animationDuration)
+		// 	.attr('x', 0)
+		// 	.attr('width', (d) => xScale(d[xKey]))
+		// 	.attr('height', yScale.bandwidth())
+		// 	.attr('fill', (d) => d.color);
 
 		// Update labels
 		barGroups
