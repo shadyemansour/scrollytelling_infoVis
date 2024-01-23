@@ -267,6 +267,10 @@
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
 		});
+	function getIndicatorValue(cityName, key) {
+		const indicator = cityBikeRatingData.data.city.indicators.find((d) => d.name === cityName);
+		return indicator && indicator[key] ? indicator[key].toLocaleString() : 'N/A';
+	}
 </script>
 
 <svelte:head>
@@ -576,9 +580,27 @@
 							>
 								<MapTooltip
 									content={showCities && cityHovered
-										? `${cityHovered}<br/><strong>${cityBikeRatingData.data.city.indicators
-												.find((d) => d.name == cityHovered)
-												[mapKey].toLocaleString()} something</strong>`
+										? `${cityHovered}<br /><strong
+									>Rating ${getIndicatorValue(cityHovered, mapKey)}</strong
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive1')}</span
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive2')}</span
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive3')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative1')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative2')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative3')}</span
+								>`
 										: ''}
 								/>
 							</MapLayer>

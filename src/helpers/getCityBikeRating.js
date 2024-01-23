@@ -23,6 +23,13 @@ export async function getCityBikeRating() {
     let indicators = loadedData.map((d, i) => ({
         ...meta[i],
         "Bike": d['rating'],
+        "Positive1": d['Positiv1'],
+        "Positive2": d['Positiv2'],
+        "Positive3": d['Positiv3'],
+        "Negative1": d['Negativ1'],
+        "Negative2": d['Negativ2'],
+        "Negative3": d['Negativ3'],
+
     }));
 
     // Additional processing for city
