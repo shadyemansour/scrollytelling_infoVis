@@ -1,6 +1,6 @@
 <script>
 	import { themes } from '../config.js';
-	import GitHub from './icons/GitHub.svelte';
+	import GitHub from './icons/Github.svelte';
 	import LinkedIn from './icons/LinkedIn.svelte';
 	import Globe from './icons/Globe.svelte';
 	import ArrowLeft from './icons/ArrowLeft.svelte';
@@ -16,5 +16,4 @@
 	};
 </script>
 
-
-<svelte:component this={icons[name]}/>
+<svelte:component this={icons[name]} />
