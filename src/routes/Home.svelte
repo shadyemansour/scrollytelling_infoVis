@@ -28,6 +28,7 @@
 	import { getCityBikeRating } from '../helpers/getCityBikeRating.js';
 	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
 	import { getFineData } from '../helpers/getFineData.js';
+	import { rgb } from 'd3';
 
 	// Config
 	const threshold = 0.8;
@@ -227,13 +228,22 @@
 	}
 
 	// INITIALISATION CODE - Load and Preprocess Data
-	getMapJson()
-		.then((geo) => {
+	Promise.all([getCityBikeRating(), getMapJson()])
+		.then(([loadedCityBikeRatingData, geo]) => {
+			cityBikeRatingData = loadedCityBikeRatingData;
 			geoStates = geo.states;
 			geoCities = geo.cities;
+
+			// Now both cityBikeRatingData and geoCities are loaded
+			geoCities.features.forEach((city) => {
+				const indicator = cityBikeRatingData.data.city.indicators.find(
+					(indicator) => indicator.name === city.properties.AREANM
+				);
+				city.properties['Bike_color'] = indicator ? indicator['Bike_color'] : 'rgb(0, 0, 0)'; // Default color if not found
+			});
 		})
 		.catch((error) => {
-			console.error('Error fetching MapJson:', error);
+			console.error('Error fetching data:', error);
 		});
 
 	getUsageData()
@@ -242,14 +252,6 @@
 		})
 		.catch((error) => {
 			console.error('Error fetching UsageData:', error);
-		});
-
-	getCityBikeRating()
-		.then((loadedCityBikeRatingData) => {
-			cityBikeRatingData = loadedCityBikeRatingData;
-		})
-		.catch((error) => {
-			console.error('Error fetching CityBikeRatingData:', error);
 		});
 
 	getPriceTrendData()
@@ -267,6 +269,10 @@
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
 		});
+	function getIndicatorValue(cityName, key) {
+		const indicator = cityBikeRatingData.data.city.indicators.find((d) => d.name === cityName);
+		return indicator && indicator[key] ? indicator[key].toLocaleString() : 'N/A';
+	}
 </script>
 
 <svelte:head>
@@ -571,14 +577,32 @@
 								on:hover={doHoverCity}
 								paint={{
 									'circle-radius': 7,
-									'circle-color': '#007cbf'
+									'circle-color': ['get', 'Bike_color']
 								}}
 							>
 								<MapTooltip
 									content={showCities && cityHovered
-										? `${cityHovered}<br/><strong>${cityBikeRatingData.data.city.indicators
-												.find((d) => d.name == cityHovered)
-												[mapKey].toLocaleString()} something</strong>`
+										? `${cityHovered}<br /><strong
+									>Rating ${getIndicatorValue(cityHovered, mapKey)}</strong
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive1')}</span
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive2')}</span
+								>
+								<br /><span style="color:green;"
+									>+ ${getIndicatorValue(cityHovered, 'Positive3')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative1')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative2')}</span
+								>
+								<br /><span style="color:red;"
+									>- ${getIndicatorValue(cityHovered, 'Negative3')}</span
+								>`
 										: ''}
 								/>
 							</MapLayer>

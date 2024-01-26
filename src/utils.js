@@ -66,6 +66,11 @@ export function getColor(min, max, colors= "") {
             .domain([min, max])
             .interpolator(d3.interpolateRgb(themes.oepnv.bright, themes.oepnv.dark));
             break;
+    case "interpolateBike":
+      colorScale = d3.scaleSequential()
+            .domain([min, max])
+            .interpolator(d3.interpolateRgb(themes.bike.bright, themes.bike.dark));
+            break;
     
     default:
       colorScale = d3.scaleSequential()

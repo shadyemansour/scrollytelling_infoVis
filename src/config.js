@@ -42,6 +42,8 @@ export const themes = {
     'primary': bike[1000],
     'secondary': bike[600],
     'teritary': bike[200],
+        'dark': '#1a5241',
+    'bright': '#50f8c3',
   },
   
   'oepnv': {
