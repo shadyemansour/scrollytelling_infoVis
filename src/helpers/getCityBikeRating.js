@@ -29,19 +29,21 @@ export async function getCityBikeRating() {
         "Negative1": d['Negativ1'],
         "Negative2": d['Negativ2'],
         "Negative3": d['Negativ3'],
-
     }));
 
     // Additional processing for city
 
+            let values = indicators.map((d) => d['Bike']).sort((a, b) => a - b);
+        const min = Math.min(...values);
+        const max = Math.max(...values);
     indicators.forEach(
         (d, i) => {
-            (indicators[i]['Bike_color'] = 'rgba(0, 0, 0, 1)');
+            (indicators[i]['Bike_color'] = getColor(min, max, 'interpolateBike')(d['Bike']));
         }
     );
 
-    console.log(indicators)
-    console.log(lookup)
+    // console.log(indicators)
+    // console.log(lookup)
             
     
     //console.log(indicators);    
