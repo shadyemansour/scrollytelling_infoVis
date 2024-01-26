@@ -1,6 +1,6 @@
 import { csvParse, autoType } from 'd3-dsv';
-import { feature } from 'topojson-client';
 import { themes } from "./config.js";
+
 import * as d3 from 'd3';
 // CORE FUNCTIONS
 export function setColors(themes, theme) {
@@ -25,8 +25,6 @@ export async function getData(url) {
 	let data = await csvParse(string, autoType);
   return data;
 }
-
-
 
 export function getColor(min, max, colors= "") {
   var colorScale;
