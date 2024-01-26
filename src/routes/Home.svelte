@@ -16,8 +16,8 @@
 	import Spacer from '../layout/Spacer.svelte';
 	import LegendGradient from '../ui/LegendGradient.svelte';
 	import LegendText from '../ui/LegendText.svelte';
-	import Barcharts from '../charts/AnimatedBarChart.svelte';
 	import LineChartRace from '../charts/LineChartRace.svelte';
+	import StackedBarChart from '../charts/stackedBarChart/StackedBarChart.svelte';
 	import Bike from '../ui/icons/Bike.svelte';
 	import Car from '../ui/icons/Car.svelte';
 	import Oepnv from '../ui/icons/Oepnv.svelte';
@@ -28,6 +28,7 @@
 	import { getCityBikeRating } from '../helpers/getCityBikeRating.js';
 	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
 	import { getFineData } from '../helpers/getFineData.js';
+	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
 	import { rgb } from 'd3';
 
 	// Config
@@ -49,6 +50,7 @@
 	let geoCities;
 	let priceTrendData;
 	let fineData;
+	let co2EmissionsData;
 
 	// Map
 	let map = null; // Bound to mapbox 'map' instance once initialised
@@ -61,6 +63,7 @@
 	let explore = false; // Allows chart/map interactivity to be toggled on/off
 	let mapColor = 'interpolateInferno'; // Changes the default color of map
 	let mapLoaded = false;
+	const layersToCheck = ['lad-line', 'lad-fill', 'lad-fill-city', 'city-points'];
 
 	// Linechart
 	let lineChartTrigger = 0;
@@ -68,8 +71,8 @@
 
 	// Barchart
 	let currentBarChart = '';
-	let fineDataFiltered = [];
-	const layersToCheck = ['lad-line', 'lad-fill', 'lad-fill-city', 'city-points'];
+	let stackedBarChartLayout = 'grouped';
+	let showExploreButtons = false;
 
 	// FUNCTIONS
 	$: onMount(() => {
@@ -199,19 +202,29 @@
 		const trigger = parseInt(chartId.charAt(chartId.length - 1), 10);
 		switch (trigger) {
 			case 1:
-				fineDataFiltered = fineData.filter((d) => d.type === 'fahrrad');
+				stackedBarChartLayout = 'grouped';
+				showExploreButtons = false;
 				break;
 			case 2:
-				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto'].includes(d.type));
+				stackedBarChartLayout = 'stacked';
+				showExploreButtons = false;
 				break;
 			case 3:
-				fineDataFiltered = fineData.filter((d) => ['fahrrad', 'auto', 'oepnv'].includes(d.type));
+				stackedBarChartLayout = 'separated';
+				showExploreButtons = false;
+				break;
+			case 4:
+				stackedBarChartLayout = 'percent';
+				showExploreButtons = false;
+				break;
+			case 5:
+				showExploreButtons = true;
 				break;
 			default:
-				fineDataFiltered = [];
+				stackedBarChartLayout = 'grouped';
+				showExploreButtons = false;
 				break;
 		}
-		fineDataFiltered = fineDataFiltered.sort((a, b) => a.amount - b.amount);
 	}
 
 	// Code to run Scroller actions when new caption IDs come into view
@@ -269,6 +282,15 @@
 		.catch((error) => {
 			console.error('Error fetching FineData:', error);
 		});
+
+	getCo2EmissionsData()
+		.then((loadedCo2EmissionsData) => {
+			co2EmissionsData = loadedCo2EmissionsData;
+		})
+		.catch((error) => {
+			console.error('Error fetching Co2EmissionsData:', error);
+		});
+
 	function getIndicatorValue(cityName, key) {
 		const indicator = cityBikeRatingData.data.city.indicators.find((d) => d.name === cityName);
 		return indicator && indicator[key] ? indicator[key].toLocaleString() : 'N/A';
@@ -771,16 +793,11 @@
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
-						{#if fineData}
-							<Barcharts
-								data={fineDataFiltered}
-								xKey="amount"
-								yKey="category"
-								xSuffix=" €"
-								title="CO2 Emissionen"
-								xTicks="0"
-							/>
-						{/if}
+						<StackedBarChart
+							data={co2EmissionsData}
+							layout={stackedBarChartLayout}
+							{showExploreButtons}
+						></StackedBarChart>
 					</div>
 					<Section>
 						<div class="sources">
@@ -798,27 +815,27 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p style="text-align: center;">
-						Die Busßgelder für <strong style="color: {themes.bike.primary};">Bikes</strong> sind ziemlich
-						hoch!
-					</p>
+					<p style="text-align: center;">This is Grouped!</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
-					<p style="text-align: center;">
-						This chart shows the fines for <strong style="color: {themes.car.primary};">Cars</strong
-						>!
-					</p>
+					<p style="text-align: center;">This is Stacked!</p>
 				</div>
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
-					<p style="text-align: center;">
-						This chart shows the fines for <strong style="color: {themes.oepnv.primary};"
-							>Oepnv</strong
-						>!
-					</p>
+					<p style="text-align: center;">This is Separated!</p>
+				</div>
+			</section>
+			<section data-id="barChart04">
+				<div class="col-medium">
+					<p style="text-align: center;">This is Percent!</p>
+				</div>
+			</section>
+			<section data-id="barChart05">
+				<div class="col-medium">
+					<p style="text-align: center;">Explore!!!</p>
 				</div>
 			</section>
 		</div></Scroller

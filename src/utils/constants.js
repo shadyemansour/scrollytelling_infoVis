@@ -16,6 +16,10 @@ class DataPaths {
     static get CITY_BIKE_RATING() {
       return './data/city_bike_rating.csv';
     }
+
+    static get CO2_EMISSIONS_DATA() {
+      return './data/co2_emissions.csv';
+    }
   
     // Add more paths as needed
   
