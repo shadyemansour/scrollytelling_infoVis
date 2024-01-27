@@ -178,7 +178,14 @@
 			</div>
 		</div>
 	</div>
-	<div style="background-color: {themes.neutral.pale};" class="top" on:keypress={()=>{}} on:click={lenis.scrollTo(0)}><IconWrapper name={'ArrowUp'} size={'75%'}></IconWrapper></div>
+	<div
+		style="background-color: {themes.neutral.pale};"
+		class="top"
+		on:keypress={() => {}}
+		on:click={lenis.scrollTo(0)}
+	>
+		<IconWrapper name={'ArrowUp'} innerSize={'75%'}></IconWrapper>
+	</div>
 </div>
 
 <style>

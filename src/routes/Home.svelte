@@ -30,6 +30,7 @@
 	import { getFineData } from '../helpers/getFineData.js';
 	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
 	import { rgb } from 'd3';
+	import IconWrapper from '../ui/IconWrapper.svelte';
 
 	// Config
 	const threshold = 1;
@@ -586,27 +587,32 @@
 							>
 								<MapTooltip
 									content={showCities && cityHovered
-										? `${cityHovered}<br /><strong
-									>Rating ${getIndicatorValue(cityHovered, mapKey)}</strong
-								>
-								<br /><span style="color:green;"
-									>+ ${getIndicatorValue(cityHovered, 'Positive1')}</span
-								>
-								<br /><span style="color:green;"
-									>+ ${getIndicatorValue(cityHovered, 'Positive2')}</span
-								>
-								<br /><span style="color:green;"
-									>+ ${getIndicatorValue(cityHovered, 'Positive3')}</span
-								>
-								<br /><span style="color:red;"
-									>- ${getIndicatorValue(cityHovered, 'Negative1')}</span
-								>
-								<br /><span style="color:red;"
-									>- ${getIndicatorValue(cityHovered, 'Negative2')}</span
-								>
-								<br /><span style="color:red;"
-									>- ${getIndicatorValue(cityHovered, 'Negative3')}</span
-								>`
+										? `<h4>${cityHovered}</h4>
+										<strong>Note ${getIndicatorValue(cityHovered, mapKey)}</strong>
+								<br /><span></span>
+									<div style="color: #4e4e4e;">
+									<img src="./img/Positive.svg" alt="bike" width="12" height="12" />
+									${getIndicatorValue(cityHovered, 'Positive1')}</span
+									>
+									<br /><span>
+									<img src="./img/Positive.svg" alt="bike" width="12" height="12" />
+									 ${getIndicatorValue(cityHovered, 'Positive2')}</span
+									>
+									<br /><span>
+									<img src="./img/Positive.svg" alt="bike" width="12" height="12" />
+									 ${getIndicatorValue(cityHovered, 'Positive3')}</span
+									>
+									<br /><span> 
+									<img src="./img/Negative.svg" alt="bike" width="12" height="12" />
+									${getIndicatorValue(cityHovered, 'Negative1')}</span
+									>
+									<br /><span>
+									<img src="./img/Negative.svg" alt="bike" width="12" height="12" />
+									 ${getIndicatorValue(cityHovered, 'Negative2')}</span
+									>
+									<br /><span>
+									<img src="./img/Negative.svg" alt="bike" width="12" height="12" />
+									 ${getIndicatorValue(cityHovered, 'Negative3')}</span></div>`
 										: ''}
 								/>
 							</MapLayer>

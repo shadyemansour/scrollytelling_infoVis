@@ -116,6 +116,11 @@ h3 {
 	margin: 40px 0 -10px 0;
 }
 
+h4 {
+	font-size: clamp(1rem, 1.5vw, 1.3rem);
+	margin: 4px 0px;
+}
+
 img {
 	max-width: 100%;
 	height: auto;
