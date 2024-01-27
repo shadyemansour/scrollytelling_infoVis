@@ -733,15 +733,15 @@
 	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
 			<LegendText
-			text1={'Emissionen durch Nutzung'}
-			color1={themes.purple.primary}
-			text2={'Energiebereitstellung'}
-			color2={themes.purple.secondary}
-			text3={'Herstellung'}
-			color3={themes.purple.teritary}
-			text4={'Infrastruktur'}
-			color4={themes.purple.quaternary}
-		></LegendText>
+				text1={'Emissionen durch Nutzung'}
+				color1={themes.purple.primary}
+				text2={'Energiebereitstellung'}
+				color2={themes.purple.secondary}
+				text3={'Herstellung'}
+				color3={themes.purple.teritary}
+				text4={'Infrastruktur'}
+				color4={themes.purple.quaternary}
+			></LegendText>
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">
@@ -817,6 +817,12 @@
 					</p>
 				</div>
 			</section>
+			<section data-id="barChart05">
+				<div class="col-medium">
+					<p>Hier kannst du eigenständig unterschiedliche Ansichten Auswählen</p>
+				</div>
+			</section>
+			ç
 		</div></Scroller
 	>
 	<Spacer size={spacings['xxxxl-96']}></Spacer>
@@ -829,7 +835,6 @@
 				href="https://www.destatis.de/DE/Themen/Branchen-Unternehmen/Transport-Verkehr/_inhalt.html"
 				>Klicke hier, um zu den Daten des Statistischen Bundesamt zu gelangen</a
 			>
-
 			<p>
 				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
 				Ludigs-Maximilians-Universität Müchen von Shady Mansour, Raffael Wennmacher, Paul Walter,
