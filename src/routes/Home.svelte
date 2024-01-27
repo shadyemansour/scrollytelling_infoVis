@@ -632,19 +632,17 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
-						<sup>2</sup>
+						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">*Inländerfahrleistung alles PKWs 2020</p>
 					</div>
 				</div>
 			</section>
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
-							>2</sub
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub>2</sub
 						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
 						und 20-mal so viel wie Fahrräder.
 					</p>
@@ -808,7 +806,7 @@
 						</p>
 					</div>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">
+						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">
 							*2017: 245 Mio. t. CO<sub>2eq</sub>
 						</p>
 					</div>
