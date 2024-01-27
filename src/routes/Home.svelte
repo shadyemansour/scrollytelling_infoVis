@@ -32,7 +32,7 @@
 	import { rgb } from 'd3';
 
 	// Config
-	const threshold = 0.8;
+	const threshold = 1;
 	const mapbounds = [
 		[5, 47.3],
 		[15, 55.2]

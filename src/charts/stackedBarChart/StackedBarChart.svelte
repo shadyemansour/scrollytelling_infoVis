@@ -35,7 +35,12 @@
 	const stackBy = 'fruit';
 	const pivotData = pivot(data, groupBy, stackBy, (items) => sum(items, (d) => d.value));
 	const stackKeys = Object.keys(pivotData[0]).filter((d) => d !== groupBy);
-	const keyColors = [themes.purple.primary, themes.purple.secondary, themes.purple.teritary, themes.purple.quaternary];
+	const keyColors = [
+		themes.purple.primary,
+		themes.purple.secondary,
+		themes.purple.teritary,
+		themes.purple.quaternary
+	];
 	const formatTickY = (d) => format(layout === 'percent' ? `.0%` : `.${precisionFixed(d)}s`)(d);
 
 	$: extents = {
@@ -70,27 +75,16 @@
 		</LayerCake>
 	</div>
 
-	{#if showExploreButtons}
-		<label>
-			<input type="radio" bind:group={layout} value="grouped" />
-			Grouped
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="stacked" />
-			Stacked
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="separated" />
-			Separated
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="percent" />
-			Percent
-		</label>
-	{/if}
+	<div class="segmented-buttons">
+		{#if showExploreButtons}
+			{#each ['grouped', 'stacked', 'separated', 'percent'] as option}
+				<label class:selected={layout === option} on:click={() => (layout = option)}>
+					{option.charAt(0).toUpperCase() + option.slice(1)}
+					<input type="radio" bind:group={layout} value={option} />
+				</label>
+			{/each}
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -114,5 +108,34 @@
 		width: 100%;
 		height: 500px;
 		_background-color: rgba(0, 0, 0, 0.1);
+	}
+	.segmented-buttons {
+		display: flex;
+		width: 100%;
+		height: 50px;
+		flex-direction: row; /* Stacks children vertically */
+		justify-content: center; /* Centers children along the main axis (vertically in this case) */
+		align-items: center; /* Centers children along the cross axis (horizontally) */
+		margin-top: 50px;
+	}
+
+	label {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px 16px;
+		cursor: pointer;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		margin-right: 8px;
+	}
+
+	label[selected] {
+		background-color: #007bff;
+		color: #fff;
+	}
+
+	input {
+		display: none;
 	}
 </style>
