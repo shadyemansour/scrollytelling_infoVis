@@ -714,6 +714,8 @@
 			Farben haben. Angegeben sind die spezifischen Emissionen in Gramm CO<sub>2</sub>eq* je
 			Personenkilometer.
 		</p>
+	</div>
+	<div>
 		<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
 			* Beinhaltet: Material, Herstellungsprozesse, Fahrzeugwartung und Entsorgung
 		</p>

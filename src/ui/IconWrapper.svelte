@@ -11,7 +11,7 @@
 	export let name = 'GitHub';
 	// export let color = themes.neutral['text-dark'].primary;
 	export let innerSize = '0.8rem';
-	export let outerSize = '1rem';
+	export let outerSize = '100%';
 
 	let icons = {
 		GitHub,
