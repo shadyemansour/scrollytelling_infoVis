@@ -324,13 +324,7 @@
 			* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen, die
 			private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
 			Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
-			Zeitpunkten beeinflusst wird.
-		</p>
-	</div>
-	<div class="sources" style="color: {themes.neutral['text-dark'].teritary};">
-		<p>
-			Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt | Stand
-			2023
+			Zeitpunkten beeinflusst wird.<sup>1</sup>
 		</p>
 	</div>
 </Section>
@@ -362,8 +356,8 @@
 			<div class="col-medium">
 				<p>
 					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
-					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
-					Jahr später am 02.01.2019 einen Preis von 25,31€.
+					am 02.01.2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81€ liegt, verzeichnen wir
+					ein Jahr später am 02.01.2019 einen Preis von 25,31€.
 				</p>
 				<Spacer size={spacings['m-12']}></Spacer>
 				<div class="icon-heading">
@@ -386,14 +380,8 @@
 					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324%. Diese Steigerung
 					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
 					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
-					noch schneller an Beliebtheit.
+					noch schneller an Beliebtheit. <sup>2</sup>
 				</p>
-				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].teritary};">
-						Quelle: Preisentwicklung für Emissionsberechtigungen (EUA) seit 2008, Umweltbundesamt |
-						Stand 2023 Werte für 2018 & 2019
-					</p>
-				</div>
 			</div>
 		</section>
 		<section data-id="lineChart02">
@@ -401,15 +389,8 @@
 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
 					Fabriken, welches die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
-					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.
+					Halbleiterproduktion Lieferengpässe und starke Preisanstiege. <sup>3</sup>
 				</p>
-				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].teritary};">
-						Quelle: So wirkt sich die Corona-Krise auf die Automobilindustrie aus, Springer
-						Professional | Stand 2020 <br />
-						Quelle: Das müssen Sie zur Halbleiter-Krise wissen, Springer Professional | Stand 2022
-					</p>
-				</div>
 			</div>
 		</section>
 		<section data-id="lineChart03">
@@ -455,13 +436,8 @@
 					werden. Während diese sich normalerweise zwischen 0% und 2% bewegen, beobachten wir seit
 					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
 					liegt die Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
+					<sup>4</sup>
 				</p>
-				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].teritary};">
-						Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt |
-						Stand 2023
-					</p>
-				</div>
 			</div>
 			<!-- add marker -->
 		</section>
@@ -471,14 +447,8 @@
 				<p lang="de">
 					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7% im
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-					-24,8%.
+					-24,8%. <sup>5</sup>
 				</p>
-				<div class="sources">
-					<p style="color: {themes.neutral['text-dark'].teritary};">
-						Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
-						%, destatis Statistisches Bundesamt | Stand 2024
-					</p>
-				</div>
 			</div>
 		</section>
 
@@ -488,8 +458,29 @@
 <Section>
 	<div class="sources">
 		<p style="color: {themes.neutral['text-dark'].teritary};">
-			Quelle: Statistisches Bundesamt | Stand 2023 | Daten --&gt; KFZ: Kraftfahrer-Preisindex; ÖPNV:
-			Kombinierte Personenbeförderungsdienstleistung
+			Datzensatz Diagramm: Statistisches Bundesamt | Stand 2023 | Daten --&gt; KFZ:
+			Kraftfahrer-Preisindex; ÖPNV: Kombinierte Personenbeförderungsdienstleistung
+		</p>
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>1</sup> Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt
+			| Stand 2023
+		</p>
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>2</sup> Quelle: Preisentwicklung für Emissionsberechtigungen (EUA) seit 2008, Umweltbundesamt
+			| Stand 2023 Werte für 2018 & 2019
+		</p>
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>3</sup> Quelle: So wirkt sich die Corona-Krise auf die Automobilindustrie aus, Springer
+			Professional | Stand 2020 <br />
+			Quelle: Das müssen Sie zur Halbleiter-Krise wissen, Springer Professional | Stand 2022
+		</p>
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>4</sup> Quelle: Verbraucherpreisindex und Inflationsrate, destatis Statistisches Bundesamt
+			| Stand 2023
+		</p>
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>5</sup> Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in %,
+			destatis Statistisches Bundesamt | Stand 2024
 		</p>
 	</div>
 </Section>
@@ -650,8 +641,9 @@
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten
-						CO2-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
+							>2</sub
+						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
 						und 20-mal so viel wie Fahrräder.
 					</p>
 				</div>
@@ -671,74 +663,20 @@
 					<p>
 						In Berlin haben 99,4% der Einwohner in unmittelbarer Nähe* eine Haltestelle.
 						Mecklenburg-Vorpommern ist mit 66,1% das Schlusslicht. Die Netzdichte könnte ein Grund
-						für die Unterschiede zwischen den Bundesländern sein
+						für die Unterschiede zwischen den Bundesländern sein. <sup>1</sup>
 					</p>
-
-					<div class="erklaerungs-texte">
-						<p style="color: {themes.neutral['text-dark'].secondary};">
-							* Bushaltestelle max. 600m bzw. Bahnhof max. 1200m Luftlinie entfernt und Werktags
-							min. 28 Abfahrten
-						</p>
-					</div>
-					<div class="sources">
-						<p style="color: {themes.neutral['text-dark'].teritary};">
-							Quelle: Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in
-							%, destatis Statistisches Bundesamt | Stand 2024
-						</p>
-					</div>
 				</div>
 			</section>
 			<section data-id="map05">
 				<div class="col-medium">
-					<p>Test</p>
-				</div>
-			</section>
-
-			<!-- <section data-id="map05">
-				<div class="col-medium">
-					<p style="text-align: center;">
-						Mach dir dein eigenes Bild der Nutzung des ÖPNV’s in den Bundesländern und erkunde die
-						Deutschlandkarte:
-					</p>
-					 {#if geojson}
-						<p>
-							<select bind:value={selected} on:change={() => fitById(selected)}>
-								<option value={null}>Select one</option>
-								{#each geojson.features as place}
-									<option value={place.properties.AREACD}>
-										{place.properties.AREANM}
-									</option>
-								{/each}
-							</select>
-						</p>
-					{/if} 
-				</div>
-			</section>
-			<section data-id="map02">
-				<div class="col-medium">
-					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten
-						CO2-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
-						und 20-mal so viel wie Fahrräder.
-					</p>
-				</div>
-			</section>
-			<section data-id="map02">
-				<div class="col-medium">
 					<p>
 						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
 						die größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
-						nicht besonders gut ab…
+						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
+						Städte bewegst.
 					</p>
 				</div>
 			</section>
-			<section data-id="map02">
-				<div class="col-medium">
-					<p style="text-align: center;">
-						Erkunde die Karte, indem du deine Maus über die einzelnen Städte bewegst.
-					</p>
-				</div>
-			</section> -->
 		</div>
 	</Scroller>
 
@@ -748,18 +686,22 @@
 <Section>
 	<div class="sources" style="color: {themes.neutral['text-dark'].teritary};">
 		<p>
-			Quelle: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart, DESTATIS
-			Statistisches Bundesamt | Stand: 2023
+			Datzensatz Map: Personenverkehr mit Bussen und Bahnen: Bundesländer, Quartale, Verkehrsart,
+			DESTATIS Statistisches Bundesamt | Stand: 2023
 		</p>
 		<p>
-			Quelle: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches Bundesamt |
-			Stand: 2023 Werte für: 2020
+			Datensatz Map: Bevölkerung: Bundesländer, Stichtag 31.12.2020, DESTATIS Statistisches
+			Bundesamt | Stand: 2023 Werte für: 2020
 		</p>
 		<p>
-			Quelle: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische Ämter
-			des Bundes und der Länder | Stand 2020
+			Datensatz Map: Fahrleistungen der im Bundesland zugelassenen Kraftfahrzeuge 2020, Statistische
+			Ämter des Bundes und der Länder | Stand 2020
 		</p>
-		<p>Quelle: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
+		<p>Datensatz Map: Fahrradklimatest 2022, adfc Fahrradklima-Test | Stand 2022</p>
+		<p>
+			<sup>1</sup> Quelle: Anbindung des Öffentlichen Verkehrs - Das deutschlandweite Erreichbarkeitsranking,
+			Allianz pro Schiene | Stand 2023 Werte für: 2022
+		</p>
 	</div>
 </Section>
 
@@ -768,16 +710,22 @@
 <Section>
 	<div slot="animating" class="mb-d">
 		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
-		<p>Angegeben sind die spezifischen Emissionen in Gramm CO2eq* je Personenkilometer.</p>
 		<p>
-			Autos haben besonders hohe CO2*-Emissionen pro Personenkilometer. Sie verbrauchen 2,4-mal so
-			viel wie der ÖPNV und 21-mal so viel wie Fahrräder in 2017.
+			In den folgenden Balkendiagrammen kannst du die Klimawirkung der verschiedenen
+			Transportmitteln in unterschiedlichen Bereichen wie Fahrzeugherstellung *, Infrastruktur,
+			Fahrzeugnutzung und Energie erkunden, wobei die unterschiedlichen Bereiche unterschiedliche
+			Farben haben. Angegeben sind die spezifischen Emissionen in Gramm CO<sub>2</sub>eq* je
+			Personenkilometer.
+		</p>
+		<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
+			* Beinhaltet: Material, Herstellungsprozesse, Fahrzeugwartung und Entsorgung
+		</p>
+		<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
+			* CO<sub>2</sub>-Äquivalente, auch CO<sub>2</sub>e oder CO<sub>2</sub>eq sind eine Maßeinheit,
+			um die Klimawirkung unterschiedlicher Treibhausgase zu vergleichen
 		</p>
 	</div>
-	<p class="erklaerungs-texte" style="color: {themes.neutral['text-dark'].secondary};">
-		* CO2-Äquivalente, auch CO2e oder CO2eq sind eine Maßeinheit, um die Klimawirkung
-		unterschiedlicher Treibhausgase zu vergleichen
-	</p>
+
 	<Spacer size={spacings['xxxxl-96']}></Spacer>
 </Section>
 
@@ -819,32 +767,78 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p style="text-align: center;">This is Grouped!</p>
+					<p style="text-align: center;">
+						Die Emissionen setzen sich bei jedem Verkehrsmittel immer anders zusammen.
+					</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
-					<p style="text-align: center;">This is Stacked!</p>
+					<div>
+						<p>
+							Autos haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
+							verbrauchen 2,4-mal so viel wie der ÖPNV und 21-mal so viel wie Fahrräder.
+						</p>
+					</div>
+				</div>
+			</section>
+			<section data-id="barChart02">
+				<div class="col-medium">
+					<div>
+						<p>
+							Gleichzeitig sind sie zusammen mit dem restlichen motorisierten Individualverkehr für
+							75,3% der der Klimawirkung* des Personenverkehrs in Deutschland verantwortlich.
+						</p>
+					</div>
+					<div class="erklaerungs-texte">
+						<p class="text-balanced">
+							*2017: 245 Mio. t. CO<sub>2eq</sub>
+						</p>
+					</div>
 				</div>
 			</section>
 			<section data-id="barChart03">
 				<div class="col-medium">
-					<p style="text-align: center;">This is Separated!</p>
+					<p>
+						Obwohl der ÖPNV mehr Energie* benötigt als das Auto stößt er im Betrieb weniger aus, da
+						mehr Personen transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn
+						elektrisch fahren.
+					</p>
+					<div class="erklaerungs-texte">
+						<p>* Strom und Kraftstoff</p>
+					</div>
 				</div>
 			</section>
 			<section data-id="barChart04">
 				<div class="col-medium">
-					<p style="text-align: center;">This is Percent!</p>
-				</div>
-			</section>
-			<section data-id="barChart05">
-				<div class="col-medium">
-					<p style="text-align: center;">Explore!!!</p>
+					<p>
+						In dieser Ansicht sind die verschiedenen Anteile der Klimawirkung der Fahrzeuge
+						nocheinmal in Prozentsätzen abzulesen.
+					</p>
 				</div>
 			</section>
 		</div></Scroller
 	>
 	<Spacer size={spacings['xxxxl-96']}></Spacer>
+
+	<Section>
+		<div slot="animating" class="mb-d">
+			<h3 class="mb-d">Immer noch neugierig?</h3>
+			<p>Dann erkunde die Datenstäze des Satistischen Bundesamt:</p>
+			<a
+				href="https://www.destatis.de/DE/Themen/Branchen-Unternehmen/Transport-Verkehr/_inhalt.html"
+				>Klicke hier, um zu den Daten des Statistischen Bundesamt zu gelangen</a
+			>
+
+			<p>
+				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
+				Ludigs-Maximilians-Universität Müchen von Shady Mansour, Raffael Wennmacher, Paul Walter,
+				Elena Herzhog und Fiona Mariele Lau entwickelt.
+			</p>
+		</div>
+
+		<Spacer size={spacings['xxxxl-96']}></Spacer>
+	</Section>
 {/if}
 
 <Footer />
@@ -881,7 +875,7 @@
 
 	.erklaerungs-texte {
 		font-style: italic;
-		font-size: 13px;
+		font-size: 11px;
 		hyphens: auto;
 		list-style: none;
 		padding-left: 0;
