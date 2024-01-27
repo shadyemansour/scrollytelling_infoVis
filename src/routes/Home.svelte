@@ -21,6 +21,7 @@
 	import Bike from '../ui/icons/Bike.svelte';
 	import Car from '../ui/icons/Car.svelte';
 	import Oepnv from '../ui/icons/Oepnv.svelte';
+	import Em from '../ui/Em.svelte';
 
 	// DATA IMPORT
 	import { getMapJson } from '../helpers/getMapJson.js';
@@ -316,10 +317,10 @@
 		<h3 class="mb-d">Mobilität in Deutschland</h3>
 		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
-			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
-			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
-			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
-			Ereignisse diesen möglicherweise beeinflussen.
+			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb werden die
+			Verkehrsmittel im Verhältnis zum Verbraucherpreisindex* betrachtet. Bei genauer Betrachtung
+			kann eine Änderung im Preisindex immer mit gleichzeitig stattfindenden Ereignissen in
+			Verbindung gebracht werden.
 		</p>
 	</div>
 	<div class="erklaerungs-texte mb-d" style="color: {themes.neutral['text-dark'].secondary};">
@@ -358,9 +359,12 @@
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
-					am 02.01.2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 € liegt, verzeichnen
-					wir ein Jahr später am 02.01.2019 einen Preis von 25,31 €.
+					Eine auffallende Preisentwicklung der <strong>Emissionsberechtigung (EB)</strong> zeigt
+					sich 2018: Während Anfang 2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 €
+					liegt, <strong>steigt</strong> dieser, bis Anfang 2019, auf einen Preis von 25,31 €, was
+					einer Preissteigerung von 324% entspricht.<sup>2</sup> Diese Entwicklung hat
+					<strong>starke Auswirkungen</strong>
+					auf die <Em color={themes.car.secondary}>Automobilindustrie</Em>.
 				</p>
 			</div>
 		</section>
@@ -368,41 +372,52 @@
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324 %. Diese Steigerung
-					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
-					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
-					noch schneller an Beliebtheit.<sup>2</sup>
+					Diese Steigerung markiert den Beginn eines anhaltenden Trends, der vor allem Auswirkungen
+					auf die Preise und Art der Fahrzeuge hat. Ab diesem Zeitpunkt gewinnen <strong
+						>Elektrofahrzeuge</strong
+					>
+					und <strong>Plug-in-Hybriden</strong> noch schneller an Beliebtheit.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
-				<p>
+				<p>Corona</p>
+				<!-- 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
 					Fabriken, was die Lieferketten beeinflusst. Im Januar 2021 folgen dadurch in der
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.<sup>3</sup>
-				</p>
+				</p> -->
 			</div>
 		</section>
 		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
-					Im Juni, Juli und August 2022 wird kurzzeitig das 9-Euro-Ticket eingeführt, wodurch Bus
-					und Bahn erschwinglicher werden.
+					Von Juni bis August 2022 wird das <strong>9-Euro-Ticket</strong> als befristetes
+					Sonderangebot im
+					<Em color={themes.oepnv.secondary}>öffentlichen Personennahverkehr</Em>. Die Fahrkarte war
+					Teil eines <strong>Entlastungspakets</strong>, welches die gestiegenen Energiekosten
+					kompensieren sollte. Insgesamt wurden rund
+					<strong>62 Millionen</strong>
+					9-Euro-Tickets verkauft.<sup>6</sup>
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
-					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49 Euro zur
-					Verfügung.
+					Nach dem kurzen Anstieg steht ab April 2023 das <strong>Deutschlandticket</strong> für 49 Euro
+					zur Verfügung.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<p style="text-align: center;">Generell sehen wir, dass alle Kurven ansteigen.</p>
+				<p>
+					Der Preisindex für Autos steigt mit <Em color={themes.car.secondary}>XXX%</Em> am stärksten,
+					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>XXX%</Em>. Im Gegensatz dazu
+					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>XXX%</Em>.
+				</p>
 			</div>
 		</section>
 		<section data-id="lineChart06">
@@ -416,8 +431,8 @@
 		<section data-id="lineChart07">
 			<div class="col-medium">
 				<p style="text-align: center;">
-					Hingegen bleibt der <strong style="color: {themes.bike.primary};">Fahrrad-Index</strong> weitestgehend
-					konstant.
+					Hingegen bleibt der <Em color={themes.bike.secondary}>Fahrrad-Index</Em>
+					<strong style="color: {themes.bike.primary};">Fahrrad-Index</strong> weitestgehend konstant.
 				</p>
 			</div>
 		</section>
@@ -425,11 +440,11 @@
 			<div class="col-medium">
 				<p>
 					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
-					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, beobachten wir seit
-					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
-					liegt die Inflationsrate 2021 bei 3,1 %, 2022 bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup
-						>4</sup
+					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, kann seit 2021 eine <strong
+						>signifikante Preissteigerung</strong
 					>
+					beobachtet werden. Im Vergleich zu den Vorjahren liegt die Inflationsrate 2021 bei 3,1 %, 2022
+					bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup>4</sup>
 				</p>
 			</div>
 			<!-- add marker -->
@@ -475,6 +490,10 @@
 		<p style="color: {themes.neutral['text-dark'].teritary};">
 			<sup>5</sup> Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in %,
 			destatis Statistisches Bundesamt | Stand 2024
+		</p>
+
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>6</sup> Bilanz zum 9-Euro-Ticket, Verband Deutscher Verkehrsunternehmen | Stand 2023
 		</p>
 	</div>
 </Section>
