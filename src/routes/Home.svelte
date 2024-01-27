@@ -32,7 +32,7 @@
 	import { rgb } from 'd3';
 
 	// Config
-	const threshold = 0.8;
+	const threshold = 1;
 	const mapbounds = [
 		[5, 47.3],
 		[15, 55.2]
@@ -785,11 +785,15 @@
 	<Scroller {threshold} bind:id={id['barChart']}>
 		<div slot="background">
 			<LegendText
-				text1={'Nutzung TTW'}
-				text2={'Energie WTT'}
-				text3={'Fahrzeug'}
-				text4={'Infrastruktur'}
-			></LegendText>
+			text1={'Emissionen durch Nutzung'}
+			color1={themes.purple.primary}
+			text2={'Energiebereitstellung'}
+			color2={themes.purple.secondary}
+			text3={'Herstellung'}
+			color3={themes.purple.teritary}
+			text4={'Infrastruktur'}
+			color4={themes.purple.quaternary}
+		></LegendText>
 			<figure>
 				<div class="col-wide height-full">
 					<div class="chart" style="width: 100%; height: 100%;">

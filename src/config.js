@@ -53,6 +53,12 @@ export const themes = {
     'teritary': oepnv[200],
     'dark': '#0E253E',
     'bright': '#99C1EB',
+  },
+  'purple': {
+    'primary': '#3B2D53',
+    'secondary': '#7453AC',
+    'teritary': '#9A79D2',
+    'quaternary': '#D1BAF7',
   }
 }
 

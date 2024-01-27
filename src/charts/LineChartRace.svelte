@@ -232,7 +232,7 @@
 
 	function setupAxes() {
 		xAxis = d3.axisBottom(xScale).ticks(xTicks).tickSize(-height);
-		yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d3.format('.2s')).tickSize(-width);
+		yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d => `${d}€`).tickSize(-width);
 	}
 
 	function drawLines() {
@@ -258,6 +258,22 @@
 			.append('g')
 			.attr('transform', `translate(0,${height})`) // Puts down x axis
 			.call(xAxis);
+
+		svgAxis
+			.append('text')
+			.attr('class', 'x label')
+			.attr('text-anchor', 'end')
+			.attr('x', width)
+			.attr('y', height + 20)
+			.text('Jahr');
+
+		svgAxis
+			.append('text')
+			.attr('class', 'y label')
+			.attr('text-anchor', 'start')
+			.attr('y', -16)
+			.attr('dy', '.75rem')
+			.text('Preis');
 
 		svgAxis.selectAll('g line').style('stroke', themes.neutral.chartLines);
 

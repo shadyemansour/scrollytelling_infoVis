@@ -24,7 +24,7 @@
 				: $yScale.ticks(ticks);
 </script>
 
-<g class="axis y-axis" transform="translate({-$padding.left}, 0)">
+<g class="axis y-axis" transform="translate({-$padding.left -32}, 0)">
 	{#each tickVals as tick, i}
 		<g
 			class="tick tick-{tick}"
