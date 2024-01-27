@@ -1,4 +1,4 @@
-import {getData, getColor } from '../utils.js';
+import { getData, getColor } from '../utils.js';
 import DataPaths from '../utils/constants.js';
 
 
@@ -34,15 +34,15 @@ export async function getUsageData() {
         const max = Math.max(...values);
         indicators.forEach(
             (d, i) => {
-                if (key==="Bike") {
-                    (indicators[i][key + '_color'] = "rgba(0,0,0,0.3)");
+                if (key === "Bike") {
+                    (indicators[i][key + '_color'] = "rgba(0,0,25,0.75)");
 
-                }else{
-                (indicators[i][key + '_color'] = getColor(min, max, 'interpolate'+key)(d[key]));
+                } else {
+                    (indicators[i][key + '_color'] = getColor(min, max, 'interpolate' + key)(d[key]));
                 }
             }
         );
-            
+
     });
     // console.log(indicators);    
     usageData.data.region.indicators = indicators; // Save regions indictors to data

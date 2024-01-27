@@ -496,7 +496,10 @@
 {#if geoStates && geoCities && usageData.data.region.indicators && cityBikeRatingData.data.city.indicators}
 	<Scroller {threshold} bind:id={id['map']}>
 		<div slot="background">
-			<LegendGradient indicators={usageData.data.region.indicators} {mapKey} hide={showCities}
+			<LegendGradient
+				indicators={usageData.data.region.indicators}
+				cities={cityBikeRatingData.data.city.indicators}
+				{mapKey}
 			></LegendGradient>
 			<figure>
 				<div class="col-full height-full">
@@ -580,7 +583,7 @@
 								hovered={cityHovered}
 								on:hover={doHoverCity}
 								paint={{
-									'circle-radius': 7,
+									'circle-radius': 9,
 									'circle-color': ['get', 'Bike_color']
 								}}
 							>
@@ -662,8 +665,8 @@
 				<div class="col-medium">
 					<p>
 						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
-						die größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
-						nicht besonders gut ab. Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
+						die 14 größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
+						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
 						Städte bewegst.
 					</p>
 				</div>

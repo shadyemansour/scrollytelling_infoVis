@@ -1,17 +1,17 @@
-import { trspWhite, trspBlack, brand, car, bike, oepnv, greys} from "./styles.js";
+import { trspWhite, trspBlack, brand, car, bike, oepnv, greys } from "./styles.js";
 // CORE CONFIG
 
 export const themes = {
   'neutral': {
-    'text': { 
-      'primary': trspWhite[1000], 
-      'secondary': trspWhite[600], 
-      'teritary': trspWhite[400], 
+    'text': {
+      'primary': trspWhite[1000],
+      'secondary': trspWhite[600],
+      'teritary': trspWhite[400],
     },
-    'text-dark': { 
-      'primary': trspBlack[1000], 
-      'secondary': trspBlack[600], 
-      'teritary': trspBlack[400], 
+    'text-dark': {
+      'primary': trspBlack[1000],
+      'secondary': trspBlack[600],
+      'teritary': trspBlack[400],
     },
     'muted': '#777',
     'pale': '#f0f0f0',
@@ -36,18 +36,17 @@ export const themes = {
     'dark': '#2E1E05',
     'bright': '#FF9D00',
   },
-  
+
   'bike': {
-    
     'primary': bike[1000],
     'secondary': bike[600],
     'teritary': bike[200],
-        'dark': '#1a5241',
+    'dark': '#1a5241',
     'bright': '#50f8c3',
   },
-  
+
   'oepnv': {
-    
+
     'primary': oepnv[1000],
     'secondary': oepnv[600],
     'teritary': oepnv[200],
@@ -65,15 +64,15 @@ export const themes = {
 // DEMO-SPECIFIC CONFIG
 
 export const spacings = {
-  'xs-4': 4, 
-  'x-8': 8, 
-  'm-12': 12, 
-  'd-16': 16, 
-  'l-24': 24, 
-  'xl-32': 32, 
-  'xxl-48': 48, 
-  'xxxl-64': 64, 
-  'xxxxl-96': 96, 
+  'xs-4': 4,
+  'x-8': 8,
+  'm-12': 12,
+  'd-16': 16,
+  'l-24': 24,
+  'xl-32': 32,
+  'xxl-48': 48,
+  'xxxl-64': 64,
+  'xxxxl-96': 96,
 }
 
 export const colors = {
