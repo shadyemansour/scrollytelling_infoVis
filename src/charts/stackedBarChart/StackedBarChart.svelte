@@ -5,6 +5,7 @@
 	import { format, precisionFixed } from 'd3-format';
 	import { stack, stackOffsetNone, stackOffsetExpand } from 'd3-shape';
 	import { sum } from 'd3-array';
+	import { themes } from '../../config.js';
 
 	import Bar, { getGroupExtents, getStackExtents, stackOffsetSeparated } from './Bar.svelte';
 	import AxisX from './AxisX.svelte';
@@ -34,7 +35,7 @@
 	const stackBy = 'fruit';
 	const pivotData = pivot(data, groupBy, stackBy, (items) => sum(items, (d) => d.value));
 	const stackKeys = Object.keys(pivotData[0]).filter((d) => d !== groupBy);
-	const keyColors = ['#E5DDC8', '#01949A', '#004369', '#DB1F48'];
+	const keyColors = [themes.purple.primary, themes.purple.secondary, themes.purple.teritary, themes.purple.quaternary];
 	const formatTickY = (d) => format(layout === 'percent' ? `.0%` : `.${precisionFixed(d)}s`)(d);
 
 	$: extents = {
