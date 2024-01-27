@@ -54,7 +54,7 @@
 			{/if}
 			<text
 				x={xTick || isBandwidth ? $xScale.bandwidth() / 2 : 0}
-				y={yTick}
+				y={yTick+16}
 				dx={dxTick}
 				dy={dyTick}
 				text-anchor={textAnchor(i)}>{formatTick(tick)}</text
@@ -68,8 +68,8 @@
 
 <style>
 	.tick {
-		font-size: 0.725em;
-		font-weight: 200;
+		font-size: 1rem;
+		font-weight: 400;
 	}
 
 	line,

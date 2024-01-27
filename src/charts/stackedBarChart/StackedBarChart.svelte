@@ -5,6 +5,7 @@
 	import { format, precisionFixed } from 'd3-format';
 	import { stack, stackOffsetNone, stackOffsetExpand } from 'd3-shape';
 	import { sum } from 'd3-array';
+	import { themes } from '../../config.js';
 
 	import Bar, { getGroupExtents, getStackExtents, stackOffsetSeparated } from './Bar.svelte';
 	import AxisX from './AxisX.svelte';
@@ -16,6 +17,8 @@
 
 	export let layout = 'stacked'; // stacked, grouped, percent, or separated
 	export let showExploreButtons = false;
+
+	const names = ['Gruppiert', 'Gestapelt', 'Getrennt', 'Prozent'];
 
 	$: options =
 		layout === 'grouped'
@@ -34,7 +37,12 @@
 	const stackBy = 'fruit';
 	const pivotData = pivot(data, groupBy, stackBy, (items) => sum(items, (d) => d.value));
 	const stackKeys = Object.keys(pivotData[0]).filter((d) => d !== groupBy);
-	const keyColors = ['#E5DDC8', '#01949A', '#004369', '#DB1F48'];
+	const keyColors = [
+		themes.purple.primary,
+		themes.purple.secondary,
+		themes.purple.teritary,
+		themes.purple.quaternary
+	];
 	const formatTickY = (d) => format(layout === 'percent' ? `.0%` : `.${precisionFixed(d)}s`)(d);
 
 	$: extents = {
@@ -69,27 +77,16 @@
 		</LayerCake>
 	</div>
 
-	{#if showExploreButtons}
-		<label>
-			<input type="radio" bind:group={layout} value="grouped" />
-			Grouped
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="stacked" />
-			Stacked
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="separated" />
-			Separated
-		</label>
-
-		<label>
-			<input type="radio" bind:group={layout} value="percent" />
-			Percent
-		</label>
-	{/if}
+	<div class="segmented-buttons">
+		{#if showExploreButtons}
+			{#each ['grouped', 'stacked', 'separated', 'percent'] as option, index}
+				<label class:selected={layout === option} on:keypress={() => (layout = option)}>
+					{names[index]}
+					<input type="radio" bind:group={layout} value={option} />
+				</label>
+			{/each}
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -101,10 +98,10 @@
 	*/
 
 	.stacked-bar-chart {
-		display: flex; /* Enables Flexbox */
-		flex-direction: column; /* Stacks children vertically */
-		justify-content: center; /* Centers children along the main axis (vertically in this case) */
-		align-items: center; /* Centers children along the cross axis (horizontally) */
+		display: flex; 
+		flex-direction: column; 
+		justify-content: center; 
+		align-items: center; 
 		width: 100%;
 		height: 100%;
 	}
@@ -113,5 +110,45 @@
 		width: 100%;
 		height: 500px;
 		_background-color: rgba(0, 0, 0, 0.1);
+	}
+	.segmented-buttons {
+		display: flex;
+		width: 100%;
+		height: 50px;
+		flex-direction: row; /* Stacks children vertically */
+		justify-content: center; /* Centers children along the main axis (vertically in this case) */
+		align-items: center; /* Centers children along the cross axis (horizontally) */
+		margin-top: 50px;
+	}
+
+	label {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4px 8px;
+		cursor: pointer;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		margin-right: 8px;
+		font-size: small;
+	}
+
+	label:hover {
+		background-color: #eee;
+	}
+
+	
+
+	.selected {
+		background-color: #313131;
+		color: #fff;
+	}
+	.selected:hover {
+		background-color: #0e0e0e;
+		color: #fff;
+	}
+
+	input {
+		display: none;
 	}
 </style>
