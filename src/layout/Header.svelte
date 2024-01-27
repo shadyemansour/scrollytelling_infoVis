@@ -34,7 +34,6 @@
 					ease: 'power3.out'
 				});
 			}
-
 		});
 
 		tl.from('#gsap-subheading', {
@@ -64,7 +63,7 @@
 		class:short
 		class:height-full={!short}
 	>
-	<img src="img/favicon.png" alt="logo icon" style="width: 64px;">
+		<img src="img/favicon.png" alt="logo icon" style="width: 64px;" />
 		<div class:center>
 			<h1 id="gsap-heading">Was <br /> Deutschland <br /> bewegt</h1>
 			<p
@@ -72,8 +71,9 @@
 				class="text-big text-balanced"
 				style="margin-top: 10px; color:{themes.neutral['text-dark'].secondary}"
 			>
-				Die häufigsten genutzten Verkehrsmittel: Autos, ÖPNV und die CO2-freundlichen Alternativen -
-				Fahrräder. Scrolle dich durch eine Daten-Geschichte über das, was dich täglich bewegt. 🙂
+				Die häufigsten genutzten Verkehrsmittel: Autos, ÖPNV und die CO<sub>2</sub>-freundlichen
+				Alternativen - Fahrräder. Scrolle dich durch eine Daten-Geschichte über das, was dich
+				täglich bewegt. 🙂
 			</p>
 			<div style="margin-top: 90px;">
 				<!-- <Arrow color="black" {animation}></Arrow> -->

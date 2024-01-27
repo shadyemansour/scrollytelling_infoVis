@@ -135,7 +135,7 @@ small {
 /* CLASSES */
 
 .text-balanced {
-	text-wrap: balance
+	text-wrap: pretty
 }
 
 .col-full {
