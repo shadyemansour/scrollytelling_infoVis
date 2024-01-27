@@ -201,8 +201,8 @@
 	}
 	.top {
 		position: fixed;
-		width: 24px;
-		height: 24px;
+		width: 36px;
+		height: 36px;
 		bottom: 0;
 		z-index: 1000;
 		cursor: pointer;
