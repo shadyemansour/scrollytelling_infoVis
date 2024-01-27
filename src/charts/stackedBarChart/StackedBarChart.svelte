@@ -18,6 +18,8 @@
 	export let layout = 'stacked'; // stacked, grouped, percent, or separated
 	export let showExploreButtons = false;
 
+	const names = ['Gruppiert', 'Gestapelt', 'Getrennt', 'Prozent'];
+
 	$: options =
 		layout === 'grouped'
 			? { layout: 'grouped' }
@@ -77,9 +79,9 @@
 
 	<div class="segmented-buttons">
 		{#if showExploreButtons}
-			{#each ['grouped', 'stacked', 'separated', 'percent'] as option}
-				<label class:selected={layout === option} on:click={() => (layout = option)}>
-					{option.charAt(0).toUpperCase() + option.slice(1)}
+			{#each ['grouped', 'stacked', 'separated', 'percent'] as option, index}
+				<label class:selected={layout === option} on:keypress={() => (layout = option)}>
+					{names[index]}
 					<input type="radio" bind:group={layout} value={option} />
 				</label>
 			{/each}
@@ -96,10 +98,10 @@
 	*/
 
 	.stacked-bar-chart {
-		display: flex; /* Enables Flexbox */
-		flex-direction: column; /* Stacks children vertically */
-		justify-content: center; /* Centers children along the main axis (vertically in this case) */
-		align-items: center; /* Centers children along the cross axis (horizontally) */
+		display: flex; 
+		flex-direction: column; 
+		justify-content: center; 
+		align-items: center; 
 		width: 100%;
 		height: 100%;
 	}
@@ -123,15 +125,26 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 8px 16px;
+		padding: 4px 8px;
 		cursor: pointer;
 		border: 1px solid #ccc;
 		border-radius: 4px;
 		margin-right: 8px;
+		font-size: small;
 	}
 
-	label[selected] {
-		background-color: #007bff;
+	label:hover {
+		background-color: #eee;
+	}
+
+	
+
+	.selected {
+		background-color: #313131;
+		color: #fff;
+	}
+	.selected:hover {
+		background-color: #0e0e0e;
 		color: #fff;
 	}
 
