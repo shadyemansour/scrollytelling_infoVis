@@ -62,21 +62,10 @@
 
 <style>
 	.legend {
-		position: absolute;
-		z-index: 20;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		top: auto;
-		left: auto;
-		right: 0;
-		bottom: 0;
 		gap: 4px;
-		padding: 8px 16px;
-		font-size: small;
 	}
 	.bar {
-		width: clamp(2rem, 3vw, 3rem);
+		width: clamp(2.5rem, 4.5vw, 4rem);
 		height: 12px;
 		border-radius: 2px;
 	}

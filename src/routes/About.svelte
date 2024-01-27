@@ -63,7 +63,7 @@
 	<div class="col-wide">
 		<div class="backButtonWrapper" style="background-color: {themes.brand.muted}">
 			<a href="/">
-				<IconWrapper name={'ArrowLeft'} />
+				<IconWrapper name={'ArrowLeft'} size={'24px'}/>
 			</a>
 		</div>
 		<h1 id="gsap-heading">Team 7</h1>
@@ -93,7 +93,7 @@
 	}
 
 	.backButtonWrapper {
-		display: inline-flex;
+		display: flex;
 		justify-content: center;
 		padding: 4px;
 		align-items: center;

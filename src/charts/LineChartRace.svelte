@@ -5,7 +5,7 @@
 	export let rawData = []; // Pass the raw data as a prop
 	export let animationStep;
 	let svg; // Reference to the SVG element
-	const margin = { top: 20, right: 26, bottom: 30, left: 80 };
+	const margin = { top: 20, right: 26, bottom: 30, left: 40 };
 	export let width = 500 - margin.left - margin.right;
 	export let height = 300 - margin.top - margin.bottom;
 	export let xTicks = 7;
