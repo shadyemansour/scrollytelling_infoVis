@@ -14,8 +14,6 @@
 	});
 
 	function setupGSAP() {
-		//gsap.registerPlugin(ScrollTrigger);
-
 		var tl = gsap.timeline();
 
 		splitTypes = document.querySelectorAll('#gsap-heading');
@@ -34,7 +32,6 @@
 					ease: 'power3.out'
 				});
 			}
-
 		});
 
 		tl.from('#gsap-subheading', {
@@ -53,6 +50,7 @@
 </script>
 
 <header
+	id="top"
 	style="color: {themes['neutral']['text-dark']['primary']}; background-color: {bgcolor
 		? bgcolor
 		: themes['neutral']['background']}; "
@@ -64,7 +62,7 @@
 		class:short
 		class:height-full={!short}
 	>
-	<img src="img/favicon.png" alt="logo icon" style="width: 64px;">
+		<img src="img/favicon.png" alt="logo icon" style="width: 64px;" />
 		<div class:center>
 			<h1 id="gsap-heading">Was <br /> Deutschland <br /> bewegt</h1>
 			<p
@@ -75,9 +73,12 @@
 				Die häufigsten genutzten Verkehrsmittel: Autos, ÖPNV und die CO2-freundlichen Alternativen -
 				Fahrräder. Scrolle dich durch eine Daten-Geschichte über das, was dich täglich bewegt. 🙂
 			</p>
-			<div style="margin-top: 90px;">
-				<!-- <Arrow color="black" {animation}></Arrow> -->
-			</div>
+			<!-- <p style="color: {themes.neutral['text-dark'].teritary};">
+				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
+				Ludigs-Maximilians-Universität Müchen von Elena Herzog, Fiona Mariele Lau, Paul Walter,
+				Raffael Wennmacher und Shady Mansour entwickelt.
+			</p> -->
+			<div style="margin-top: 90px;"></div>
 			<slot />
 		</div>
 	</div>

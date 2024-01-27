@@ -1,12 +1,21 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import { themes } from '../config';
+	import Lenis from '@studio-freight/lenis';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { subscribeResize } from '../helpers/resizeService.js';
 	import Car from '../ui/icons/Car.svelte';
 	import Oepnv from '../ui/icons/Oepnv.svelte';
 	import Bike from '../ui/icons/Bike.svelte';
+	import { lenisStore } from '../helpers/store.js';
+	import ArrowUp from '../ui/icons/ArrowUp.svelte';
+	import IconWrapper from '../ui/IconWrapper.svelte';
+
+	let lenis;
+	lenisStore.subscribe((value) => {
+		lenis = value;
+	});
 
 	let enableHover = false;
 	let navContainer;
@@ -14,6 +23,7 @@
 	let hoverAnimation;
 	let showIconAnimation;
 	let shrinkNavAnimation;
+	let showScrollToTopAnimation;
 
 	onMount(() => {
 		setupGSAP();
@@ -53,6 +63,13 @@
 			width: 12,
 			ease: 'power4.inOut',
 			duration: 1,
+			paused: true
+		});
+
+		showScrollToTopAnimation = gsap.from('.top', {
+			yPercent: 100,
+			ease: 'power3.inOut',
+			duration: 0.3,
 			paused: true
 		});
 
@@ -131,12 +148,14 @@
 			console.log('shrink');
 			shrinkNavAnimation.play();
 			showIconAnimation.reverse();
+			showScrollToTopAnimation.play();
 		}
 		if (!shrink) {
 			navContainer.classList.remove('onside');
 			console.log('expand');
 			shrinkNavAnimation.reverse();
 			showIconAnimation.play();
+			showScrollToTopAnimation.reverse();
 		}
 	}
 </script>
@@ -159,6 +178,7 @@
 			</div>
 		</div>
 	</div>
+	<div style="background-color: {themes.neutral.pale};" class="top" on:keypress={()=>{}} on:click={lenis.scrollTo(0)}><IconWrapper name={'ArrowUp'} size={'75%'}></IconWrapper></div>
 </div>
 
 <style>
@@ -179,6 +199,15 @@
 		z-index: 100;
 		backdrop-filter: blur(10px);
 	}
+	.top {
+		position: fixed;
+		width: 24px;
+		height: 24px;
+		bottom: 0;
+		z-index: 1000;
+		cursor: pointer;
+	}
+
 	:global(.nav-container.onside) {
 		position: fixed;
 		background-color: rgba(242, 242, 242, 0.8);
@@ -193,16 +222,5 @@
 	}
 	.iconSizer {
 		width: 50%;
-	}
-	.itemText {
-		bottom: -0.2ch;
-		left: 0;
-		right: 0;
-		position: absolute;
-		padding: 0;
-		font-size: 12ch;
-		font-weight: 700;
-		letter-spacing: -0.1ch;
-		line-height: 1;
 	}
 </style>

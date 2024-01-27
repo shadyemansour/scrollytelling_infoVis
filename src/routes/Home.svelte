@@ -365,18 +365,6 @@
 					am 02.01.2018 für EB der Preis pro Tonne CO2 noch bei 7,81€ liegt, verzeichnen wir ein
 					Jahr später am 02.01.2019 einen Preis von 25,31€.
 				</p>
-				<Spacer size={spacings['m-12']}></Spacer>
-				<div class="icon-heading">
-					<div class="icon-background" style="background-color: {themes.bike.teritary};">
-						<Bike size="30" color={themes.bike.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.car.teritary};">
-						<Car size="30" color={themes.car.primary} />
-					</div>
-					<div class="icon-background" style="background-color: {themes.oepnv.teritary};">
-						<Oepnv size="30" color={themes.oepnv.primary} />
-					</div>
-				</div>
 			</div>
 		</section>
 
@@ -860,23 +848,6 @@
 
 	.chart {
 		height: 100%;
-	}
-
-	.icon-heading {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		flex-shrink: 0;
-		padding: 0px;
-		gap: 16px;
-		margin: 0 0 12px 0;
-	}
-
-	.icon-background {
-		border-radius: 8px;
-		padding: 6px;
-		width: 30px;
-		height: 30px;
 	}
 
 	.erklaerungs-texte {
