@@ -232,7 +232,7 @@
 
 	function setupAxes() {
 		xAxis = d3.axisBottom(xScale).ticks(xTicks).tickSize(-height);
-		yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d => `${d}€`).tickSize(-width);
+		yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d => `${d}%`).tickSize(-width);
 	}
 
 	function drawLines() {
@@ -273,7 +273,7 @@
 			.attr('text-anchor', 'start')
 			.attr('y', -16)
 			.attr('dy', '.75rem')
-			.text('Preis');
+			.text('Preisindex in % (2020 = 100%)');
 
 		svgAxis.selectAll('g line').style('stroke', themes.neutral.chartLines);
 
