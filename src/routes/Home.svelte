@@ -322,7 +322,7 @@
 	<div class="erklaerungs-texte mb-d" style="color: {themes.neutral['text-dark'].secondary};">
 		<p>
 			* Misst monatlich die durchschnittliche Preisentwicklung aller Waren und Dienstleistungen, die
-			private Haushalte in Deutschland für Konsumzwecke kaufen In Deutschland sind alle
+			Private-Haushalte in Deutschland für Konsumzwecke kaufen. In Deutschland sind alle
 			Verkehrsmittel unterschiedlich teuer, was von verschiedenen Ereignissen zu verschiedenen
 			Zeitpunkten beeinflusst wird.<sup>1</sup>
 		</p>
@@ -356,8 +356,8 @@
 			<div class="col-medium">
 				<p>
 					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
-					am 02.01.2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81€ liegt, verzeichnen wir
-					ein Jahr später am 02.01.2019 einen Preis von 25,31€.
+					am 02.01.2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 € liegt, verzeichnen
+					wir ein Jahr später am 02.01.2019 einen Preis von 25,31 €.
 				</p>
 				<Spacer size={spacings['m-12']}></Spacer>
 				<div class="icon-heading">
@@ -377,7 +377,7 @@
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324%. Diese Steigerung
+					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324 %. Diese Steigerung
 					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
 					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
 					noch schneller an Beliebtheit. <sup>2</sup>
@@ -388,7 +388,7 @@
 			<div class="col-medium">
 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
-					Fabriken, welches die Lieferketten beeinflussen. Im Januar 2021 folgen dadurch in der
+					Fabriken, was die Lieferketten beeinflusst. Im Januar 2021 folgen dadurch in der
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege. <sup>3</sup>
 				</p>
 			</div>
@@ -396,15 +396,16 @@
 		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
-					Im Juni, Juli und August 2022 wird kurzzeitig das 9€ Ticket eingeführt, wodurch Bus und
-					Bahn erschwinglicher werden.
+					Im Juni, Juli und August 2022 wird kurzzeitig das 9-Euro-Ticket eingeführt, wodurch Bus
+					und Bahn erschwinglicher werden.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
-					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49€ zur Verfügung.
+					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49 Euro zur
+					Verfügung.
 				</p>
 			</div>
 		</section>
@@ -432,10 +433,10 @@
 		<section data-id="lineChart08">
 			<div class="col-medium">
 				<p>
-					Das generelle Ansteigen aller Kurven kann anhand der wachsenden Inflation begründet
-					werden. Während diese sich normalerweise zwischen 0% und 2% bewegen, beobachten wir seit
+					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
+					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, beobachten wir seit
 					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
-					liegt die Inflationsrate 2021 bei 3,1%, 2022 bereits bei 6,9% und sinkt 2023 auf 5,9%.
+					liegt die Inflationsrate 2021 bei 3,1 %, 2022 bereits bei 6,9 % und sinkt 2023 auf 5,9 %.
 					<sup>4</sup>
 				</p>
 			</div>
@@ -445,9 +446,9 @@
 		<section data-id="lineChart09">
 			<div class="col-medium">
 				<p lang="de">
-					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7% im
+					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7 % im
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-					-24,8%. <sup>5</sup>
+					-24,8 %. <sup>5</sup>
 				</p>
 			</div>
 		</section>
@@ -455,6 +456,7 @@
 		<section data-id="lineChart10"></section>
 	</div>
 </Scroller>
+<Spacer size={spacings['xxxxl-96']}></Spacer>
 <Section>
 	<div class="sources">
 		<p style="color: {themes.neutral['text-dark'].teritary};">
@@ -493,7 +495,7 @@
 		<div>
 			<p class="mb">
 				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
-				ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittel ist. Es gibt starke
+				ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittels ist. Es gibt starke
 				Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
 				Erklärung hindeutet.
 			</p>
@@ -652,7 +654,7 @@
 				<div class="col-medium">
 					{#each [[...usageData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
-							In Hessen kommen <strong>11 mal</strong> so viele Kilometer auf einen Einwohner wie im
+							In Hessen kommen <strong>11-mal</strong> so viele Kilometer auf einen Einwohner wie im
 							Saarland.
 						</p>
 					{/each}
@@ -661,8 +663,8 @@
 			<section data-id="map04">
 				<div class="col-medium">
 					<p>
-						In Berlin haben 99,4% der Einwohner in unmittelbarer Nähe* eine Haltestelle.
-						Mecklenburg-Vorpommern ist mit 66,1% das Schlusslicht. Die Netzdichte könnte ein Grund
+						In Berlin haben 99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle.
+						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein. <sup>1</sup>
 					</p>
 				</div>
@@ -672,7 +674,7 @@
 					<p>
 						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
 						die größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
-						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
+						nicht besonders gut ab. Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
 						Städte bewegst.
 					</p>
 				</div>
@@ -753,7 +755,10 @@
 					</div>
 					<Section>
 						<div class="sources">
-							<p style="color: {themes.neutral['text-dark'].teritary};">
+							<p
+								style="color: {themes.neutral['text-dark']
+									.teritary}; margin-top: 40px; margin-bottom: 40px;"
+							>
 								Quelle: Umweltfreundlich mobil! Ein ökologischer Verkehrsartenvergleich für den
 								Personen- und Güterverkehr in Deutschland, Umweltbundesamt | Stand: 2021 Werte für:
 								2017
@@ -767,9 +772,7 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p style="text-align: center;">
-						Die Emissionen setzen sich bei jedem Verkehrsmittel immer anders zusammen.
-					</p>
+					<p>Die Emissionen setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
@@ -787,7 +790,7 @@
 					<div>
 						<p>
 							Gleichzeitig sind sie zusammen mit dem restlichen motorisierten Individualverkehr für
-							75,3% der der Klimawirkung* des Personenverkehrs in Deutschland verantwortlich.
+							75,3 % der Klimawirkung* des Personenverkehrs in Deutschland verantwortlich.
 						</p>
 					</div>
 					<div class="erklaerungs-texte">
@@ -800,7 +803,7 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der ÖPNV mehr Energie* benötigt als das Auto stößt er im Betrieb weniger aus, da
+						Obwohl der ÖPNV mehr Energie* benötigt als das Auto, stößt er im Betrieb weniger aus, da
 						mehr Personen transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn
 						elektrisch fahren.
 					</p>
@@ -819,7 +822,9 @@
 			</section>
 			<section data-id="barChart05">
 				<div class="col-medium">
-					<p>Hier kannst du eigenständig unterschiedliche Ansichten Auswählen</p>
+					<p style="text-align: center;">
+						Hier kannst du eigenständig unterschiedliche Ansichten auswählen
+					</p>
 				</div>
 			</section>
 			ç
@@ -830,15 +835,15 @@
 	<Section>
 		<div slot="animating" class="mb-d">
 			<h3 class="mb-d">Immer noch neugierig?</h3>
-			<p>Dann erkunde die Datenstäze des Satistischen Bundesamt:</p>
+			<p>Dann erkunde die Datensätze des Statistischen Bundesamtes:</p>
 			<a
 				href="https://www.destatis.de/DE/Themen/Branchen-Unternehmen/Transport-Verkehr/_inhalt.html"
-				>Klicke hier, um zu den Daten des Statistischen Bundesamt zu gelangen</a
+				>Klicke hier, um zu den Daten des Statistischen Bundesamtes zu gelangen.</a
 			>
 			<p>
 				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
-				Ludigs-Maximilians-Universität Müchen von Shady Mansour, Raffael Wennmacher, Paul Walter,
-				Elena Herzhog und Fiona Mariele Lau entwickelt.
+				Ludigs-Maximilians-Universität Müchen von Elena Herzog, Fiona Mariele Lau, Paul Walter,
+				Raffael Wennmacher und Shady Mansour entwickelt.
 			</p>
 		</div>
 
