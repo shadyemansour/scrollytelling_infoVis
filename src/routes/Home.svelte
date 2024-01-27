@@ -380,7 +380,7 @@
 					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324 %. Diese Steigerung
 					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
 					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
-					noch schneller an Beliebtheit. <sup>2</sup>
+					noch schneller an Beliebtheit.<sup>2</sup>
 				</p>
 			</div>
 		</section>
@@ -389,7 +389,7 @@
 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
 					Fabriken, was die Lieferketten beeinflusst. Im Januar 2021 folgen dadurch in der
-					Halbleiterproduktion Lieferengpässe und starke Preisanstiege. <sup>3</sup>
+					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.<sup>3</sup>
 				</p>
 			</div>
 		</section>
@@ -436,8 +436,9 @@
 					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
 					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, beobachten wir seit
 					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
-					liegt die Inflationsrate 2021 bei 3,1 %, 2022 bereits bei 6,9 % und sinkt 2023 auf 5,9 %.
-					<sup>4</sup>
+					liegt die Inflationsrate 2021 bei 3,1 %, 2022 bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup
+						>4</sup
+					>
 				</p>
 			</div>
 			<!-- add marker -->
@@ -448,7 +449,7 @@
 				<p lang="de">
 					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7 % im
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-					-24,8 %. <sup>5</sup>
+					-24,8 %.<sup>5</sup>
 				</p>
 			</div>
 		</section>
@@ -665,7 +666,7 @@
 					<p>
 						In Berlin haben 99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle.
 						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
-						für die Unterschiede zwischen den Bundesländern sein. <sup>1</sup>
+						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
 					</p>
 				</div>
 			</section>
