@@ -35,7 +35,7 @@ export async function getUsageData() {
         indicators.forEach(
             (d, i) => {
                 if (key === "Bike") {
-                    (indicators[i][key + '_color'] = "rgba(0,0,25,0.75)");
+                    (indicators[i][key + '_color'] = "rgba(25,25,55,0.75)");
 
                 } else {
                     (indicators[i][key + '_color'] = getColor(min, max, 'interpolate' + key)(d[key]));

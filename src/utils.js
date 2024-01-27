@@ -57,12 +57,12 @@ export function getColor(min, max, colors = "") {
     case "interpolateCar":
       colorScale = d3.scaleSequential()
         .domain([min, max])
-        .interpolator(d3.interpolateOranges);
+        .interpolator(d3.interpolateRgbBasis([themes.car.bright, themes.car.primary, themes.car.dark]));
       break;
     case "interpolateOepnv":
       colorScale = d3.scaleSequential()
         .domain([min, max])
-        .interpolator(d3.interpolateRgb(themes.oepnv.bright, themes.oepnv.dark));
+        .interpolator(d3.interpolateRgb(themes.oepnv.bright, themes.oepnv.primary));
       break;
     case "interpolateBike":
       colorScale = d3.scaleSequential()

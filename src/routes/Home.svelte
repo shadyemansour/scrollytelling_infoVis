@@ -170,6 +170,8 @@
 	// Actions for Scroller components
 	const actions = {
 		map: {
+			map00: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
+
 			map01: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
 			map02: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
 			map03: () => {
@@ -526,9 +528,8 @@
 										'case',
 										['!=', ['feature-state', 'color'], null],
 										['feature-state', 'color'],
-										'rgba(255, 255, 255, 0)'
-									],
-									'fill-opacity': 0.7
+										'rgba(255, 255, 255, 0.3)'
+									]
 								}}
 							>
 								<MapTooltip
@@ -554,9 +555,9 @@
 										'black',
 										['==', ['feature-state', 'highlighted'], true],
 										'black',
-										'rgba(255,255,255,0)'
+										'rgba(255,255,255, 0.3)'
 									],
-									'line-width': 2
+									'line-width': 1
 								}}
 							/>
 							<MapLayer
@@ -571,8 +572,7 @@
 										['!=', ['feature-state', 'color'], null],
 										['feature-state', 'color'],
 										'rgba(255, 255, 255, 0)'
-									],
-									'fill-opacity': 0.7
+									]
 								}}
 							></MapLayer>
 						</MapSource>
@@ -629,22 +629,33 @@
 		</div>
 
 		<div slot="foreground">
-			<section data-id="map01">
+			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
-						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
-						Bundesländern und erkunde die Deutschlandkarte:
+						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
+						<sup>2</sup>
 					</p>
+					<div class="erklaerungs-texte">
+						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+					</div>
 				</div>
 			</section>
-			<section data-id="map02">
+			<section data-id="map01">
 				<div class="col-medium">
 					<p>
 						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
 							>2</sub
 						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
 						und 20-mal so viel wie Fahrräder.
+					</p>
+				</div>
+			</section>
+			<section data-id="map02">
+				<div class="col-medium">
+					<p>
+						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
+						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
+						Bundesländern und erkunde die Deutschlandkarte:
 					</p>
 				</div>
 			</section>
@@ -701,6 +712,9 @@
 		<p>
 			<sup>1</sup> Quelle: Anbindung des Öffentlichen Verkehrs - Das deutschlandweite Erreichbarkeitsranking,
 			Allianz pro Schiene | Stand 2023 Werte für: 2022
+		</p>
+		<p>
+			<sup>2</sup> Quelle: Inländerfahrleistung, Das Kraftfahr-Bundesamt | Stand 2023
 		</p>
 	</div>
 </Section>

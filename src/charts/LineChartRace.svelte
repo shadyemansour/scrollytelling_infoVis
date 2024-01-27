@@ -28,8 +28,9 @@
 			event: '',
 			start: new Date(2018, 0, 2),
 			end: new Date(2019, 1, 30),
-			color: 'grey',
-			hiddenLines: null,
+			color: themes.car.primary,
+			inactiveColor: themes.car.secondary,
+			hiddenLines: ['Fahrrad', 'Oeffis'],
 			isVisible: false
 		},
 		{
@@ -47,7 +48,7 @@
 			start: new Date(2022, 5, 1),
 			end: new Date(2022, 7, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -57,7 +58,7 @@
 			start: new Date(2023, 3, 1),
 			end: new Date(2023, 9, 1),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -67,7 +68,7 @@
 			start: new Date(2015, 11, 1),
 			end: new Date(2016, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -77,7 +78,7 @@
 			start: new Date(2016, 11, 1),
 			end: new Date(2017, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -87,7 +88,7 @@
 			start: new Date(2017, 11, 1),
 			end: new Date(2018, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -97,7 +98,7 @@
 			start: new Date(2018, 11, 1),
 			end: new Date(2019, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -107,7 +108,7 @@
 			start: new Date(2019, 11, 1),
 			end: new Date(2020, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -117,7 +118,7 @@
 			start: new Date(2020, 11, 1),
 			end: new Date(2021, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -127,7 +128,7 @@
 			start: new Date(2021, 11, 1),
 			end: new Date(2022, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -137,7 +138,7 @@
 			start: new Date(2022, 11, 1),
 			end: new Date(2023, 0, 30),
 			color: themes.oepnv.primary,
-			inactiveColor: themes.oepnv.teritary,
+			inactiveColor: themes.oepnv.secondary,
 			hiddenLines: ['Fahrrad', 'Auto'],
 			isVisible: false
 		},
@@ -232,7 +233,11 @@
 
 	function setupAxes() {
 		xAxis = d3.axisBottom(xScale).ticks(xTicks).tickSize(-height);
-		yAxis = d3.axisLeft(yScale).ticks(yTicks).tickFormat(d => `${d}%`).tickSize(-width);
+		yAxis = d3
+			.axisLeft(yScale)
+			.ticks(yTicks)
+			.tickFormat((d) => `${d}%`)
+			.tickSize(-width);
 	}
 
 	function drawLines() {
