@@ -169,7 +169,6 @@
 
 	// Actions for Scroller components
 	const actions = {
-		//2->0   3->1   0->2   1->3
 		map: {
 			map00: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
 			map01: () => {
