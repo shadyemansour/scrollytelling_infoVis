@@ -316,7 +316,7 @@
 		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
 			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
-			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
+			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex*. Betrachten wir den
 			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
 			Ereignisse diesen möglicherweise beeinflussen.
 		</p>
@@ -631,6 +631,25 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
+						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.<sup>2</sup>
+					</p>
+					<div class="erklaerungs-texte">
+						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">*Inländerfahrleistung alles PKWs 2020</p>
+					</div>
+				</div>
+			</section>
+			<section data-id="map01">
+				<div class="col-medium">
+					<p>
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub>2</sub
+						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
+						und 20-mal so viel wie Fahrräder.
+					</p>
+				</div>
+			</section>
+			<section data-id="map02">
+				<div class="col-medium">
+					<p>
 						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
 						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
 						Bundesländern und erkunde die Deutschlandkarte:
@@ -808,7 +827,7 @@
 						</p>
 					</div>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">
+						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">
 							*2017: 245 Mio. t. CO<sub>2eq</sub>
 						</p>
 					</div>
