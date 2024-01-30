@@ -336,7 +336,7 @@
 <Scroller {threshold} bind:id={id['lineChart']}>
 	<div slot="background">
 		<LegendText
-			text1={'ÖPNV'}
+			text1={'ÖPNV: Nutzung'}
 			text2={'Fahrrad: Anschaffung'}
 			text3={'Auto: Anschaffung & Unterhalt'}
 		></LegendText>
@@ -382,7 +382,13 @@
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
-				<p>Corona</p>
+				<p>
+					Mit Beginn der <strong>Corona-Pandemie</strong> steht Deutschland und die Welt still. Die
+					Bevölkerung wird gebetet zuhause zu bleiben. Der Index bleibt deshalb für das Jahr
+					<strong>2020</strong>
+					weitestgehend
+					<strong>konstant</strong>.
+				</p>
 				<!-- 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
 					Fabriken, was die Lieferketten beeinflusst. Im Januar 2021 folgen dadurch in der
@@ -406,9 +412,18 @@
 		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
+					Nach über einem halben Jahr Diskussionen in der Politik wird ab <strong>April 2023</strong
+					>
+					das Nachfolgemodel des 9-Euro-Tickets als <strong>Deutschlandticket</strong>
+					eingeführt. Mit einem Preis von <strong>49€</strong> ist es zwar deutlich teurer als das
+					Vorgängerticket, jedoch führt es trotzdem zu einer sichtlich günstigeren Nutzung der <Em
+						color={themes.oepnv.secondary}>ÖPNV</Em
+					>
+				</p>
+				<!-- <p>
 					Nach dem kurzen Anstieg steht ab April 2023 das <strong>Deutschlandticket</strong> für 49 Euro
 					zur Verfügung.
-				</p>
+				</p> -->
 			</div>
 		</section>
 		<section data-id="lineChart05">
@@ -423,8 +438,8 @@
 		<section data-id="lineChart06">
 			<div class="col-medium">
 				<p>
-					Der <strong style="color: {themes.oepnv.primary};">ÖPNV</strong> passt immer zum Jahreswechsel
-					die Preise an. Die stärksten Anpassungen sind dabei 2016 und 2023.
+					Der <Em color={themes.oepnv.secondary}>ÖPNV</Em> passt immer zum Jahreswechsel die Preise an.
+					Die stärksten Anpassungen sind dabei 2016 mit XY% und 2023 mit XY%.
 				</p>
 			</div>
 		</section>
@@ -432,20 +447,30 @@
 			<div class="col-medium">
 				<p style="text-align: center;">
 					Hingegen bleibt der <Em color={themes.bike.secondary}>Fahrrad-Index</Em>
-					<strong style="color: {themes.bike.primary};">Fahrrad-Index</strong> weitestgehend konstant.
+					weitestgehend konstant.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart08">
 			<div class="col-medium">
 				<p>
+					Ab <strong>Anfang 2021</strong> mit Beginn des Ukraine-Konflikts steigt die Inflationsrate
+					in Deutschland deutlich an. Dies führt, vor allem bei der Anschaffung von <Em
+						color={themes.bike.secondary}>Fahrrädern</Em
+					> und <Em color={themes.car.secondary}>PKWs</Em>, zu einer starken Preissteigerung.
+					Während die Inflationsrate in den Vorjahren relativ konstant zwischen 0.5% und knapp 2%
+					lag, schnellt diese im Jahr 2021 auf <strong>3,1%</strong>, in den Folgejahren sogar auf
+					<strong>6,9%</strong>
+					bzw. <strong>5,9%</strong> hoch.<sup>4</sup>
+				</p>
+				<!-- <p>
 					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
 					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, kann seit 2021 eine <strong
 						>signifikante Preissteigerung</strong
 					>
 					beobachtet werden. Im Vergleich zu den Vorjahren liegt die Inflationsrate 2021 bei 3,1 %, 2022
 					bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup>4</sup>
-				</p>
+				</p> -->
 			</div>
 			<!-- add marker -->
 		</section>
