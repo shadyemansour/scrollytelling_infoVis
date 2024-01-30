@@ -3,7 +3,8 @@
 	import { link } from 'svelte-routing';
 </script>
 
-<footer id="footer"
+<footer
+	id="footer"
 	style="color: {themes['neutral']['text']['primary']}; background-color: {themes['neutral'][
 		'pale'
 	]};"
@@ -15,29 +16,19 @@
 		<div>
 			<ul>
 				<li>
-					<a
-						class="link"
-						href="/aboutus"
-						use:link
-						>Unser Dreamteam</a
-					>
+					<a class="link" href="/aboutus" use:link>Unser Dreamteam</a>
 				</li>
 				<li>
-					<a class="link" href="/" use:link 
+					<a class="link" href="https://github.com/shadyemansour/scrollytelling_infoVis" use:link
 						>Repository</a
 					>
 				</li>
 				<li>
-					<a
-						class="link"
-						href="/sources"
-						use:link
-						>Quellen</a
-					>
+					<a class="link" href="/sources" use:link>Quellen</a>
 				</li>
 			</ul>
 			<p style="color: {themes['neutral']['text-dark']['teritary']};">
-				Letztes Update am 28.11.2023
+				Letztes Update am 28.01.2024
 			</p>
 		</div>
 	</div>

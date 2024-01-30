@@ -454,7 +454,7 @@
 			.attr('width', 0)
 			.attr('y', 0)
 			.attr('height', height)
-			.style('fill', region.inactiveColor)
+			.style('fill', region.color)
 			.style('opacity', 0.2);
 		highlightRect
 			.transition()
