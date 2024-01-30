@@ -317,7 +317,7 @@
 		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
 			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
-			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex *. Betrachten wir den
+			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex*. Betrachten wir den
 			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
 			Ereignisse diesen möglicherweise beeinflussen.
 		</p>
