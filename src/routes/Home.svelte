@@ -186,7 +186,7 @@
 				});
 			},
 			map04: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
-			map05: () => setMapContext({ key: 'Bike', color: 'interpolateOepnv', showCities: true })
+			map05: () => setMapContext({ key: 'Bike', color: 'interpolateBike', showCities: true })
 		}
 	};
 
@@ -338,7 +338,7 @@
 		<LegendText
 			text1={'ÖPNV: Nutzung'}
 			text2={'Fahrrad: Anschaffung'}
-			text3={'Auto: Anschaffung & Unterhalt'}
+			text3={'PKW: Anschaffung & Unterhalt'}
 		></LegendText>
 		<figure>
 			<div class="col-wide height-full">
@@ -429,7 +429,7 @@
 		<section data-id="lineChart05">
 			<div class="col-medium">
 				<p>
-					Der Preisindex für Autos steigt mit <Em color={themes.car.secondary}>XXX%</Em> am stärksten,
+					Der Preisindex für PKW's steigt mit <Em color={themes.car.secondary}>XXX%</Em> am stärksten,
 					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>XXX%</Em>. Im Gegensatz dazu
 					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>XXX%</Em>.
 				</p>
@@ -478,9 +478,9 @@
 		<section data-id="lineChart09">
 			<div class="col-medium">
 				<p lang="de">
-					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7 % im
+					Doch gerade der <Em color={themes.oepnv.secondary}>ÖPNV</Em> hat durch die besonderen Angebote 2023 eine Deflation von <strong>-22,7 %</strong> im
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-					-24,8 %.<sup>5</sup>
+				<strong>-24,8 %</strong>.<sup>5</sup>
 				</p>
 			</div>
 		</section>
@@ -530,7 +530,7 @@
 		<h3 class="mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
 		<div>
 			<p class="mb">
-				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
+				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum PKW. Doch nicht nur der Preis ist
 				ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittels ist. Es gibt starke
 				Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
 				Erklärung hindeutet.
@@ -663,9 +663,6 @@
 										: ''}
 								/>
 							</MapLayer>
-							<!--<br/><strong>${cityBikeRatingData.data.city.indicators
-													.find((d) => d.name == hovered)
-													[mapKey].toLocaleString()} something</strong>-->
 						</MapSource>
 					</Map>
 				</div>
@@ -676,29 +673,29 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
 						<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
 					</div>
 				</div>
 			</section>
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
+						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}>PKW's und Motorräder</Em> 2017 die höchsten CO<sub
 							>2</sub
-						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
-						und 20-mal so viel wie Fahrräder.
+						>-Emissionen je Personenkilometer: Sie verbrauchen sogar <strong>2,5-mal</strong> so viel wie der ÖPNV
+						und <strong>20-mal</strong> so viel wie Fahrräder.
 					</p>
 				</div>
 			</section>
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
-						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
+						Betrachtet man die gefahrenen <strong>Kilometer pro Einwohner</strong>, werden Unterschiede zwischen den
+						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des <Em color={themes.oepnv.secondary}>ÖPNV’s</Em> in den
 						Bundesländern und erkunde die Deutschlandkarte:
 					</p>
 				</div>
@@ -716,7 +713,7 @@
 			<section data-id="map04">
 				<div class="col-medium">
 					<p>
-						In Berlin haben 99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle.
+						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong>.
 						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
 					</p>
@@ -725,7 +722,7 @@
 			<section data-id="map05">
 				<div class="col-medium">
 					<p>
-						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <strong>Fahrrad</strong>. Doch
 						die 14 größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
 						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
 						Städte bewegst.
@@ -830,15 +827,15 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p>Die Emissionen setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
+					<p>Die <strong>Emissionen</strong> setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
 					<div>
 						<p>
-							Autos haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
-							verbrauchen 2,4-mal so viel wie der ÖPNV und 21-mal so viel wie Fahrräder.
+							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
+							verbrauchen <strong>2,4-mal</strong> so viel wie der <strong>ÖPNV</strong> und <strong>21-mal</strong> so viel wie Fahrräder.
 						</p>
 					</div>
 				</div>
@@ -848,11 +845,11 @@
 					<div>
 						<p>
 							Gleichzeitig sind sie zusammen mit dem restlichen motorisierten Individualverkehr für
-							75,3 % der Klimawirkung* des Personenverkehrs in Deutschland verantwortlich.
+							<strong>75,3 % der Klimawirkung*</strong> des Personenverkehrs in Deutschland verantwortlich.
 						</p>
 					</div>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
 							*2017: 245 Mio. t. CO<sub>2eq</sub>
 						</p>
 					</div>
@@ -861,12 +858,12 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der ÖPNV mehr Energie* benötigt als das Auto, stößt er im Betrieb weniger aus, da
+						Obwohl der <strong>ÖPNV mehr Energie*</strong> benötigt als ein <strong>PKW</strong>, stößt er im <strong>Betrieb weniger</strong> aus, da
 						mehr Personen transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn
 						elektrisch fahren.
 					</p>
 					<div class="erklaerungs-texte">
-						<p>* Strom und Kraftstoff</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};">* Strom und Kraftstoff</p>
 					</div>
 				</div>
 			</section>
@@ -874,7 +871,7 @@
 				<div class="col-medium">
 					<p>
 						In dieser Ansicht sind die verschiedenen Anteile der Klimawirkung der Fahrzeuge
-						nocheinmal in Prozentsätzen abzulesen.
+						nocheinmal in <strong>Prozentsätzen</strong> abzulesen.
 					</p>
 				</div>
 			</section>
