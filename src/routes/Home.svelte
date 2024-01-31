@@ -171,11 +171,8 @@
 	// Actions for Scroller components
 	const actions = {
 		map: {
-			map00: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
-
-			map01: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
-			map02: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
-			map03: () => {
+			map00: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
+			map01: () => {
 				const hl = [...usageData.data.region.indicators].sort((a, b) => b['Oepnv'] - a['Oepnv'])[0];
 				setMapContext({
 					key: 'Oepnv',
@@ -185,8 +182,10 @@
 					fitId: hl.code
 				});
 			},
-			map04: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
-			map05: () => setMapContext({ key: 'Bike', color: 'interpolateBike', showCities: true })
+			map02: () => setMapContext({ key: 'Oepnv', color: 'interpolateOepnv', showCities: false }),
+			map03: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
+			map04: () => setMapContext({ key: 'Car', color: 'interpolateCar', showCities: false }),
+			map05: () => setMapContext({ key: 'Bike', color: 'interpolateOepnv', showCities: true })
 		}
 	};
 
@@ -700,7 +699,7 @@
 					</p>
 				</div>
 			</section>
-			<section data-id="map03">
+			<section data-id="map01">
 				<div class="col-medium">
 					{#each [[...usageData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
 						<p>
@@ -710,12 +709,34 @@
 					{/each}
 				</div>
 			</section>
-			<section data-id="map04">
+
+			<section data-id="map02">
 				<div class="col-medium">
 					<p>
 						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong>.
 						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
+					</p>
+				</div>
+			</section>
+			<section data-id="map03">
+				<div class="col-medium">
+					<p>
+						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
+						<sup>2</sup>
+					</p>
+					<div class="erklaerungs-texte">
+						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+					</div>
+				</div>
+			</section>
+			<section data-id="map04">
+				<div class="col-medium">
+					<p>
+						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
+							>2</sub
+						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
+						und 20-mal so viel wie Fahrräder.
 					</p>
 				</div>
 			</section>
