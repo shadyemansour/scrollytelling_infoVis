@@ -7,7 +7,7 @@
 	{#each links as link}
 		<div class="link">
 			<a href={link.url} target="_blank" alt="{link.name}">
-				<IconWrapper name={link.iconName}></IconWrapper>
+				<IconWrapper innerSize={'24px'} name={link.iconName}></IconWrapper>
 			</a>
 		</div>
 	{/each}

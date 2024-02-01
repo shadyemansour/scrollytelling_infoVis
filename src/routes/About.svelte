@@ -29,13 +29,12 @@
 					skewY: 8,
 					skewX: -15,
 					stagger: {
-						amount: .2
+						amount: 0.2
 					},
 					delay: 0.5,
 					ease: 'power3.out'
 				});
 			}
-
 		});
 
 		tl.from('#gsap-subheading', {
@@ -54,7 +53,6 @@
 			ease: 'power4.out',
 			delay: -0.6
 		});
-
 	});
 </script>
 
@@ -63,7 +61,7 @@
 	<div class="col-wide">
 		<div class="backButtonWrapper" style="background-color: {themes.brand.muted}">
 			<a href="/">
-				<IconWrapper name={'ArrowLeft'} />
+				<IconWrapper name={'ArrowLeft'} innerSize={'24px'} />
 			</a>
 		</div>
 		<h1 id="gsap-heading">Team 7</h1>
@@ -72,7 +70,6 @@
 			<p style="color: {themes.neutral['text-dark'].secondary};">
 				Im Rahmen vom Kurs Informationsvisualisierung an der LMU München
 			</p>
-
 		</div>
 		<Spacer />
 		<div class="card-container">
@@ -93,7 +90,7 @@
 	}
 
 	.backButtonWrapper {
-		display: inline-flex;
+		display: flex;
 		justify-content: center;
 		padding: 4px;
 		align-items: center;
