@@ -21,6 +21,7 @@
 	import Bike from '../ui/icons/Bike.svelte';
 	import Car from '../ui/icons/Car.svelte';
 	import Oepnv from '../ui/icons/Oepnv.svelte';
+	import Em from '../ui/Em.svelte';
 
 	// DATA IMPORT
 	import { getMapJson } from '../helpers/getMapJson.js';
@@ -315,10 +316,10 @@
 		<h3 class="mb-d">Mobilität in Deutschland</h3>
 		<p class="mb-d">
 			Ein wichtiger Faktor, um das Mobilitätsverhalten in Deutschland zu verstehen, ist der Preis.
-			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb betrachten
-			wir die Verkehrsmittel im Verhältnis zum Verbraucherpreisindex*. Betrachten wir den
-			Preisindex für die verschiedenen Verkehrsmittel genauer, sehen wir, wie verschiedene
-			Ereignisse diesen möglicherweise beeinflussen.
+			Doch die Preise selbst zu vergleichen, liefert keine genauen Ergebnisse. Deshalb werden die
+			Verkehrsmittel im Verhältnis zum Verbraucherpreisindex* betrachtet. Bei genauer Betrachtung
+			kann eine Änderung im Preisindex immer mit gleichzeitig stattfindenden Ereignissen in
+			Verbindung gebracht werden.
 		</p>
 	</div>
 	<div class="erklaerungs-texte mb-d" style="color: {themes.neutral['text-dark'].secondary};">
@@ -334,9 +335,9 @@
 <Scroller {threshold} bind:id={id['lineChart']}>
 	<div slot="background">
 		<LegendText
-			text1={'ÖPNV'}
+			text1={'ÖPNV: Nutzung'}
 			text2={'Fahrrad: Anschaffung'}
-			text3={'Auto: Anschaffung & Unterhalt'}
+			text3={'PKW: Anschaffung & Unterhalt'}
 		></LegendText>
 		<figure>
 			<div class="col-wide height-full">
@@ -357,9 +358,12 @@
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Eine auffallende Preisentwicklung der Emissionsberechtigung (EB) zeigt sich 2018: Während
-					am 02.01.2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 € liegt, verzeichnen
-					wir ein Jahr später am 02.01.2019 einen Preis von 25,31 €.
+					Eine auffallende Preisentwicklung der <strong>Emissionsberechtigung (EB)</strong> zeigt
+					sich 2018: Während Anfang 2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 €
+					liegt, <strong>steigt</strong> dieser, bis Anfang 2019, auf einen Preis von 25,31 €, was
+					einer Preissteigerung von 324% entspricht.<sup>2</sup> Diese Entwicklung hat
+					<strong>starke Auswirkungen</strong>
+					auf die <Em color={themes.car.secondary}>Automobilindustrie</Em>.
 				</p>
 			</div>
 		</section>
@@ -367,69 +371,105 @@
 		<section data-id="lineChart01">
 			<div class="col-medium">
 				<p>
-					Der Preis der Emissionsberechtigung entspricht einem Anstieg um 324 %. Diese Steigerung
-					markiert den Beginn eines anhaltenden Trends, der sich auf die Preise und Art der
-					Fahrzeuge auswirkt. Ab diesem Zeitpunkt gewinnen Elektrofahrzeuge und Plug-in-Hybriden
-					noch schneller an Beliebtheit.<sup>2</sup>
+					Diese Steigerung markiert den Beginn eines anhaltenden Trends, der vor allem Auswirkungen
+					auf die Preise und Art der Fahrzeuge hat. Ab diesem Zeitpunkt gewinnen <strong
+						>Elektrofahrzeuge</strong
+					>
+					und <strong>Plug-in-Hybriden</strong> noch schneller an Beliebtheit.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart02">
 			<div class="col-medium">
 				<p>
+					Mit Beginn der <strong>Corona-Pandemie</strong> steht Deutschland und die Welt still. Die
+					Bevölkerung wird gebetet zuhause zu bleiben. Der Index bleibt deshalb für das Jahr
+					<strong>2020</strong>
+					weitestgehend
+					<strong>konstant</strong>.
+				</p>
+				<!-- 				<p>
 					Zu Beginn der Corona Pandemie 2020 kommt es zu Produktionsstopps und Schließungen von
 					Fabriken, was die Lieferketten beeinflusst. Im Januar 2021 folgen dadurch in der
 					Halbleiterproduktion Lieferengpässe und starke Preisanstiege.<sup>3</sup>
-				</p>
+				</p> -->
 			</div>
 		</section>
 		<section data-id="lineChart03">
 			<div class="col-medium">
 				<p>
-					Im Juni, Juli und August 2022 wird kurzzeitig das 9-Euro-Ticket eingeführt, wodurch Bus
-					und Bahn erschwinglicher werden.
+					Von Juni bis August 2022 wird das <strong>9-Euro-Ticket</strong> als befristetes
+					Sonderangebot im
+					<Em color={themes.oepnv.secondary}>öffentlichen Personennahverkehr</Em>. Die Fahrkarte war
+					Teil eines <strong>Entlastungspakets</strong>, welches die gestiegenen Energiekosten
+					kompensieren sollte. Insgesamt wurden rund
+					<strong>62 Millionen</strong>
+					9-Euro-Tickets verkauft.<sup>6</sup>
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart04">
 			<div class="col-medium">
 				<p>
-					Nach dem kurzen Anstieg steht ab April 2023 das Deutschlandticket für 49 Euro zur
-					Verfügung.
+					Nach über einem halben Jahr Diskussionen in der Politik wird ab <strong>April 2023</strong
+					>
+					das Nachfolgemodel des 9-Euro-Tickets als <strong>Deutschlandticket</strong>
+					eingeführt. Mit einem Preis von <strong>49€</strong> ist es zwar deutlich teurer als das
+					Vorgängerticket, jedoch führt es trotzdem zu einer sichtlich günstigeren Nutzung der <Em
+						color={themes.oepnv.secondary}>ÖPNV</Em
+					>
 				</p>
+				<!-- <p>
+					Nach dem kurzen Anstieg steht ab April 2023 das <strong>Deutschlandticket</strong> für 49 Euro
+					zur Verfügung.
+				</p> -->
 			</div>
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<p style="text-align: center;">Generell sehen wir, dass alle Kurven ansteigen.</p>
+				<p>
+					Der Preisindex für PKW's steigt mit <Em color={themes.car.secondary}>XXX%</Em> am stärksten,
+					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>XXX%</Em>. Im Gegensatz dazu
+					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>XXX%</Em>.
+				</p>
 			</div>
 		</section>
 		<section data-id="lineChart06">
 			<div class="col-medium">
 				<p>
-					Der <strong style="color: {themes.oepnv.primary};">ÖPNV</strong> passt immer zum Jahreswechsel
-					die Preise an. Die stärksten Anpassungen sind dabei 2016 und 2023.
+					Der <Em color={themes.oepnv.secondary}>ÖPNV</Em> passt immer zum Jahreswechsel die Preise an.
+					Die stärksten Anpassungen sind dabei 2016 mit XY% und 2023 mit XY%.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart07">
 			<div class="col-medium">
 				<p style="text-align: center;">
-					Hingegen bleibt der <strong style="color: {themes.bike.primary};">Fahrrad-Index</strong> weitestgehend
-					konstant.
+					Hingegen bleibt der <Em color={themes.bike.secondary}>Fahrrad-Index</Em>
+					weitestgehend konstant.
 				</p>
 			</div>
 		</section>
 		<section data-id="lineChart08">
 			<div class="col-medium">
 				<p>
-					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
-					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, beobachten wir seit
-					2021 eine <strong>signifikante Preissteigerung</strong>. Im Vergleich zu den Vorjahren
-					liegt die Inflationsrate 2021 bei 3,1 %, 2022 bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup
-						>4</sup
-					>
+					Ab <strong>Anfang 2021</strong> mit Beginn des Ukraine-Konflikts steigt die Inflationsrate
+					in Deutschland deutlich an. Dies führt, vor allem bei der Anschaffung von <Em
+						color={themes.bike.secondary}>Fahrrädern</Em
+					> und <Em color={themes.car.secondary}>PKWs</Em>, zu einer starken Preissteigerung.
+					Während die Inflationsrate in den Vorjahren relativ konstant zwischen 0.5% und knapp 2%
+					lag, schnellt diese im Jahr 2021 auf <strong>3,1%</strong>, in den Folgejahren sogar auf
+					<strong>6,9%</strong>
+					bzw. <strong>5,9%</strong> hoch.<sup>4</sup>
 				</p>
+				<!-- <p>
+					Das generelle Ansteigen aller Kurven kann anhand der ansteigenden Inflation begründet
+					werden. Während diese sich normalerweise zwischen 0 % und 2 % bewegen, kann seit 2021 eine <strong
+						>signifikante Preissteigerung</strong
+					>
+					beobachtet werden. Im Vergleich zu den Vorjahren liegt die Inflationsrate 2021 bei 3,1 %, 2022
+					bereits bei 6,9 % und sinkt 2023 auf 5,9 %.<sup>4</sup>
+				</p> -->
 			</div>
 			<!-- add marker -->
 		</section>
@@ -437,9 +477,9 @@
 		<section data-id="lineChart09">
 			<div class="col-medium">
 				<p lang="de">
-					Doch gerade der ÖPNV hat durch die besonderen Angebote 2023 eine Deflation von -22,7 % im
+					Doch gerade der <Em color={themes.oepnv.secondary}>ÖPNV</Em> hat durch die besonderen Angebote 2023 eine Deflation von <strong>-22,7 %</strong> im
 					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-					-24,8 %.<sup>5</sup>
+				<strong>-24,8 %</strong>.<sup>5</sup>
 				</p>
 			</div>
 		</section>
@@ -475,6 +515,10 @@
 			<sup>5</sup> Verbraucherpreise im November 2023 Veränderung gegenüber dem Vorjahresmonat in %,
 			destatis Statistisches Bundesamt | Stand 2024
 		</p>
+
+		<p style="color: {themes.neutral['text-dark'].teritary};">
+			<sup>6</sup> Bilanz zum 9-Euro-Ticket, Verband Deutscher Verkehrsunternehmen | Stand 2023
+		</p>
 	</div>
 </Section>
 
@@ -485,7 +529,7 @@
 		<h3 class="mb-d" style="padding-left: 0;">Erkunde Mobilität in Deutschland</h3>
 		<div>
 			<p class="mb">
-				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum Auto. Doch nicht nur der Preis ist
+				Der ÖPNV ist mittlerweile eine preiswerte Alternative zum PKW. Doch nicht nur der Preis ist
 				ein wichtiger Faktor, der entscheidend für die Wahl des Verkehrsmittels ist. Es gibt starke
 				Unterschiede in der Nutzung des ÖPNV’s in den Bundesländern, was auf eine multifaktorielle
 				Erklärung hindeutet.
@@ -618,9 +662,6 @@
 										: ''}
 								/>
 							</MapLayer>
-							<!--<br/><strong>${cityBikeRatingData.data.city.indicators
-													.find((d) => d.name == hovered)
-													[mapKey].toLocaleString()} something</strong>-->
 						</MapSource>
 					</Map>
 				</div>
@@ -631,27 +672,29 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.<sup>2</sup>
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
+						<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">*Inländerfahrleistung alles PKWs 2020</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
 					</div>
 				</div>
 			</section>
 			<section data-id="map01">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub>2</sub
-						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
-						und 20-mal so viel wie Fahrräder.
+						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}>PKW's und Motorräder</Em> 2017 die höchsten CO<sub
+							>2</sub
+						>-Emissionen je Personenkilometer: Sie verbrauchen sogar <strong>2,5-mal</strong> so viel wie der ÖPNV
+						und <strong>20-mal</strong> so viel wie Fahrräder.
 					</p>
 				</div>
 			</section>
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						Betrachtet man die gefahrenen Kilometer pro Einwohner, werden Unterschiede zwischen den
-						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des ÖPNV’s in den
+						Betrachtet man die gefahrenen <strong>Kilometer pro Einwohner</strong>, werden Unterschiede zwischen den
+						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des <Em color={themes.oepnv.secondary}>ÖPNV’s</Em> in den
 						Bundesländern und erkunde die Deutschlandkarte:
 					</p>
 				</div>
@@ -670,7 +713,7 @@
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						In Berlin haben 99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle.
+						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong>.
 						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
 					</p>
@@ -700,7 +743,7 @@
 			<section data-id="map05">
 				<div class="col-medium">
 					<p>
-						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das Fahrrad. Doch
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <strong>Fahrrad</strong>. Doch
 						die 14 größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
 						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
 						Städte bewegst.
@@ -805,15 +848,15 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p>Die Emissionen setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
+					<p>Die <strong>Emissionen</strong> setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
 					<div>
 						<p>
-							Autos haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
-							verbrauchen 2,4-mal so viel wie der ÖPNV und 21-mal so viel wie Fahrräder.
+							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
+							verbrauchen <strong>2,4-mal</strong> so viel wie der <strong>ÖPNV</strong> und <strong>21-mal</strong> so viel wie Fahrräder.
 						</p>
 					</div>
 				</div>
@@ -823,11 +866,11 @@
 					<div>
 						<p>
 							Gleichzeitig sind sie zusammen mit dem restlichen motorisierten Individualverkehr für
-							75,3 % der Klimawirkung* des Personenverkehrs in Deutschland verantwortlich.
+							<strong>75,3 % der Klimawirkung*</strong> des Personenverkehrs in Deutschland verantwortlich.
 						</p>
 					</div>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced" style="color: {themes.neutral['text-dark'].secondary};">
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
 							*2017: 245 Mio. t. CO<sub>2eq</sub>
 						</p>
 					</div>
@@ -836,12 +879,12 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der ÖPNV mehr Energie* benötigt als das Auto, stößt er im Betrieb weniger aus, da
+						Obwohl der <strong>ÖPNV mehr Energie*</strong> benötigt als ein <strong>PKW</strong>, stößt er im <strong>Betrieb weniger</strong> aus, da
 						mehr Personen transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn
 						elektrisch fahren.
 					</p>
 					<div class="erklaerungs-texte">
-						<p>* Strom und Kraftstoff</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};">* Strom und Kraftstoff</p>
 					</div>
 				</div>
 			</section>
@@ -849,7 +892,7 @@
 				<div class="col-medium">
 					<p>
 						In dieser Ansicht sind die verschiedenen Anteile der Klimawirkung der Fahrzeuge
-						nocheinmal in Prozentsätzen abzulesen.
+						nocheinmal in <strong>Prozentsätzen</strong> abzulesen.
 					</p>
 				</div>
 			</section>
