@@ -429,10 +429,10 @@
 		</section>
 		<section data-id="lineChart05">
 			<div class="col-medium">
-				<p>
-					Der Preisindex für PKW's steigt mit <Em color={themes.car.secondary}>XXX%</Em> am stärksten,
-					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>XXX%</Em>. Im Gegensatz dazu
-					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>XXX%</Em>.
+				<p style="text-wrap: pretty;">
+					Im gesamten Zeitraum steigt der Preisindex für PKW's mit <Em color={themes.car.secondary}>35%</Em> am stärksten,
+					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>19%</Em>. Im Gegensatz dazu
+					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>-12%</Em>.
 				</p>
 			</div>
 		</section>
@@ -587,7 +587,7 @@
 												.find((d) => d.code == hovered)
 												[mapKey].toLocaleString('de-DE', {
 													minimumFractionDigits: 2
-												})} Personenkilometer</strong>`
+												})} Kilometer pro Einwohner</strong>`
 										: ''}
 								/>
 							</MapLayer>
@@ -710,12 +710,10 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<p>
-						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden
-						Kilometer zurückgelegt.
-						<sup>2</sup>
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* <strong>626 Milliarden Kilometer</strong> zurückgelegt.<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p style="color: {themes.neutral['text-dark'].secondary};" style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
 							*Inländerfahrleistung alles PKWs 2020
 						</p>
 					</div>
@@ -735,10 +733,8 @@
 			<section data-id="map05">
 				<div class="col-medium">
 					<p>
-						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <strong
-							>Fahrrad</strong
-						>. Doch die 14 größten Städte Deutschlands schneiden, wenn es um die
-						Fahrradfreundlichkeit geht, nicht besonders gut ab… Erkunde die Karte, indem du deinen
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <Em color={themes.bike.secondary}>Fahrrad</Em>. Doch die 14 größten Städte Deutschlands schneiden, wenn es um die
+						Fahrradfreundlichkeit geht, <strong>nicht besonders gut</strong> ab… Erkunde die Karte, indem du deinen
 						Mauszeiger über die einzelnen Städte bewegst.
 					</p>
 				</div>
@@ -877,7 +873,7 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der <strong>ÖPNV mehr Energie*</strong> benötigt als ein <strong>PKW</strong>,
+						Obwohl der <strong>ÖPNV</strong> <Em color={themes.purple.secondary}>mehr Energie*</Em> benötigt als ein <strong>PKW</strong>,
 						stößt er im <strong>Betrieb weniger</strong> aus, da mehr Personen transportiert werden und
 						viele Fahrzeuge wie Zug, Tram und U-Bahn elektrisch fahren.
 					</p>
@@ -916,8 +912,8 @@
 			>
 			<p>
 				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
-				Ludigs-Maximilians-Universität Müchen von Elena Herzog, Fiona Mariele Lau, Paul Walter,
-				Raffael Wennmacher und Shady Mansour entwickelt.
+				Ludigs-Maximilians-Universität Müchen von Elena Carlotta Herzog, Fiona Mariele Lau, Paul Christoph Walter Walter,
+				Raphael Paul Wennmacher und Shady Mansour entwickelt.
 			</p>
 		</div>
 
