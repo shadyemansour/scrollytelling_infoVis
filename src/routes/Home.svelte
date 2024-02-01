@@ -296,7 +296,9 @@
 
 	function getIndicatorValue(cityName, key) {
 		const indicator = cityBikeRatingData.data.city.indicators.find((d) => d.name === cityName);
-		return indicator && indicator[key] ? indicator[key].toLocaleString() : 'N/A';
+		return indicator && indicator[key]
+			? indicator[key].toLocaleString('de-DE', { minimumFractionDigits: 2 })
+			: 'N/A';
 	}
 </script>
 
@@ -360,8 +362,9 @@
 				<p>
 					Eine auffallende Preisentwicklung der <strong>Emissionsberechtigung (EB)</strong> zeigt
 					sich 2018: Während Anfang 2018 für EB der Preis pro Tonne CO<sub>2</sub> noch bei 7,81 €
-					liegt, <strong>steigt</strong> dieser, bis Anfang 2019, auf einen Preis von 25,31 €, was
-					einer Preissteigerung von 324% entspricht.<sup>2</sup> Diese Entwicklung hat
+					liegt, steigt dieser, bis Anfang 2019, auf einen Preis von 25,31 €, was einer
+					<strong>Preissteigerung von 324%</strong>
+					entspricht.<sup>2</sup> Diese Entwicklung hat
 					<strong>starke Auswirkungen</strong>
 					auf die <Em color={themes.car.secondary}>Automobilindustrie</Em>.
 				</p>
@@ -477,9 +480,10 @@
 		<section data-id="lineChart09">
 			<div class="col-medium">
 				<p lang="de">
-					Doch gerade der <Em color={themes.oepnv.secondary}>ÖPNV</Em> hat durch die besonderen Angebote 2023 eine Deflation von <strong>-22,7 %</strong> im
-					Vergleich zum Vorjahr. Das einzige Gut, das noch günstiger geworden ist, ist Butter mit
-				<strong>-24,8 %</strong>.<sup>5</sup>
+					Doch gerade der <Em color={themes.oepnv.secondary}>ÖPNV</Em> hat durch die besonderen Angebote
+					2023 eine Deflation von <strong>-22,7 %</strong> im Vergleich zum Vorjahr. Das einzige
+					Gut, das noch günstiger geworden ist, ist Butter mit
+					<strong>-24,8 %</strong>.<sup>5</sup>
 				</p>
 			</div>
 		</section>
@@ -581,7 +585,9 @@
 												usageData.metadata.region.lookup[hovered].name
 											}<br/><strong>${usageData.data.region.indicators
 												.find((d) => d.code == hovered)
-												[mapKey].toLocaleString()} Personenkilometer</strong>`
+												[mapKey].toLocaleString('de-DE', {
+													minimumFractionDigits: 2
+												})} Personenkilometer</strong>`
 										: ''}
 								/>
 							</MapLayer>
@@ -672,33 +678,14 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
-						<sup>2</sup>
-					</p>
-					<div class="erklaerungs-texte">
-						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
-					</div>
-				</div>
-			</section>
-			<section data-id="map01">
-				<div class="col-medium">
-					<p>
-						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}>PKW's und Motorräder</Em> 2017 die höchsten CO<sub
-							>2</sub
-						>-Emissionen je Personenkilometer: Sie verbrauchen sogar <strong>2,5-mal</strong> so viel wie der ÖPNV
-						und <strong>20-mal</strong> so viel wie Fahrräder.
+						Betrachtet man die gefahrenen <strong>Kilometer pro Einwohner</strong>, werden
+						Unterschiede zwischen den Bundesländern sichtbar - Mache dir dein eigenes Bild der
+						Nutzung des <Em color={themes.oepnv.secondary}>ÖPNV’s</Em> in den Bundesländern und erkunde
+						die Deutschlandkarte:
 					</p>
 				</div>
 			</section>
-			<section data-id="map02">
-				<div class="col-medium">
-					<p>
-						Betrachtet man die gefahrenen <strong>Kilometer pro Einwohner</strong>, werden Unterschiede zwischen den
-						Bundesländern sichtbar - Mache dir dein eigenes Bild der Nutzung des <Em color={themes.oepnv.secondary}>ÖPNV’s</Em> in den
-						Bundesländern und erkunde die Deutschlandkarte:
-					</p>
-				</div>
-			</section>
+
 			<section data-id="map01">
 				<div class="col-medium">
 					{#each [[...usageData.data.region.indicators].sort((a, b) => b['2023'] - a['2023'])[0]] as region}
@@ -713,40 +700,46 @@
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong>.
-						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
-						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
+						In Berlin haben <strong
+							>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong
+						>. Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein
+						Grund für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
 					</p>
 				</div>
 			</section>
 			<section data-id="map03">
 				<div class="col-medium">
 					<p>
-						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden
+						Kilometer zurückgelegt.
 						<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
+							*Inländerfahrleistung alles PKWs 2020
+						</p>
 					</div>
 				</div>
 			</section>
 			<section data-id="map04">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
-							>2</sub
-						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
-						und 20-mal so viel wie Fahrräder.
+						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}
+							>PKW's und Motorräder</Em
+						> 2017 die höchsten CO<sub>2</sub>-Emissionen je Personenkilometer: Sie verbrauchen
+						sogar <strong>2,5-mal</strong> so viel wie der ÖPNV und <strong>20-mal</strong> so viel wie
+						Fahrräder.
 					</p>
 				</div>
 			</section>
 			<section data-id="map05">
 				<div class="col-medium">
 					<p>
-						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <strong>Fahrrad</strong>. Doch
-						die 14 größten Städte Deutschlands schneiden, wenn es um die Fahrradfreundlichkeit geht,
-						nicht besonders gut ab… Erkunde die Karte, indem du deinen Mauszeiger über die einzelnen
-						Städte bewegst.
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <strong
+							>Fahrrad</strong
+						>. Doch die 14 größten Städte Deutschlands schneiden, wenn es um die
+						Fahrradfreundlichkeit geht, nicht besonders gut ab… Erkunde die Karte, indem du deinen
+						Mauszeiger über die einzelnen Städte bewegst.
 					</p>
 				</div>
 			</section>
@@ -848,15 +841,20 @@
 		<div slot="foreground">
 			<section data-id="barChart01">
 				<div class="col-medium">
-					<p>Die <strong>Emissionen</strong> setzen sich bei jedem Verkehrsmittel immer unterschiedlich zusammen.</p>
+					<p>
+						Die <strong>Emissionen</strong> setzen sich bei jedem Verkehrsmittel immer unterschiedlich
+						zusammen.
+					</p>
 				</div>
 			</section>
 			<section data-id="barChart02">
 				<div class="col-medium">
 					<div>
 						<p>
-							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro Personenkilometer. Sie
-							verbrauchen <strong>2,4-mal</strong> so viel wie der <strong>ÖPNV</strong> und <strong>21-mal</strong> so viel wie Fahrräder.
+							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro
+							Personenkilometer. Sie verbrauchen <strong>2,4-mal</strong> so viel wie der
+							<strong>ÖPNV</strong>
+							und <strong>21-mal</strong> so viel wie Fahrräder.
 						</p>
 					</div>
 				</div>
@@ -879,9 +877,9 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der <strong>ÖPNV mehr Energie*</strong> benötigt als ein <strong>PKW</strong>, stößt er im <strong>Betrieb weniger</strong> aus, da
-						mehr Personen transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn
-						elektrisch fahren.
+						Obwohl der <strong>ÖPNV mehr Energie*</strong> benötigt als ein <strong>PKW</strong>,
+						stößt er im <strong>Betrieb weniger</strong> aus, da mehr Personen transportiert werden und
+						viele Fahrzeuge wie Zug, Tram und U-Bahn elektrisch fahren.
 					</p>
 					<div class="erklaerungs-texte">
 						<p style="color: {themes.neutral['text-dark'].secondary};">* Strom und Kraftstoff</p>
