@@ -7,6 +7,7 @@
 	export let mapKey = 'Car';
 	export let indicators;
 	export let cities;
+	export let label;
 
 	let onmount = false;
 	let sortedIndicators = 0;
@@ -16,10 +17,24 @@
 
 	$: if (mapKey && onmount) {
 		drawCanvas();
+		switch (mapKey) {
+			case 'Car':
+				label = 'Personenkilometer';
+				break;
+			case 'Oepnv':
+				label = 'Personenkilometer';
+				break;
+			case 'Bike':
+				label = 'Note';
+				break;
+			default:
+				break;
+		}
 	}
 
 	onMount(() => {
 		onmount = true;
+		console.log(label);
 	});
 
 	async function drawCanvas() {
@@ -32,8 +47,8 @@
 
 			if (mapKey === 'Bike') {
 				sortedIndicators = [...cities].sort((a, b) => a[mapKey] - b[mapKey]);
-				min = numberWithPoints(sortedIndicators[0][mapKey]);
-				max = numberWithPoints(sortedIndicators[sortedIndicators.length - 1][mapKey]);
+				min = sortedIndicators[0][mapKey].toLocaleString('de-DE');
+				max = sortedIndicators[sortedIndicators.length - 1][mapKey].toLocaleString('de-DE');
 			} else {
 				sortedIndicators = [...indicators].sort((a, b) => a[mapKey] - b[mapKey]);
 				min = numberWithPoints(sortedIndicators[0][mapKey].toFixed(0));
@@ -60,6 +75,10 @@
 </script>
 
 <div class="legend">
+	{#if label}
+		<p class="label" style="color: {themes.neutral['text-dark'].secondary};">{label}</p>
+
+	{/if}
 	<p style="color: {themes.neutral['text-dark'].secondary};">{min}</p>
 	<canvas id="myCanvas" class="bar"></canvas>
 	<p style="color: {themes.neutral['text-dark'].secondary};">{max}</p>
@@ -73,5 +92,8 @@
 		width: clamp(2.5rem, 4.5vw, 4rem);
 		height: 12px;
 		border-radius: 2px;
+	}
+	.label{
+		margin-right: 4px;
 	}
 </style>

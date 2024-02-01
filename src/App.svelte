@@ -1,5 +1,6 @@
 <script>
 	import { Router, Route, Link, navigate } from 'svelte-routing';
+	import { onMount } from 'svelte';
 	import { lenisStore } from "./helpers/store.js";
 	import Lenis from '@studio-freight/lenis';
 	import Home from './routes/Home.svelte';
@@ -17,6 +18,14 @@
 		requestAnimationFrame(raf);
 	}
 	requestAnimationFrame(raf);
+
+	let language = 'de'; 
+  
+	// Ändern Sie die Spracheinstellung, wenn die Komponente eingefügt wird
+	onMount(() => {
+	  document.documentElement.lang = language;
+	});
+	
 </script>
 
 <svelte:head>

@@ -30,7 +30,6 @@
 	import { getPriceTrendData } from '../helpers/getPriceTrendData.js';
 	import { getFineData } from '../helpers/getFineData.js';
 	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
-	import { rgb } from 'd3';
 	import IconWrapper from '../ui/IconWrapper.svelte';
 
 	// Config
@@ -546,6 +545,7 @@
 				indicators={usageData.data.region.indicators}
 				cities={cityBikeRatingData.data.city.indicators}
 				{mapKey}
+				label={mapKey}
 			></LegendGradient>
 			<figure>
 				<div class="col-full height-full">
@@ -672,8 +672,7 @@
 			<section data-id="map00">
 				<div class="col-medium">
 					<p>
-						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
-						<sup>2</sup>
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
 						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
@@ -713,7 +712,7 @@
 			<section data-id="map02">
 				<div class="col-medium">
 					<p>
-						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe* eine Haltestelle</strong>.
+						In Berlin haben <strong>99,4 % der Einwohner in unmittelbarer Nähe eine Haltestelle</strong>.
 						Mecklenburg-Vorpommern ist mit 66,1 % das Schlusslicht. Die Netzdichte könnte ein Grund
 						für die Unterschiede zwischen den Bundesländern sein.<sup>1</sup>
 					</p>
@@ -722,18 +721,17 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<p>
-						Mit dem Auto werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.
-						<sup>2</sup>
+						Mit dem PKW werden in Deutschland jährlich* 626 Milliarden Kilometer zurückgelegt.<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
-						<p class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
+						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">*Inländerfahrleistung alles PKWs 2020</p>
 					</div>
 				</div>
 			</section>
 			<section data-id="map04">
 				<div class="col-medium">
 					<p>
-						Sieht man vom Luftverkehr ab, verursachen Autos und Motorräder 2017 die höchsten CO<sub
+						Sieht man vom Luftverkehr ab, verursachen PKW's und Motorräder 2017 die höchsten CO<sub
 							>2</sub
 						>-Emissionen je Personenkilometer: Sie verbrauchen sogar 2,5-mal so viel wie der ÖPNV
 						und 20-mal so viel wie Fahrräder.
@@ -788,7 +786,7 @@
 		<h3 class="mb-d">Klimawirkung im Personenverkehr</h3>
 		<p>
 			In den folgenden Balkendiagrammen kannst du die Klimawirkung der verschiedenen
-			Transportmitteln in unterschiedlichen Bereichen wie Fahrzeugherstellung *, Infrastruktur,
+			Transportmitteln in unterschiedlichen Bereichen wie Fahrzeugherstellung*, Infrastruktur,
 			Fahrzeugnutzung und Energie erkunden, wobei die unterschiedlichen Bereiche unterschiedliche
 			Farben haben. Angegeben sind die spezifischen Emissionen in Gramm CO<sub>2</sub>eq* je
 			Personenkilometer.
