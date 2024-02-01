@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import * as d3 from 'd3';
 	import { themes } from '../config';
+
 	export let rawData = []; // Pass the raw data as a prop
 	export let animationStep;
 	let svg; // Reference to the SVG element
@@ -322,7 +323,6 @@
 
 		visibleData.forEach((series) => {
 			let path = d3.select(svg).select(`path.${series.name}`);
-
 			path = d3
 				.select('#linechartrace')
 				.append('path')
@@ -334,6 +334,10 @@
 
 			path.datum(series.ys).attr('d', line);
 		});
+
+		d3.selectAll('path.Oeffis')
+			.on('mouseover', handleMouseOver)
+			.on('mouseout', () => d3.select('#tooltip').style('opacity', 0));
 	}
 
 	function updateChart(step) {
@@ -602,10 +606,57 @@
 			highlightedRegionsEl[startTextKey] = [];
 		}
 	}
+
+	function handleMouseOver(event, d) {
+		// Format the tooltip content using data point 'd'
+		// console.log(d);
+		const path = d3.select(svg).select(`path.Oeffis`);
+		const [mouseX] = d3.pointer(event, this);
+		const point = path.node().getPointAtLength(mouseX);
+		let nearestPointOeffis;
+		let minDistance = Infinity;
+		console.log(data);
+		data
+			.filter((dp) => dp.name === 'Oeffis') // Corrected equality check
+			.flatMap((dp) => dp.ys)
+			.forEach((p) => {
+				const distance = Math.abs(p.y - point.y); // Calculate distance
+				if (distance < minDistance) {
+					minDistance = distance;
+					nearestPointOeffis = p;
+				}
+			});
+
+		const nearestPointFahrrad = data
+			.filter((dp) => dp.name === 'Fahrrad')
+			.flatMap((dp) => dp.ys)
+			.find((p) => Date.parse(p.x) === Date.parse(nearestPointOeffis.x));
+
+		console.log(nearestPointFahrrad);
+		const nearestPointAuto = data
+			.filter((dp) => dp.name === 'Auto')
+			.flatMap((dp) => dp.ys)
+			.find((p) => Date.parse(p.x) === Date.parse(nearestPointOeffis.x));
+
+		console.log(point);
+		console.log(nearestPointOeffis);
+		// Calculate the nearest data point
+		// Update the tooltip content and position
+		d3.select('#tooltip')
+			.style('opacity', 1)
+			.html(
+				`Date: ${d3.timeFormat('%m.%Y')(nearestPointOeffis.x)} <br> Oepnv: ${
+					nearestPointOeffis.y
+				}<br> Fahrrad: ${nearestPointFahrrad.y}<br> Auto: ${nearestPointAuto.y}`
+			)
+			.style('left', `${event.clientX - 25}px`)
+			.style('top', `${event.clientY + 10}px`);
+	}
 </script>
 
 <div>
 	<svg id="linechartrace" bind:this={svg}> </svg>
+	<div id="tooltip" class="tooltip" style="opacity: 0;">Tooltip content</div>
 </div>
 
 <style>
@@ -616,5 +667,18 @@
 		align-items: center; /* Centers children along the cross axis (horizontally) */
 		width: 100%;
 		height: 100%;
+	}
+	.tooltip {
+		position: absolute;
+		text-align: center;
+		padding: 6px;
+		font-size: 12px;
+		background: white;
+		border: 1px solid #000;
+		border-radius: 4px;
+		pointer-events: none;
+		opacity: 0;
+		width: 200px;
+		height: 50px;
 	}
 </style>
