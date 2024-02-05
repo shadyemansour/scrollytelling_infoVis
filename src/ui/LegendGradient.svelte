@@ -19,10 +19,10 @@
 		drawCanvas();
 		switch (mapKey) {
 			case 'Car':
-				label = 'Personenkilometer';
+				label = 'Kilometer pro Einwohner';
 				break;
 			case 'Oepnv':
-				label = 'Personenkilometer';
+				label = 'Kilometer pro Einwohner';
 				break;
 			case 'Bike':
 				label = 'Note';

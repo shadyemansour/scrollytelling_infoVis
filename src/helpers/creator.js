@@ -59,11 +59,6 @@ const cards = [
             url: 'https://www.linkedin.com/in/elena-herzog/',
             iconName: 'LinkedIn'
         },
-        {
-            text: 'GitHub',
-            url: '',
-            iconName: 'GitHub'
-        }
     ]),
     new Creator('./img/avatar/44.png', 'Paul Walter', 'Versatility is my strength. As an engineer, I am passionate about coding, implementing solutions, and exploring new possibilities. I enjoy the challenge of engineering and implementation while contributing to the exploration and ideation process. Embracing every facet of our projects with enthusiasm.', [
         {

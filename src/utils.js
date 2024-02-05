@@ -67,7 +67,7 @@ export function getColor(min, max, colors = "") {
     case "interpolateBike":
       colorScale = d3.scaleSequential()
         .domain([min, max])
-        .interpolator(d3.interpolateHsl("#FADCA1", "#AE5A03"));
+        .interpolator(d3.interpolateHsl("#B6FDE7", "#6F9C8E"));
       break;
 
     default:
