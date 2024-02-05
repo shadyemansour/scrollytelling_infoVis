@@ -440,7 +440,7 @@
 			<div class="col-medium">
 				<p>
 					Der <Em color={themes.oepnv.secondary}>ÖPNV</Em> passt immer zum Jahreswechsel die Preise an.
-					Die stärksten Anpassungen sind dabei 2016 mit XY% und 2023 mit XY%.
+					Die stärksten Anpassungen sind dabei <strong>2016 mit 1,6%</strong> und <strong>2023 mit 2,9%</strong>.
 				</p>
 			</div>
 		</section>
