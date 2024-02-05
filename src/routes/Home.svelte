@@ -31,6 +31,7 @@
 	import { getFineData } from '../helpers/getFineData.js';
 	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
 	import IconWrapper from '../ui/IconWrapper.svelte';
+	import { oepnv } from '../styles.js';
 
 	// Config
 	const threshold = 1;
@@ -419,7 +420,7 @@
 					eingeführt. Mit einem Preis von <strong>49€</strong> ist es zwar deutlich teurer als das
 					Vorgängerticket, jedoch führt es trotzdem zu einer sichtlich günstigeren Nutzung der <Em
 						color={themes.oepnv.secondary}>ÖPNV</Em
-					>
+					>.
 				</p>
 				<!-- <p>
 					Nach dem kurzen Anstieg steht ab April 2023 das <strong>Deutschlandticket</strong> für 49 Euro
@@ -430,9 +431,10 @@
 		<section data-id="lineChart05">
 			<div class="col-medium">
 				<p style="text-wrap: pretty;">
-					Im gesamten Zeitraum steigt der Preisindex für PKW's mit <Em color={themes.car.secondary}>35%</Em> am stärksten,
-					gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>19%</Em>. Im Gegensatz dazu
-					sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>-12%</Em>.
+					Im gesamten Zeitraum steigt der Preisindex für PKW's mit <Em color={themes.car.secondary}
+						>35%</Em
+					> am stärksten, gefolgt vom Fahrrad mit <Em color={themes.bike.secondary}>19%</Em>. Im
+					Gegensatz dazu sinkt der Preis für ÖPNV um <Em color={themes.oepnv.secondary}>-12%</Em>.
 				</p>
 			</div>
 		</section>
@@ -440,7 +442,8 @@
 			<div class="col-medium">
 				<p>
 					Der <Em color={themes.oepnv.secondary}>ÖPNV</Em> passt immer zum Jahreswechsel die Preise an.
-					Die stärksten Anpassungen sind dabei <strong>2016 mit 1,6%</strong> und <strong>2023 mit 2,9%</strong>.
+					Die stärksten Anpassungen sind dabei <strong>2016 mit 1,6%</strong> und
+					<strong>2023 mit 2,9%</strong>.
 				</p>
 			</div>
 		</section>
@@ -710,7 +713,9 @@
 			<section data-id="map03">
 				<div class="col-medium">
 					<p>
-						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich* <strong>626 Milliarden Kilometer</strong> zurückgelegt.<sup>2</sup>
+						Mit dem <Em color={themes.car.secondary}>PKW</Em> werden in Deutschland jährlich*
+						<strong>626 Milliarden Kilometer</strong>
+						zurückgelegt.<sup>2</sup>
 					</p>
 					<div class="erklaerungs-texte">
 						<p style="color: {themes.neutral['text-dark'].secondary};" class="text-balanced">
@@ -724,18 +729,18 @@
 					<p>
 						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}
 							>PKW's und Motorräder</Em
-						> 2017 die höchsten CO<sub>2</sub>-Emissionen je Personenkilometer: Sie verbrauchen
-						sogar <strong>2,5-mal</strong> so viel wie der ÖPNV und <strong>20-mal</strong> so viel wie
-						Fahrräder.
+						> 2017 die höchsten CO<sub>2</sub>-Emissionen je Personenkilometer.
 					</p>
 				</div>
 			</section>
 			<section data-id="map05">
 				<div class="col-medium">
 					<p>
-						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <Em color={themes.bike.secondary}>Fahrrad</Em>. Doch die 14 größten Städte Deutschlands schneiden, wenn es um die
-						Fahrradfreundlichkeit geht, <strong>nicht besonders gut</strong> ab… Erkunde die Karte, indem du deinen
-						Mauszeiger über die einzelnen Städte bewegst.
+						Aus diesem Grund entscheiden sich besonders auf Kurzstrecken viele für das <Em
+							color={themes.bike.secondary}>Fahrrad</Em
+						>. Doch die 14 größten Städte Deutschlands schneiden bei der Befragung von Radfahrern
+						<strong>eher schlecht</strong> ab. Erkunde die Karte, indem du deinen Mauszeiger über die
+						einzelnen Städte bewegst.
 					</p>
 				</div>
 			</section>
@@ -847,10 +852,12 @@
 				<div class="col-medium">
 					<div>
 						<p>
-							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro
-							Personenkilometer. Sie verbrauchen <strong>2,4-mal</strong> so viel wie der
+							<strong colo={themes.car.secondary}>PKW's</strong> haben besonders hohe CO<sub>2</sub
+							>-Emissionen pro Personenkilometer. Sie verbrauchen <strong>2,4-mal</strong> so viel
+							wie der
 							<strong>ÖPNV</strong>
-							und <strong>21-mal</strong> so viel wie Fahrräder.
+							und <strong>21-mal</strong> so viel wie
+							<strong color={themes.bike.secondary}>Fahrräder</strong>.
 						</p>
 					</div>
 				</div>
@@ -873,9 +880,10 @@
 			<section data-id="barChart03">
 				<div class="col-medium">
 					<p>
-						Obwohl der <strong>ÖPNV</strong> <Em color={themes.purple.secondary}>mehr Energie*</Em> benötigt als ein <strong>PKW</strong>,
-						stößt er im <strong>Betrieb weniger</strong> aus, da mehr Personen transportiert werden und
-						viele Fahrzeuge wie Zug, Tram und U-Bahn elektrisch fahren.
+						Obwohl der <strong>ÖPNV</strong>
+						<Em color={themes.purple.secondary}>mehr Energie*</Em> benötigt als ein
+						<strong>PKW</strong>, stößt er im <strong>Betrieb weniger</strong> aus, da mehr Personen
+						transportiert werden und viele Fahrzeuge wie Zug, Tram und U-Bahn elektrisch fahren.
 					</p>
 					<div class="erklaerungs-texte">
 						<p style="color: {themes.neutral['text-dark'].secondary};">* Strom und Kraftstoff</p>
@@ -912,8 +920,8 @@
 			>
 			<p>
 				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
-				Ludigs-Maximilians-Universität Müchen von Elena Carlotta Herzog, Fiona Mariele Lau, Paul Christoph Walter Walter,
-				Raphael Paul Wennmacher und Shady Mansour entwickelt.
+				Ludigs-Maximilians-Universität Müchen von Elena Carlotta Herzog, Fiona Mariele Lau, Paul
+				Christoph Walter Walter, Raphael Paul Wennmacher und Shady Mansour entwickelt.
 			</p>
 		</div>
 
