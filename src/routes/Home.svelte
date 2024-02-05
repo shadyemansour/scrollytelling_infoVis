@@ -420,7 +420,7 @@
 					eingeführt. Mit einem Preis von <strong>49€</strong> ist es zwar deutlich teurer als das
 					Vorgängerticket, jedoch führt es trotzdem zu einer sichtlich günstigeren Nutzung der <Em
 						color={themes.oepnv.secondary}>ÖPNV</Em
-					>
+					>.
 				</p>
 				<!-- <p>
 					Nach dem kurzen Anstieg steht ab April 2023 das <strong>Deutschlandticket</strong> für 49 Euro
