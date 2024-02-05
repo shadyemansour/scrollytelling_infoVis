@@ -921,7 +921,7 @@
 			<p>
 				Diese Website wurde im Rahmen des Moduls Informationsvisualisierung der
 				Ludigs-Maximilians-Universität Müchen von Elena Carlotta Herzog, Fiona Mariele Lau, Paul
-				Christoph Walter Walter, Raphael Paul Wennmacher und Shady Mansour entwickelt.
+				Philipp Walter Walter, Raphael Paul Wennmacher und Shady Mansour entwickelt.
 			</p>
 		</div>
 
