@@ -31,6 +31,7 @@
 	import { getFineData } from '../helpers/getFineData.js';
 	import { getCo2EmissionsData } from '../helpers/getCo2EmissionsData.js';
 	import IconWrapper from '../ui/IconWrapper.svelte';
+	import { oepnv } from '../styles.js';
 
 	// Config
 	const threshold = 1;
@@ -728,9 +729,7 @@
 					<p>
 						Sieht man vom Luftverkehr ab, verursachen <Em color={themes.car.secondary}
 							>PKW's und Motorräder</Em
-						> 2017 die höchsten CO<sub>2</sub>-Emissionen je Personenkilometer: Sie verbrauchen
-						sogar <strong>2,5-mal</strong> so viel wie der ÖPNV und <strong>20-mal</strong> so viel wie
-						Fahrräder.
+						> 2017 die höchsten CO<sub>2</sub>-Emissionen je Personenkilometer.
 					</p>
 				</div>
 			</section>
@@ -853,10 +852,12 @@
 				<div class="col-medium">
 					<div>
 						<p>
-							<strong>PKW's</strong> haben besonders hohe CO<sub>2</sub>-Emissionen pro
-							Personenkilometer. Sie verbrauchen <strong>2,4-mal</strong> so viel wie der
+							<strong colo={themes.car.secondary}>PKW's</strong> haben besonders hohe CO<sub>2</sub
+							>-Emissionen pro Personenkilometer. Sie verbrauchen <strong>2,4-mal</strong> so viel
+							wie der
 							<strong>ÖPNV</strong>
-							und <strong>21-mal</strong> so viel wie Fahrräder.
+							und <strong>21-mal</strong> so viel wie
+							<strong color={themes.bike.secondary}>Fahrräder</strong>.
 						</p>
 					</div>
 				</div>
