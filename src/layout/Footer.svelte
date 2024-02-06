@@ -23,9 +23,6 @@
 						>Repository</a
 					>
 				</li>
-				<li>
-					<a class="link" href="/sources" use:link>Quellen</a>
-				</li>
 			</ul>
 			<p style="color: {themes['neutral']['text-dark']['teritary']};">
 				Letztes Update am 28.01.2024
